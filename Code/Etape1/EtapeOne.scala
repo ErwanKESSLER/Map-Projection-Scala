@@ -1,5 +1,6 @@
 
 
+import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 import scala.util.{Failure, Success, Try}
 
@@ -26,14 +27,23 @@ object EtapeOne extends App {
     }
     result
   }
-
-  def loadAirport(source: Array[String], correctHeaders: Array[Int]):Array[(Int, String, String, String, Double, Double)] = {
+  def loadAirport():ArrayBuffer[(Int, String, String, String, Double, Double)]={
+    val bufferedSource = Source.fromFile(getClass.getResource("/airports.dat").getPath)
+    val result:ArrayBuffer[(Int, String, String, String, Double, Double)]=new ArrayBuffer()
+    for (el<-bufferedSource.getLines){
+        val c=el.split(",(?=[0-9\"-\\\\])")
+        result.append((c(0).trim.toInt,c(1),c(2),c(3),c(6).trim.toDouble,c(7).trim.toDouble))
+    }
+    bufferedSource.close()
+    result
+  }
+  def loadAirportTemp(source: Array[String], correctHeaders: Array[Int]):Array[(Int, String, String, String, Double, Double)] = {
     val airports = splitSimple(source)
     val result:Array[(Int, String, String, String, Double, Double)]=new Array(airports.length)
     for (i <- airports.indices) {
       var current = airports(i)
       result(i) = (toInt(current(correctHeaders(0))), current(correctHeaders(1)), current(correctHeaders(2)),
-        current(correctHeaders(3)), toDouble(current(correctHeaders(4))), toDouble(current(correctHeaders(4))))
+        current(correctHeaders(3)), toDouble(current(correctHeaders(4))), toDouble(current(correctHeaders(5))))
     }
     result
   }
@@ -60,6 +70,13 @@ object EtapeOne extends App {
   }
 
   //DEBUGGING
+  def time[R](block: => R): R = {
+    val t0 = System.nanoTime()
+    val result = block    // call-by-name
+    val t1 = System.nanoTime()
+    println("Elapsed time: " + (t1 - t0) + "ns")
+    result
+  }
 
   def printAllElement2D(source: Array[Array[String]]) = {
     for (i <- source.indices) {
@@ -71,7 +88,7 @@ object EtapeOne extends App {
     println(array.mkString("; "))
   }
 
-  def printElement2DTuple(source: Array[(Int, String, String, String, Double, Double)])={
+  def printElement2DTuple(source: ArrayBuffer[(Int, String, String, String, Double, Double)])={
     for (i <- source.indices) {
       println(source(i).productIterator.mkString("; "))
     }
@@ -104,17 +121,13 @@ object EtapeOne extends App {
   }
 
   def Main(): Unit = {
-
-    val (content, size, file) = read()
     val headersAirports = Array("ID", "Name", "City", "Country", "IATA", "ICAO", "Latitude", "Longitude", "Altitude", "Timezone",
       "DaylightSavingTime", "TimeZone", "Type", "Source")
     val correctHeaders = Array("ID", "Name", "City", "Country", "Latitude", "Longitude")
     val correspondingNumbers = Array(0, 1, 2, 3, 6, 7)
 
-    var airports = loadAirport(content, correspondingNumbers)
+    var airports = loadAirport()
     printElement2DTuple(airports)
-
-    close(file)
   }
 
   Main()
