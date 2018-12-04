@@ -9,19 +9,21 @@ class Stats {
         val pivot = rand.nextInt(source.length);
         val (left, right) = source.partition(_ < source(pivot))
         if (left.length == n) {
-         source(pivot)
-        } else if (left.length < n) {
-        quickSelect(right, n - left.length, rand)
-        } else {
-      quickSelect(left, n, rand)
+            source(pivot)
+        } 
+        else if (left.length < n) {
+            quickSelect(right, n - left.length, rand)
+        } 
+        else {
+            quickSelect(left, n, rand)
+        }
     }
-}
 
 
 
 
     def distanceMin(source:Array[Double]):Double={
-        var mini:Double=0
+        var mini:Double=source(0)
         for ( i <- source.indices ) {
             if ( mini > source(i) ) {
                 mini=source(i)
@@ -62,7 +64,7 @@ class Stats {
         res(res.length/2)
     }
 
-    def distanceMediane2(source:Array[Double]):Double={
+    def distanceMediane2(source:Array[Double]):Double={ // Plus rapide que Mediane1
         quickSelect(source,source.length/2)
         }
 
