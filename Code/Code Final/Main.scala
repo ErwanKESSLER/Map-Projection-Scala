@@ -6,10 +6,11 @@ object Main extends App{
   def Main()={
       val loadAirport=new func.loadAirports()
       val distance=new func.distanceAirports()
+      val stats=new func.Stats()
       val util = new utils.utils
       //Example of use of step 1 code
       val airports=loadAirport.loadAirport(filename = "airports.dat")
-      util.printAllElement2DTuple(airports)
+      //util.printAllElement2DTuple(airports)
 
       println
 
@@ -21,7 +22,16 @@ object Main extends App{
 
       //Example of creating the distance array
       val distances=distance.distancesArray(airports)
-      util.printAllElement2DDouble(distances)
+      //util.printAllElement2DDouble(distances)
+
+      //Example Stats
+      println(stats.distanceMoyenne(distances))
+      println(stats.distanceMax(distances))
+      println(stats.distanceMin(distances))
+      println(stats.ecartType(distances))
+      println(stats.distanceMediane1(distances))
+      println(stats.distanceMediane2(distances))
+
   }
   Main()
 }

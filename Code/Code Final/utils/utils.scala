@@ -1,5 +1,6 @@
 package utils
 
+
 class utils {
   def printAllElement2DTuple(source: Array[(Int, String, String, String, Double, Double)]) = {
     for (i <- source.indices) {
@@ -11,4 +12,6 @@ class utils {
       println(source(i))
     }
   }
+  
+
 }
