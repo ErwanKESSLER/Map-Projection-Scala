@@ -1,6 +1,6 @@
 package utils
 
-
+import scala.collection.mutable.ArrayBuffer
 class utils {
   def printAllElement2DTuple(source: Array[(Int, String, String, String, Double, Double)]) = {
     for (i <- source.indices) {
@@ -13,5 +13,9 @@ class utils {
     }
   }
   
-
+  def printAllElementBuffer(source:ArrayBuffer[(Int, String, String, String, Double, Double)])={
+    for (i<-source.indices){
+      println(source(i).productIterator.mkString("; "))
+    }
+  }
 }

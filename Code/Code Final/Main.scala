@@ -8,24 +8,30 @@ object Main extends App{
       val distance=new func.distanceAirports()
       val stats=new func.Stats()
       val util = new utils.utils
+      val restriction=new func.RestrictArea
       //Example of use of step 1 code
       val airports=loadAirport.loadAirport(filename = "airports.dat")
       //util.printAllElement2DTuple(airports)
 
-      println
 
       //Example of distance between 2 airports
       val (lat1,lat2,lon1,lon2)=(-6.081689834590001,-5.20707988739,145.391998291,145.789001465)
       println(distance.distanceHaversine(lat1,lat2,lon1,lon2).toString+" km")
-
-      println
-
+      println("country")
+      val countries=restriction.byCountry(airports,Set("France","Spain"))
+      println(countries)
+      util.printAllElementBuffer(countries)
+      println("area")
+      val area=restriction.byArea(airports,(20,20),(-20,-20))
+      util.printAllElementBuffer(area)
+      println("radius")
+      val radius=restriction.byRadius(airports,(0,0),1000)
+      util.printAllElementBuffer(radius)
       //Example of creating the distance array
-      val distances=distance.distancesArray(airports)
+      //val distances=distance.distancesArray(airports)
       //util.printAllElement2DDouble(distances)
-
       //Example Stats
-      println(stats.distanceMoyenne(distances))
+     println(stats.distanceMoyenne(distances))
       println(stats.distanceMax(distances))
       println(stats.distanceMin(distances))
       println(stats.ecartType(distances))
