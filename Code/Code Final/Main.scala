@@ -12,8 +12,12 @@ object Main extends App{
       val density=new func.densityAirports
       //Example of use of step 1 code
       val airports=loadAirport.loadAirport(filename = "airports.dat")
-      density.loadCSV("populations.csv")
+      /*density.loadCSV("populations.csv")
       println(util.showAllCountries(airports).mkString("\n"))
+      println(util.countriesCodeTable())*/
+      util.problematicCountries(airports)
+      //util.notOfficialNametoAlpha3(airports)
+      //println(density.surfacePerAiports(airports,"populations.csv"))
       /*
        //util.printAllElement2DTuple(airports)
       //Example of distance between 2 airports

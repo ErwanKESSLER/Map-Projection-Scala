@@ -48,6 +48,7 @@ class utils {
       val (u, v, w): (String, String, String) = (c(0).replaceAll("\"", ""), c(2).replaceAll("\"", ""), c(1).replaceAll("\"", ""))
       h1 += (u -> v)
       h2 += (v -> u)
+      //alpha2 vers alpha3
       h3 += (w -> v)
     }
     bufferedSource.close()
