@@ -54,7 +54,7 @@ class statsAirports {
         val moyenne:Double=distanceMoyenne(source)
         var s:Double=0
         for (i <- source.indices ) {
-            s+= pow((source(i) - moyenne),2)
+            s+= pow(source(i) - moyenne,2)
         }
         sqrt(s/(source.length-1))
     }

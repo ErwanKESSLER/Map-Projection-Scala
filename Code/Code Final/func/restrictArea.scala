@@ -6,7 +6,7 @@ import scala.collection.mutable.ArrayBuffer
 
 class restrictArea {
 
-  def byCountry(source: Array[(Int, String, String, String, Double, Double)], countries: Set[String]): ArrayBuffer[(Int, String, String, String, Double, Double)] = {
+  def byCountry(source: Array[(Int, String, String, String, Double, Double)], countries: Set[String]): Array[(Int, String, String, String, Double, Double)] = {
     var result = new ArrayBuffer[(Int, String, String, String, Double, Double)]
     source.foreach(element => {
       if(countries(element._4)){ //We test if the country belong to the set of countries
@@ -14,10 +14,10 @@ class restrictArea {
       }
     }
     )
-    result
+    result.toArray
   }
 
-  def byArea(source: Array[(Int, String, String, String, Double, Double)], firstPoint: (Double, Double), secondPoint: (Double, Double)): ArrayBuffer[(Int, String, String, String, Double, Double)] = {
+  def byArea(source: Array[(Int, String, String, String, Double, Double)], firstPoint: (Double, Double), secondPoint: (Double, Double)): Array[(Int, String, String, String, Double, Double)] = {
     val latMin = min(firstPoint._1, secondPoint._1)
     val latMax = max(firstPoint._1, secondPoint._1)
     val lonMin = min(firstPoint._2, secondPoint._2)
@@ -27,10 +27,10 @@ class restrictArea {
       if (element._5 >= latMin && element._6 >= lonMin && element._5 <= latMax && element._6 <= lonMax) { //we check if it is in the area
         result += element
       })
-    result
+    result.toArray
   }
 
-  def byRadius(source: Array[(Int, String, String, String, Double, Double)], center: (Double, Double), radius: Double): ArrayBuffer[(Int, String, String, String, Double, Double)] = {
+  def byRadius(source: Array[(Int, String, String, String, Double, Double)], center: (Double, Double), radius: Double): Array[(Int, String, String, String, Double, Double)] = {
     var result = new ArrayBuffer[(Int, String, String, String, Double, Double)]
     val distance = new distanceAirports()
     source.foreach(element =>
@@ -39,6 +39,6 @@ class restrictArea {
       }
 
     )
-    result
+    result.toArray
   }
 }

@@ -15,7 +15,8 @@ class loadAirports  {
       //eliminating bad comma separation, a simple match over non ", " sequences with ,(?=[^ ]) would have been enough.
       var c=content(i).split(",(?=[0-9\"-\\\\])")
       //We fill our result Array with only the data that is interesting taking no precaution with type parsing
-      result(i)=(c(0).trim.toInt,c(1),c(2),c(3),c(6).trim.toDouble,c(7).trim.toDouble)
+      // val correctHeaders = Array("ID", "Name", "City", "Country", "Latitude", "Longitude")
+      result(i)=(c(0).trim.toInt,c(1).replaceAll("\"", ""),c(2).replaceAll("\"", ""),c(3).replaceAll("\"", ""),c(6).trim.toDouble,c(7).trim.toDouble)
     }
     bufferedSource.close()
     result
