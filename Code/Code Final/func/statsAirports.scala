@@ -3,7 +3,7 @@ import math._
 import scala.util.Random
 
 
-class Stats {
+class statsAirports {
 
     def quickSelect(source:Array[Double],n:Int, rand: Random = new Random): Double = {
         val pivot = rand.nextInt(source.length);

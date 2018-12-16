@@ -4,7 +4,7 @@ import scala.util.matching.Regex
 import math._
 import scala.collection.mutable.ArrayBuffer
 
-class RestrictArea {
+class restrictArea {
 
   def byCountry(source: Array[(Int, String, String, String, Double, Double)], countries: Set[String]): ArrayBuffer[(Int, String, String, String, Double, Double)] = {
     var result = new ArrayBuffer[(Int, String, String, String, Double, Double)]
