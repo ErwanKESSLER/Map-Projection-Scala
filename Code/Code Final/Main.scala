@@ -10,12 +10,14 @@ object Main extends App{
       val util = new utils.utils
       val restriction=new func.restrictArea
       val density=new func.densityAirports
+      val image=new func.createImage
       //Example of use of step 1 code
       val airports=loadAirport.loadAirport(filename = "airports.dat")
       /*density.loadCSV("populations.csv")
       println(util.showAllCountries(airports).mkString("\n"))
       println(util.countriesCodeTable())*/
-      util.problematicCountries(airports)
+      image.modifyImage("equirectangular.png",airports)
+      //util.problematicCountries(airports)
       //util.notOfficialNametoAlpha3(airports)
       //println(density.surfacePerAiports(airports,"populations.csv"))
       /*

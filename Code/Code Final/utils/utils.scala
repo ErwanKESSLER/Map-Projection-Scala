@@ -1,5 +1,10 @@
 package utils
 
+import java.awt.image.BufferedImage
+import java.io.File
+
+import javax.imageio.ImageIO
+
 import scala.collection.immutable.Set
 import scala.collection.mutable
 import scala.collection.mutable.{ArrayBuffer, HashMap}
@@ -109,5 +114,11 @@ class utils {
     })
     h4
 
+  }
+  def readImage(filename:String):BufferedImage={
+   ImageIO.read(new File(getClass.getResource("/data/"+filename).getPath))
+  }
+  def writeImage(out:BufferedImage,filename:String):Unit={
+    ImageIO.write(out, "png", new File(getClass.getResource("/data/").getPath+filename))
   }
 }
