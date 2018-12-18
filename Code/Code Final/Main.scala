@@ -19,7 +19,7 @@ object Main extends App{
       image.modifyImage("equirectangular.png",airports)
       //util.problematicCountries(airports)
       //util.notOfficialNametoAlpha3(airports)
-      //println(density.surfacePerAiports(airports,"populations.csv"))
+      println(density.Densite(airports,"populations.csv"))
       /*
        //util.printAllElement2DTuple(airports)
       //Example of distance between 2 airports

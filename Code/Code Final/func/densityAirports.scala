@@ -1,20 +1,30 @@
 package func
+
 import scala.collection.mutable.HashMap
 import scala.io.Source
+import scala.collection.mutable
 
+class densityAirports {
 
-class Densite {
-
-  def loadCsv(file: String): HashMap[String, Double] = { // Récupérer les mesures avec lequelles on va faire la densité (et uniquement ce qui nous intéresse)
-    val h: HashMap[String, Double] = HashMap.empty[String, Double] // On stocke le résultat dans une hashmap pour accéder plus vite aux infos
-  val bufferedSource = Source.fromFile(getClass.getResource("/data/" + file).getPath) // On ouvre le fichier
-  val iterator = bufferedSource.getLines // la boucle for sur les lignes
+  def loadCsv(file: String): mutable.HashMap[String, Double] = { // Récupérer les mesures avec lequelles on va faire la densité (et uniquement ce qui nous intéresse)
+    // On stocke le résultat dans une hashmap pour accéder plus vite aux infos
+    val h: mutable.HashMap[String, Double] = mutable.HashMap.empty[String, Double]
+    // On ouvre le fichier
+    val bufferedSource = Source.fromFile(getClass.getResource("/data/" + file).getPath)
+    // On recupere un iterateur qui contient chaque ligne du buffer
+    val iterator = bufferedSource.getLines
+    // On elimine les headers
     iterator.next()
-    val content = iterator.toArray // On convertit la ligne en Array pour accéder plus facilement au resultat
+    // On convertit l'iterateur en Array pour accéder plus facilement au resultat
+    val content = iterator.toArray
     content.foreach(el => {
-      val ligne = el.split(",(?=\")") // On split avec ,"
-      val (alpha3, nombre) = (ligne(1).replaceAll("\"", ""), ligne.last.replaceAll("[,\"]", "")) // On remplace les " par rien pour avoir le nom du pays sans guillemets
-      h += alpha3 -> nombre.trim.toDouble // On doit avoir une hashmap de String et de Double donc on convertit nombre en Double
+      // On split sur tout les virgules qui sont suivis d'un guillemet
+      val ligne = el.split(",(?=\")")
+      // On selectionne le deuxieme et le dernier elements de la ligne dont on retire les " et ,
+      // Afin d'avoir l'alpha3 (iso 3166) et la metrique la plus recente (pop ou surface)
+      val (alpha3, nombre) = (ligne(1).replaceAll("\"", ""), ligne.last.replaceAll("[,\"]", ""))
+      // On ajoute a la hashmap la relation cle/valeur en oubliant pas de convertir en un nombre la metrique
+      h += alpha3 -> nombre.trim.toDouble
     })
     h
   }
