@@ -5,7 +5,7 @@ import scala.math._
 class distanceAirports {
 
   def toRadians(degree: Double): Double = {
-    degree *Pi/180
+    degree * Pi / 180
   }
 
   def distanceHaversine(lat1: Double, lat2: Double, lon1: Double, lon2: Double): Double = {
@@ -55,13 +55,13 @@ class distanceAirports {
 
   }
 
-  def distancesArray(source:Array[(Int, String, String, String, Double, Double)]):Array[Double]={
-    val result:Array[Double]=new Array(source.length*(source.length-1)/2)
-    var index:Int=0
-    for (i <- source.indices){
-      for (j <- 0 until i){ //exclusive bound, to is inclusive tho
-        result(index)=distanceHaversine(source(i)._5,source(j)._5,source(i)._6,source(j)._6)
-        index=index+1
+  def distancesArray(source: Array[(Int, String, String, String, Double, Double)]): Array[Double] = {
+    val result: Array[Double] = new Array(source.length * (source.length - 1) / 2)
+    var index: Int = 0
+    for (i <- source.indices) {
+      for (j <- 0 until i) { //exclusive bound, to is inclusive tho
+        result(index) = distanceHaversine(source(i)._5, source(j)._5, source(i)._6, source(j)._6)
+        index = index + 1
       }
     }
     result

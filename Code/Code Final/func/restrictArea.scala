@@ -9,8 +9,8 @@ class restrictArea {
   def byCountry(source: Array[(Int, String, String, String, Double, Double)], countries: Set[String]): Array[(Int, String, String, String, Double, Double)] = {
     var result = new ArrayBuffer[(Int, String, String, String, Double, Double)]
     source.foreach(element => {
-      if(countries(element._4)){ //We test if the country belong to the set of countries
-        result+=element
+      if (countries(element._4)) { //We test if the country belong to the set of countries
+        result += element
       }
     }
     )

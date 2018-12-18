@@ -12,7 +12,7 @@ class createImage {
     (color & 0xff000000 / 16777216, (color & 0xff0000) / 65536, (color & 0xff00) / 256, color & 0xff)
   }
 
-  def modifyImage(filename: String, source: Array[(Int, String, String, String, Double, Double)]) = {
+  def modifyImage(filename: String, source: Array[(Int, String, String, String, Double, Double)]): Unit = {
     val util = new utils.utils
     var img = util.readImage(filename)
     val (width, height): (Int, Int) = (img.getWidth, img.getHeight)
