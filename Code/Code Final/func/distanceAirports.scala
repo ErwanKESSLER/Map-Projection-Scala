@@ -54,4 +54,16 @@ class distanceAirports {
     Math.sqrt(x * x + y * y) * R
 
   }
+
+  def distancesArray(source:Array[(Int, String, String, String, Double, Double)]):Array[Double]={
+    val result:Array[Double]=new Array(source.length*(source.length-1)/2)
+    var index:Int=0
+    for (i <- source.indices){
+      for (j <- 0 until i){ //exclusive bound, to is inclusive tho
+        result(index)=distanceHaversine(source(i)._5,source(j)._5,source(i)._6,source(j)._6)
+        index=index+1
+      }
+    }
+    result
+  }
 }
