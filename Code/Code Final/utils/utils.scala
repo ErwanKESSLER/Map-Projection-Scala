@@ -33,13 +33,12 @@ class utils {
     var countries: Set[String] = Set()
     source.foreach(el => {
       countries += el._4
-    }
-    )
+    })
     countries.toArray
   }
 
   def countriesCodeTable(): (HashMap[String, String], HashMap[String, String], HashMap[String, String]) = {
-    //this function return two tables, one from official names to alpha-3 and the other one reversed
+    //this function return three tables, one from official names to alpha-3 and the other one reversed
     //there is way more efficient than that but for simplicity sake, we will go with that.
     //also we return alpha 2 to alpha3
     var (h1, h2, h3): (HashMap[String, String], HashMap[String, String], HashMap[String, String]) = (HashMap.empty[String, String], HashMap.empty[String, String], HashMap.empty[String, String])
@@ -90,13 +89,13 @@ class utils {
   }
 
   def convertName(name: String): String = {
-    val h: HashMap[String, String] = HashMap("South Sudan" -> "SSD","East Timor"->"TLS","West Bank"->"PSE",
-      "Virgin Islands"->"VIR","Myanmar"->"MMR","Cote d'Ivoire"->"CIV","Palestine"->"PSE","Sao Tome and Principe"->"STP",
-      "Johnston Atoll"->"JTN","Wake Island"->"WAK")
+    val h: HashMap[String, String] = HashMap("South Sudan" -> "SSD", "East Timor" -> "TLS", "West Bank" -> "PSE",
+      "Virgin Islands" -> "VIR", "Myanmar" -> "MMR", "Cote d'Ivoire" -> "CIV", "Palestine" -> "PSE", "Sao Tome and Principe" -> "STP",
+      "Johnston Atoll" -> "JTN", "Wake Island" -> "WAK")
     h(name)
   }
 
-  def notOfficialNametoAlpha3(source: Array[(Int, String, String, String, Double, Double)]):  HashMap[String, String] = {
+  def notOfficialNametoAlpha3(source: Array[(Int, String, String, String, Double, Double)]): HashMap[String, String] = {
     val countries = showAllCountries(source)
     val h0 = notOfficialNametoAlpha2()
     val (h1, h2, h3) = countriesCodeTable()
@@ -109,16 +108,16 @@ class utils {
       else {
         h4 += (el -> convertName(el))
       }
-
-
     })
     h4
 
   }
-  def readImage(filename:String):BufferedImage={
-   ImageIO.read(new File(getClass.getResource("/data/"+filename).getPath))
+
+  def readImage(filename: String): BufferedImage = {
+    ImageIO.read(new File(getClass.getResource("/data/" + filename).getPath))
   }
-  def writeImage(out:BufferedImage,filename:String):Unit={
-    ImageIO.write(out, "png", new File(getClass.getResource("/data/").getPath+filename))
+
+  def writeImage(out: BufferedImage, filename: String): Unit = {
+    ImageIO.write(out, "png", new File(getClass.getResource("/data/").getPath + filename))
   }
 }
