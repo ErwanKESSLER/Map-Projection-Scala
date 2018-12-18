@@ -5,7 +5,6 @@ import scala.io.Source
 import scala.collection.mutable
 
 class densityAirports {
-
   def loadCsv(file: String): mutable.HashMap[String, Double] = { // Récupérer les mesures avec lequelles on va faire la densité (et uniquement ce qui nous intéresse)
     // On stocke le résultat dans une hashmap pour accéder plus vite aux infos
     val h: mutable.HashMap[String, Double] = mutable.HashMap.empty[String, Double]
@@ -29,26 +28,34 @@ class densityAirports {
     h
   }
 
-
-  def Densite(file: Array[(Int, String, String, String, Double, Double)], file2: String): HashMap[String, Double] = { // file c'est airports.dat , file2 c'est superficie ou la pop
-    val hashMapDensite: HashMap[String, Double] = HashMap.empty[String, Double] // HashMap pour accéder plus facilement aux éléments
-  val hashMapAirports: HashMap[String, Int] = HashMap.empty[String, Int] // Idem (pour compter les aéroports
-    file.foreach(el => { // boucle for sur le airports.dat
-      if (hashMapAirports.contains(el._4)) { // Si l'aéroports et dans un pays qu'on a pas rentré auparavant, on l'initialise à 1 sinon on augmente de 1 le nombre d'aéroports du pays
+  def Densite(source: Array[(Int, String, String, String, Double, Double)], filename: String): HashMap[String, Double] = {
+    // Hashmap de sortie
+    val hashMapDensite: HashMap[String, Double] = HashMap.empty[String, Double]
+    // Hashmap de comptage des aeroports
+    val hashMapAirports: HashMap[String, Int] = HashMap.empty[String, Int]
+    source.foreach(el => {
+      // Si le pays existe on incremente sinon on initialise un couple cle/valeur avec le pays et 1
+      if (hashMapAirports.contains(el._4)) {
         hashMapAirports(el._4) += 1
       }
       else {
         hashMapAirports += el._4 -> 1
       }
     })
-    val h = loadCsv(file2) // On charge les données sur les aéroports qui nous intéressent seulement
+    // On charge les donnees correspondantes a la metrique
+    val h = loadCsv(filename)
     val util = new utils.utils
-    val conversionPaysversAlpha3 = util.notOfficialNametoAlpha3(file) // méthode pour convertir les noms non officiels de pays en alpha3
-    for (paysEtnombre <- hashMapAirports) { // On parcourt la hashmap des aéroports
-      val alpha3 = conversionPaysversAlpha3(paysEtnombre._1) // On convertit le nom du pays en alpha3 pour récupérer l'info de la mesure dans la hashmap
-    val mesure = h(alpha3)
-      hashMapDensite += paysEtnombre._1 -> (paysEtnombre._2 / mesure) // On fait le rapport entre le nombre d'aéroport et la mesure (pop ou superficie)
+    // On appelle une méthode pour convertir les noms non officiels de pays en alpha3
+    val conversionPaysversAlpha3 = util.notOfficialNametoAlpha3(source)
+    for (paysEtnombre <- hashMapAirports) {
+      // On convertit le nom du pays en alpha3 qui est unique a chaque "pays"
+      val alpha3 = conversionPaysversAlpha3(paysEtnombre._1)
+      // On recupere la metrique associee au alpha3
+      val metrique = h(alpha3)
+      // On fait le rapport entre le nombre d'aéroport et la metrique
+      hashMapDensite += paysEtnombre._1 -> (paysEtnombre._2 / metrique)
     }
-    hashMapDensite // On renvoie le résultat de la densité sous forme de hashmap avec les noms de pays utilisés dans aiports.dat
+    // On renvoie le résultat de la densité sous forme de hashmap avec les noms de pays utilisés dans aiports.dat
+    hashMapDensite
   }
 }
