@@ -1,6 +1,5 @@
 package func
 
-import scala.collection.mutable.HashMap
 import scala.io.Source
 import scala.collection.mutable
 
@@ -28,11 +27,11 @@ class densityAirports {
     h
   }
 
-  def Densite(source: Array[(Int, String, String, String, Double, Double)], filename: String): HashMap[String, Double] = {
+  def Densite(source: Array[(Int, String, String, String, Double, Double)], filename: String): mutable.HashMap[String, Double] = {
     // Hashmap de sortie
-    val hashMapDensite: HashMap[String, Double] = HashMap.empty[String, Double]
+    val hashMapDensite: mutable.HashMap[String, Double] = mutable.HashMap.empty[String, Double]
     // Hashmap de comptage des aeroports
-    val hashMapAirports: HashMap[String, Int] = HashMap.empty[String, Int]
+    val hashMapAirports: mutable.HashMap[String, Int] = mutable.HashMap.empty[String, Int]
     source.foreach(el => {
       // Si le pays existe on incremente sinon on initialise un couple cle/valeur avec le pays et 1
       if (hashMapAirports.contains(el._4)) {

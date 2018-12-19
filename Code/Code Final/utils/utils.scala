@@ -7,7 +7,7 @@ import javax.imageio.ImageIO
 
 import scala.collection.immutable.Set
 import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, HashMap}
+import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 
 class utils {
@@ -29,6 +29,22 @@ class utils {
     }
   }
 
+  def airportsNameToNumbers(source: Array[(Int, String, String, String, Double, Double)]):mutable.HashMap[String,Int]={
+    var h: mutable.HashMap[String, Int]=mutable.HashMap.empty[String, Int]
+    for (i<-source.indices){
+      h += source(i)._2->i
+    }
+    h
+  }
+
+  def airportsIdToNumbers(source: Array[(Int, String, String, String, Double, Double)]):mutable.HashMap[Int,Int]={
+    var h: mutable.HashMap[Int, Int]=mutable.HashMap.empty[Int, Int]
+    for (i<-source.indices){
+      h += source(i)._1->i
+    }
+    h
+  }
+
   def showAllCountries(source: Array[(Int, String, String, String, Double, Double)]): Array[String] = {
     var countries: Set[String] = Set()
     source.foreach(el => {
@@ -37,11 +53,13 @@ class utils {
     countries.toArray
   }
 
-  def countriesCodeTable(): (HashMap[String, String], HashMap[String, String], HashMap[String, String]) = {
+  def countriesCodeTable(): (mutable.HashMap[String, String], mutable.HashMap[String, String], mutable.HashMap[String, String]) = {
     //this function return three tables, one from official names to alpha-3 and the other one reversed
     //there is way more efficient than that but for simplicity sake, we will go with that.
     //also we return alpha 2 to alpha3
-    var (h1, h2, h3): (HashMap[String, String], HashMap[String, String], HashMap[String, String]) = (HashMap.empty[String, String], HashMap.empty[String, String], HashMap.empty[String, String])
+    var (h1, h2, h3): (mutable.HashMap[String, String], mutable.HashMap[String, String],
+      mutable.HashMap[String, String]) = (mutable.HashMap.empty[String, String], mutable.HashMap.empty[String, String],
+      mutable.HashMap.empty[String, String])
     val bufferedSource = Source.fromFile(getClass.getResource("/data/countriesCode.csv").getPath)
     var iterator = bufferedSource.getLines
     var headers = iterator.next()
@@ -49,7 +67,8 @@ class utils {
     for (i <- content.indices) {
       var c = content(i).split(", (?=\")")
       //country name, alpha3, alpha2
-      val (u, v, w): (String, String, String) = (c(0).replaceAll("\"", ""), c(2).replaceAll("\"", ""), c(1).replaceAll("\"", ""))
+      val (u, v, w): (String, String, String) = (c(0).replaceAll("\"", ""), c(2).replaceAll("\"", ""),
+        c(1).replaceAll("\"", ""))
       h1 += (u -> v)
       h2 += (v -> u)
       //alpha2 vers alpha3
@@ -69,8 +88,8 @@ class utils {
     })
   }
 
-  def notOfficialNametoAlpha2(): HashMap[String, String] = {
-    var h1: HashMap[String, String] = HashMap.empty[String, String]
+  def notOfficialNametoAlpha2(): mutable.HashMap[String, String] = {
+    var h1: mutable.HashMap[String, String] = mutable.HashMap.empty[String, String]
     val bufferedSource = Source.fromFile(getClass.getResource("/data/countries.dat").getPath)
     var content = bufferedSource.getLines.toArray
     for (i <- content.indices) {
@@ -89,17 +108,17 @@ class utils {
   }
 
   def convertName(name: String): String = {
-    val h: HashMap[String, String] = HashMap("South Sudan" -> "SSD", "East Timor" -> "TLS", "West Bank" -> "PSE",
+    val h: mutable.HashMap[String, String] = mutable.HashMap("South Sudan" -> "SSD", "East Timor" -> "TLS", "West Bank" -> "PSE",
       "Virgin Islands" -> "VIR", "Myanmar" -> "MMR", "Cote d'Ivoire" -> "CIV", "Palestine" -> "PSE", "Sao Tome and Principe" -> "STP",
       "Johnston Atoll" -> "JTN", "Wake Island" -> "WAK")
     h(name)
   }
 
-  def notOfficialNametoAlpha3(source: Array[(Int, String, String, String, Double, Double)]): HashMap[String, String] = {
+  def notOfficialNametoAlpha3(source: Array[(Int, String, String, String, Double, Double)]): mutable.HashMap[String, String] = {
     val countries = showAllCountries(source)
     val h0 = notOfficialNametoAlpha2()
     val (h1, h2, h3) = countriesCodeTable()
-    var h4: HashMap[String, String] = HashMap.empty[String, String]
+    var h4: mutable.HashMap[String, String] = mutable.HashMap.empty[String, String]
     countries.foreach(el => {
       if (h0.contains(el) && h3.contains(h0(el))) {
         val alpha2 = h0(el)

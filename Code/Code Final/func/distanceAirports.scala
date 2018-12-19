@@ -1,5 +1,6 @@
 package func
 
+import scala.collection.mutable
 import scala.math._
 
 class distanceAirports {
@@ -66,4 +67,31 @@ class distanceAirports {
     }
     result
   }
+
+  def aiportsIdsToDistance(distances: Array[Double], airportsIdToIndex: mutable.HashMap[Int, Int], id1: Int, id2: Int): Double = {
+    val num1 = min(airportsIdToIndex(id1), airportsIdToIndex(id2))
+    val num2 = max(airportsIdToIndex(id1), airportsIdToIndex(id2))
+    if (num1 == num2) {
+      0.0
+    }
+    else {
+      distances(num2 * (num2 - 1) / 2 + num1)
+    }
+  }
+
+  def aiportsNamesToDistance(distances: Array[Double], airportsNamesToIndex: mutable.HashMap[Int, Int], name1: Int, name2: Int): Double = {
+    val num1 = min(airportsNamesToIndex(name1), airportsNamesToIndex(name2))
+    val num2 = max(airportsNamesToIndex(name1), airportsNamesToIndex(name2))
+    if (num1 == num2) {
+      0.0
+    }
+    else {
+      distances(num2 * (num2 - 1) / 2 + num1)
+    }
+  }
+
+  def distanceBetween2Airports(source: Array[(Int, String, String, String, Double, Double)], line1: Int, line2: Int): Double = {
+    distanceHaversine(source(line1)._5, source(line2)._5, source(line1)._6, source(line2)._6)
+  }
+
 }
