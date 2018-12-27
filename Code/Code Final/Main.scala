@@ -12,14 +12,16 @@ object Main extends App {
     val util = new utils.utils
     val restriction = new func.restrictArea
     val density = new func.densityAirports
-    val image = new func.createImage
-    val image2 =new func.createImage2
+    val equirectangular = new func.equirectangularProjection
+    val conform =new func.conformsProjections
     //Example of use of step 1 code
     val airports = loadAirport.loadAirport(filename = "airports.dat")
     /*density.loadCSV("populations.csv")
     println(util.showAllCountries(airports).mkString("\n"))
     println(util.countriesCodeTable())*/
-    image2.modifyImage("lambert.jpg", airports)
+    conform.modifyImage("lambert.jpg", airports)
+    equirectangular.modifyImage("equirectangular.png",airports)
+    //equirectangular.showTrace("equirectangular.png")
     //image2.showTrace("lambert.jpg")
    /* image2.addParis("lambert.jpg",48.9666,2.333) //PARIS
     image2.addParis("lambert.jpg",16.55,18.505) //KABOUL

@@ -137,6 +137,14 @@ class utils {
   }
 
   def writeImage(out: BufferedImage, filename: String): Unit = {
-    ImageIO.write(out, "png", new File(getClass.getResource("/data/").getPath + filename))
+
+    ImageIO.write(out, "png", new File(getClass.getResource("/data/").getPath +
+      filename.split("\\.")(0)+"_result."+filename.split("\\.")(1)))
   }
+
+  def returnTRGB(color: Int): (Int, Int, Int, Int) = {
+    (color & 0xff000000 / 16777216, (color & 0xff0000) / 65536, (color & 0xff00) / 256, color & 0xff)
+  }
+
+
 }
