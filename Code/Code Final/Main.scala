@@ -1,9 +1,5 @@
 package runtime
 
-import func.loadAirports
-import utils.utils
-import func.distanceAirports
-
 object Main extends App {
   def Main() = {
     val loadAirport = new func.loadAirports
@@ -13,20 +9,21 @@ object Main extends App {
     val restriction = new func.restrictArea
     val density = new func.densityAirports
     val equirectangular = new func.equirectangularProjection
-    val conform =new func.conformsProjections
+    val conform = new func.conformsProjections
     //Example of use of step 1 code
     val airports = loadAirport.loadAirport(filename = "airports.dat")
     /*density.loadCSV("populations.csv")
     println(util.showAllCountries(airports).mkString("\n"))
     println(util.countriesCodeTable())*/
-    conform.modifyImage("lambert.jpg", airports)
-    equirectangular.modifyImage("equirectangular.png",airports)
+    conform.whichProjection("all", "mercator.jpg", "circle", util.RGBtoHexa(255, 0, 0), airports)
+    conform.whichProjection("range", "lambertConic.jpg", "circle", util.RGBtoHexa(255, 0, 0), airports)
+    //equirectangular.modifyImage("equirectangular.png",airports)
     //equirectangular.showTrace("equirectangular.png")
-    //image2.showTrace("lambert.jpg")
-   /* image2.addParis("lambert.jpg",48.9666,2.333) //PARIS
-    image2.addParis("lambert.jpg",16.55,18.505) //KABOUL
-    image2.addParis("lambert.jpg",40.71,-74.00) //WISCONSIN
-    image2.addParis("lambert.jpg",37.37,-84.32) //NEW YORK*/
+    //image2.showTrace("lambertConic.jpg")
+    /* image2.addParis("lambertConic.jpg",48.9666,2.333) //PARIS
+     image2.addParis("lambertConic.jpg",16.55,18.505) //KABOUL
+     image2.addParis("lambertConic.jpg",40.71,-74.00) //WISCONSIN
+     image2.addParis("lambertConic.jpg",37.37,-84.32) //NEW YORK*/
     //util.problematicCountries(airports)
     //util.notOfficialNametoAlpha3(airports)
     //println(density.Densite(airports, "populations.csv"))
