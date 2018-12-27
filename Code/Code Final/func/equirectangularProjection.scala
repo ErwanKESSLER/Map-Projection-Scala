@@ -17,6 +17,7 @@ class equirectangularProjection {
   }
 
   def transformToXY(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
+    //parameter for this map
     val (φ0, λ0) = (-1, 0)
     val (x, y) = (cos(toRadians(φ0)) * (lon - λ0) / 180, (lat - φ0) / 90)
     linearTransformation(x, y, width, height)
