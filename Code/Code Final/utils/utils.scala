@@ -1,6 +1,6 @@
 package utils
 
-import java.awt.image.BufferedImage
+import java.awt.image.{BufferedImage, DataBufferByte}
 import java.io.File
 
 import javax.imageio.ImageIO
@@ -29,18 +29,18 @@ class utils {
     }
   }
 
-  def airportsNameToNumbers(source: Array[(Int, String, String, String, Double, Double)]):mutable.HashMap[String,Int]={
-    var h: mutable.HashMap[String, Int]=mutable.HashMap.empty[String, Int]
-    for (i<-source.indices){
-      h += source(i)._2->i
+  def airportsNameToNumbers(source: Array[(Int, String, String, String, Double, Double)]): mutable.HashMap[String, Int] = {
+    var h: mutable.HashMap[String, Int] = mutable.HashMap.empty[String, Int]
+    for (i <- source.indices) {
+      h += source(i)._2 -> i
     }
     h
   }
 
-  def airportsIdToNumbers(source: Array[(Int, String, String, String, Double, Double)]):mutable.HashMap[Int,Int]={
-    var h: mutable.HashMap[Int, Int]=mutable.HashMap.empty[Int, Int]
-    for (i<-source.indices){
-      h += source(i)._1->i
+  def airportsIdToNumbers(source: Array[(Int, String, String, String, Double, Double)]): mutable.HashMap[Int, Int] = {
+    var h: mutable.HashMap[Int, Int] = mutable.HashMap.empty[Int, Int]
+    for (i <- source.indices) {
+      h += source(i)._1 -> i
     }
     h
   }
@@ -139,11 +139,64 @@ class utils {
   def writeImage(out: BufferedImage, filename: String): Unit = {
 
     ImageIO.write(out, "png", new File(getClass.getResource("/data/").getPath +
-      filename.split("\\.")(0)+"_result."+filename.split("\\.")(1)))
+      filename.split("\\.")(0) + "_result." + filename.split("\\.")(1)))
   }
 
   def returnTRGB(color: Int): (Int, Int, Int, Int) = {
+    //transparency then red, green and blue as 2 hexadecimals each
     (color & 0xff000000 / 16777216, (color & 0xff0000) / 65536, (color & 0xff00) / 256, color & 0xff)
+  }
+
+  def RGBtoHexa(rgb: (Int, Int, Int)): Int = {
+    Integer.parseInt("00" + rgb._1.toHexString.reverse.padTo(2, '0').reverse + rgb._2.toHexString.reverse.padTo(2, '0').reverse +
+      rgb._3.toHexString.reverse.padTo(2, '0').reverse, 16)
+  }
+
+  //shamefully stolen from https://github.com/tncytop/top-roaddetection/blob/master/src/main/scala/com/tncy/top/image/ImageWrapper.scala
+  // @author Motasim
+  // @author Francesco Giovannini
+  def convertTo2DWithoutUsingGetRGB(image: BufferedImage): Array[Array[Int]] = {
+    val pixels = image.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData(): Array[Byte]
+    val width = image.getWidth(): Int
+    val height = image.getHeight(): Int
+    val hasAlphaChannel = image.getAlphaRaster != null: Boolean
+    val result = Array.ofDim[Int](height, width): Array[Array[Int]]
+    if (hasAlphaChannel) { // The RGB values contain a transparency representation
+      val pixelLength = 4: Int
+      var col = 0: Int
+      var row = 0: Int
+      for (pixel: Int <- pixels.indices by pixelLength) {
+        var argb = 0: Int
+        argb += ((pixels(pixel).asInstanceOf[Int] & 0xff) << 24) // alpha
+        argb += (pixels(pixel + 1).asInstanceOf[Int] & 0xff) // blue
+        argb += ((pixels(pixel + 2).asInstanceOf[Int] & 0xff) << 8) // green
+        argb += ((pixels(pixel + 3).asInstanceOf[Int] & 0xff) << 16) // red
+        result(row)(col) = argb
+        col += 1
+        if (col == width) {
+          col = 0
+          row += 1
+        }
+      }
+    } else { // The RGB values don't contain a transparency representation
+      val pixelLength = 3: Int
+      var col = 0: Int
+      var row = 0: Int
+      for (pixel <- pixels.indices by pixelLength) {
+        var argb = 0: Int
+        argb += -16777216 // 255 alpha
+        argb += (pixels(pixel).asInstanceOf[Int] & 0xff) // blue
+        argb += ((pixels(pixel + 1).asInstanceOf[Int] & 0xff) << 8) // green
+        argb += ((pixels(pixel + 2).asInstanceOf[Int] & 0xff) << 16) // red
+        result(row)(col) = argb
+        col += 1
+        if (col == width) {
+          col = 0
+          row += 1
+        }
+      }
+    }
+    result
   }
 
 
