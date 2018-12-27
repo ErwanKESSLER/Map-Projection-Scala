@@ -13,15 +13,21 @@ object Main extends App {
     val restriction = new func.restrictArea
     val density = new func.densityAirports
     val image = new func.createImage
+    val image2 =new func.createImage2
     //Example of use of step 1 code
     val airports = loadAirport.loadAirport(filename = "airports.dat")
     /*density.loadCSV("populations.csv")
     println(util.showAllCountries(airports).mkString("\n"))
     println(util.countriesCodeTable())*/
-    image.modifyImage("equirectangular.png", airports)
+    image2.modifyImage("lambert.jpg", airports)
+    //image2.showTrace("lambert.jpg")
+   /* image2.addParis("lambert.jpg",48.9666,2.333) //PARIS
+    image2.addParis("lambert.jpg",16.55,18.505) //KABOUL
+    image2.addParis("lambert.jpg",40.71,-74.00) //WISCONSIN
+    image2.addParis("lambert.jpg",37.37,-84.32) //NEW YORK*/
     //util.problematicCountries(airports)
     //util.notOfficialNametoAlpha3(airports)
-    println(density.Densite(airports, "populations.csv"))
+    //println(density.Densite(airports, "populations.csv"))
     /*
      //util.printAllElement2DTuple(airports)
     //Example of distance between 2 airports

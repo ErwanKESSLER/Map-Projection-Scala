@@ -3,7 +3,9 @@ package func
 import java.awt.image.BufferedImage
 import scala.math._
 
-class createImage {
+class equirectangularProjection {
+  //Mercartor Projection
+
   def transformToXY(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
     (round((width / 2 * (1 + lon / 180)).floatValue), round((height / 2 * (1 - lat / 90)).floatValue))
   }
