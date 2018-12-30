@@ -137,9 +137,10 @@ class utils {
   }
 
   def writeImage(out: BufferedImage, filename: String): Unit = {
-
-    ImageIO.write(out, "png", new File(getClass.getResource("/data/").getPath +
-      filename.split("\\.")(0) + "_result." + filename.split("\\.")(1)))
+println("file saved as "+getClass.getResource("/data/").getPath +
+  filename.split("\\.")(0).split("/").last + "_result." + filename.split("\\.")(1))
+    ImageIO.write(out, "png", new File(getClass.getResource("/data/Results/").getPath +
+      filename.split("\\.")(0).split("/").last + "_result." + filename.split("\\.")(1)))
   }
 
   def returnTRGB(color: Int): (Int, Int, Int, Int) = {

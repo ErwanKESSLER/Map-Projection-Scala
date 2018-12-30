@@ -13,34 +13,43 @@ class conformsProjections {
       case "mercator.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYMerc = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYMercator(lat, lon, width, height)
-        whichToCall(typeOfFunction, filename, tXYMerc, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/" + filename, tXYMerc, source, color, conditions, typeOfShape)
       case "lambertConic.jpg" =>
         val conditions = (-30, 90, -180, 180)
         val tXYLamCon = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYLambertConic(lat, lon, width, height)
-        whichToCall(typeOfFunction, filename, tXYLamCon, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/" + filename, tXYLamCon, source, color, conditions, typeOfShape)
       case "mercatorTransverse.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYMercTran = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYMercatorTransverse(lat, lon, width, height)
-        whichToCall(typeOfFunction, filename, tXYMercTran, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/" + filename, tXYMercTran, source, color, conditions, typeOfShape)
       case "stereographic.jpg" =>
         val conditions = (-30, 90, -180, 180)
         val tXYStereo = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYStereographic(lat, lon, width, height)
-        whichToCall(typeOfFunction, filename, tXYStereo, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/" + filename, tXYStereo, source, color, conditions, typeOfShape)
       case "peirceQuincuncial.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYPeiQui = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYPeirceQuincuncial(lat, lon, width, height)
-        whichToCall(typeOfFunction, filename, tXYPeiQui, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/" + filename, tXYPeiQui, source, color, conditions, typeOfShape)
       case "guyou.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYGuyou = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYGuyou(lat, lon, width, height)
-        whichToCall(typeOfFunction, filename, tXYGuyou, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction,"Sources/" +  filename, tXYGuyou, source, color, conditions, typeOfShape)
       case "adamshemisphere1.jpg" =>
         val conditions = (-90, 90, -90, 90)
         val tXYAHem1 = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYAdamsHemi1(lat, lon, width, height)
+        whichToCall(typeOfFunction, "Sources/" + filename, tXYAHem1, source, color, conditions, typeOfShape)
       case "adamshemisphere2.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYAHem2 = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYAdamsHemi2(lat, lon, width, height)
         whichToCall(typeOfFunction, "Sources/" + filename, tXYAHem2, source, color, conditions, typeOfShape)
+      case "adamsWIS1.jpg" =>
+        val conditions = (-90, 90, -180, 180)
+        val tXYAWIS1 = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYAdamsWIS1(lat, lon, width, height)
+        whichToCall(typeOfFunction, "Sources/" + filename, tXYAWIS1, source, color, conditions, typeOfShape)
+      case "adamsWIS2.jpg" =>
+        val conditions = (-90, 90, -180, 180)
+        val tXYAWIS2 = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYAdamsWIS2(lat, lon, width, height)
+        whichToCall(typeOfFunction, "Sources/" + filename, tXYAWIS2, source, color, conditions, typeOfShape)
       case whoa => println("You got the wrong guy, sorry : " + whoa.toString)
     }
   }
@@ -324,7 +333,6 @@ class conformsProjections {
 
   def transformToXYAdamsHemi2(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
     var lon0 = lon
-
     var boo = false
     if (-20 <= lon && lon <= 160) {
       lon0 = lon - 70
@@ -349,10 +357,41 @@ class conformsProjections {
     val (x0, y0) = rotation(45.0, x, y)
     linearTransformationAdamsHemi2(x0, y0, width, height, boo)
   }
+  def transformToXYAdamsWIS1(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
+    val (lambda, phi) = (toRadians(lon), toRadians(lat))
+    val sinphi = tan(0.5*phi)
+    val cpsl = cos(asin(sinphi)) * sin(lambda*0.5)
+    val (sm, sn) = (if (lambda < 0) -1 else 1, if( phi< 0) -1 else 1)
+    val (a, b) = (acos((cpsl-sinphi)*sqrt(2)/2),acos((cpsl+sinphi)*sqrt(2)/2))
+    val (m, n) = (sm * asin(sqrt(abs(1 + cos(a + b)))), sn * asin(sqrt(abs(1 - cos(a - b)))))
+    val (x, y) = (ell_int_5(m), ell_int_5(n))
+    linearTransformationAdamsWIS1(x, y, width, height)
+  }
+  def transformToXYAdamsWIS2(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
+    val (lambda, phi) = (toRadians(lon), toRadians(lat))
+    val sinphi = tan(0.5*phi)
+    val cpsl = cos(asin(sinphi)) * sin(lambda*0.5)
+    val (sm, sn) = (if (sinphi+cpsl < 0) -1 else 1, if( sinphi-cpsl< 0) -1 else 1)
+    val (a, b) = (acos(cpsl),acos(sinphi))
+    val (m, n) = (sm * asin(sqrt(abs(1 + cos(a + b)))), sn * asin(sqrt(abs(1 - cos(a - b)))))
+    val (x, y) = (ell_int_5(m), ell_int_5(n))
+    val (x0, y0) = rotation(45.0, x, y)
+    linearTransformationAdamsWIS2(x0, y0, width, height)
+  }
 
   //-------------------------------------------End of Transformations-------------------------------------------------//
 
   //--------------------------------------Start of Linear Transformations---------------------------------------------//
+  def linearTransformationAdamsWIS1(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
+    val scaling = 130
+    val (xShift, yshift) = (width / 2, height / 2)
+    (round(x * scaling + xShift).toInt, round(-y * scaling + yshift).toInt)
+  }
+  def linearTransformationAdamsWIS2(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
+    val scaling = 92.5
+    val (xShift, yshift) = (width / 2, height / 2)
+    (round(x * scaling + xShift).toInt, round(-y * scaling + yshift).toInt)
+  }
   def linearTransformationAdamsHemi2(x: Double, y: Double, width: Int, height: Int, b: Boolean): (Int, Int) = {
     val scaling = 92
     val (xShift, yshift) = (width / 2, height / 2)
