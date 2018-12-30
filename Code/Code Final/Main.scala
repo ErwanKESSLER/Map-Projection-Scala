@@ -1,7 +1,4 @@
 package runtime
-sealed trait Foo
-case class Arr(s: Array[(Int, String, String, String, Double, Double)] ) extends Foo
-case class Cor(i:(Double, Double)) extends Foo
 
 object Main extends App {
   def Main() = {
