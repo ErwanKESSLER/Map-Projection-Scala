@@ -13,7 +13,7 @@ class equiProjections {
       case "cyndricalLambert.jpg" =>
         val conditions = (-90,90,-180,180)
         val tXYCyndr = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYCyndrLambert(lat, lon, width, height)
-        whichToCall(typeOfFunction, filename, tXYCyndr, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/"+filename, tXYCyndr, source, color, conditions, typeOfShape)
     }
   }
   def whichToCall(typeOfFunction: String, filename: String, transformToXY: (Double, Double, Int, Int) => (Int, Int),

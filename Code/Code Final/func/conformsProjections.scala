@@ -40,7 +40,7 @@ class conformsProjections {
       case "adamshemisphere2.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYAHem2 = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYAdamsHemi2(lat, lon, width, height)
-        whichToCall(typeOfFunction, filename, tXYAHem2, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/" + filename, tXYAHem2, source, color, conditions, typeOfShape)
       case whoa => println("You got the wrong guy, sorry : " + whoa.toString)
     }
   }
@@ -125,7 +125,7 @@ class conformsProjections {
     Pi * x / 180
   }
 
-  def rotation(alpha:Double,x:Double,y:Double): (Double,Double) ={
+  def rotation(alpha: Double, x: Double, y: Double): (Double, Double) = {
     (x * cos(toRadians(alpha)) - y * sin(toRadians(alpha)), y * cos(toRadians(alpha)) + x * sin(toRadians(alpha)))
   }
 
@@ -280,7 +280,7 @@ class conformsProjections {
       }
     }
     //rotating the projection again
-    val (x0, y0) = rotation(alpha,x,y)
+    val (x0, y0) = rotation(alpha, x, y)
     linearTransformationPeirceQuincuncial(x0, y0, width, height)
   }
 
@@ -291,7 +291,7 @@ class conformsProjections {
       lon0 = -90
     }
     val (lambda, phi) = (toRadians(lon + lon0), toRadians(lat))
-    if (abs(lambda) - machineEp> Pi / 2) {
+    if (abs(lambda) - machineEp > Pi / 2) {
       throw new IllegalStateException("out of Bounds")
     }
     if (abs(abs(phi) - Pi / 2) < machineEp) {
@@ -309,58 +309,60 @@ class conformsProjections {
 
   def transformToXYAdamsHemi1(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
     val (lambda, phi) = (toRadians(lon), toRadians(lat))
-    if (abs(lambda) - machineEp> Pi / 2) {
+    if (abs(lambda) - machineEp > Pi / 2) {
       throw new IllegalStateException("out of Bounds")
     }
-    val sinphi=sin(phi)
-    val cpsl=cos(phi)*sin(lambda)
-    val (sm, sn) = (if (sinphi+cpsl < 0) -1 else 1, if (sinphi-cpsl  < 0) -1 else 1)
-    val (a,b)=(acos(cpsl),Pi/2-phi)
+    val sinphi = sin(phi)
+    val cpsl = cos(phi) * sin(lambda)
+    val (sm, sn) = (if (sinphi + cpsl < 0) -1 else 1, if (sinphi - cpsl < 0) -1 else 1)
+    val (a, b) = (acos(cpsl), Pi / 2 - phi)
     val (m, n) = (sm * asin(sqrt(abs(1 + cos(a + b)))), sn * asin(sqrt(abs(1 - cos(a - b)))))
-    val (x,y)=(ell_int_5(m), ell_int_5(n))
-    val (x0,y0)=rotation(45.0,x,y)
-    linearTransformationAdamsHemi1(x0,y0, width, height)
+    val (x, y) = (ell_int_5(m), ell_int_5(n))
+    val (x0, y0) = rotation(45.0, x, y)
+    linearTransformationAdamsHemi1(x0, y0, width, height)
   }
-  def transformToXYAdamsHemi2(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
-    var lon0=lon
 
-    var boo=false
-    if (-20<=lon && lon<=160){
-      lon0=lon-70
-      boo=true
+  def transformToXYAdamsHemi2(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
+    var lon0 = lon
+
+    var boo = false
+    if (-20 <= lon && lon <= 160) {
+      lon0 = lon - 70
+      boo = true
     }
-    else{
-      lon0+=110
-      if (lon0>=90){
-        lon0-=360
+    else {
+      lon0 += 110
+      if (lon0 >= 90) {
+        lon0 -= 360
       }
     }
     val (lambda, phi) = (toRadians(lon0), toRadians(lat))
-    if (abs(lambda) - machineEp> Pi / 2) {
+    if (abs(lambda) - machineEp > Pi / 2) {
       throw new IllegalStateException("out of Bounds")
     }
-    val sinphi=sin(phi)
-    val cpsl=cos(phi)*sin(lambda)
-    val (sm, sn) = (if (sinphi+cpsl < 0) -1 else 1, if (sinphi-cpsl  < 0) -1 else 1)
-    val (a,b)=(acos(cpsl),Pi/2-phi)
+    val sinphi = sin(phi)
+    val cpsl = cos(phi) * sin(lambda)
+    val (sm, sn) = (if (sinphi + cpsl < 0) -1 else 1, if (sinphi - cpsl < 0) -1 else 1)
+    val (a, b) = (acos(cpsl), Pi / 2 - phi)
     val (m, n) = (sm * asin(sqrt(abs(1 + cos(a + b)))), sn * asin(sqrt(abs(1 - cos(a - b)))))
-    val (x,y)=(ell_int_5(m), ell_int_5(n))
-    val (x0,y0)=rotation(45.0,x,y)
-    linearTransformationAdamsHemi2(x0,y0, width, height,boo)
+    val (x, y) = (ell_int_5(m), ell_int_5(n))
+    val (x0, y0) = rotation(45.0, x, y)
+    linearTransformationAdamsHemi2(x0, y0, width, height, boo)
   }
+
   //-------------------------------------------End of Transformations-------------------------------------------------//
 
   //--------------------------------------Start of Linear Transformations---------------------------------------------//
-  def linearTransformationAdamsHemi2(x: Double, y: Double, width: Int, height: Int,b: Boolean): (Int, Int) = {
+  def linearTransformationAdamsHemi2(x: Double, y: Double, width: Int, height: Int, b: Boolean): (Int, Int) = {
     val scaling = 92
     val (xShift, yshift) = (width / 2, height / 2)
-    (round(x * scaling + ((if (b) 1 else 0) + 0.5)* xShift).toInt, round(-y * scaling + yshift).toInt)
+    (round(x * scaling + ((if (b) 1 else 0) + 0.5) * xShift).toInt, round(-y * scaling + yshift).toInt)
   }
 
   def linearTransformationAdamsHemi1(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
     val scaling = 384
     val (xShift, yshift) = (width / 2, height / 2)
-    (round(x * scaling +  xShift).toInt, round(-y * scaling + yshift).toInt)
+    (round(x * scaling + xShift).toInt, round(-y * scaling + yshift).toInt)
   }
 
   def linearTransformationGuyou(x: Double, y: Double, width: Int, height: Int, b: Boolean): (Int, Int) = {
