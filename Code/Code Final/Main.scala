@@ -1,4 +1,7 @@
 package runtime
+sealed trait Foo
+case class Arr(s: Array[(Int, String, String, String, Double, Double)] ) extends Foo
+case class Cor(i:(Double, Double)) extends Foo
 
 object Main extends App {
   def Main() = {
@@ -15,8 +18,15 @@ object Main extends App {
     /*density.loadCSV("populations.csv")
     println(util.showAllCountries(airports).mkString("\n"))
     println(util.countriesCodeTable())*/
-    conform.whichProjection("all", "mercator.jpg", "circle", util.RGBtoHexa(255, 0, 0), airports)
-    conform.whichProjection("range", "lambertConic.jpg", "circle", util.RGBtoHexa(255, 0, 0), airports)
+    /*conform.whichProjection("all", "mercator.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conform.whichProjection("range", "lambertConic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conform.whichProjection("range", "mercatorTransverse.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))*/
+    //conform.whichProjection("all", "peirceQuincuncial.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    //conform.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conform.whichProjection("all", "adamshemisphere2.jpg", "o", util.RGBtoHexa(255, 0, 0), Left(airports))
+    //conform.whichProjection("one", "peirceQuincuncial.jpg", "o", util.RGBtoHexa(255, 0, 0), Right(( -28.4792625, 24.6727135)))
+    //conform.traceit("peirceQuincuncial.jpg")
+   // conform.whichProjection("all", "mercatorTransverse.png", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
     //equirectangular.modifyImage("equirectangular.png",airports)
     //equirectangular.showTrace("equirectangular.png")
     //image2.showTrace("lambertConic.jpg")
