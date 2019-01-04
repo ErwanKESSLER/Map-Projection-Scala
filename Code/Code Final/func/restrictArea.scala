@@ -1,6 +1,5 @@
 package func
 
-import scala.util.matching.Regex
 import math._
 import scala.collection.mutable.ArrayBuffer
 

@@ -1,7 +1,6 @@
 package func
 
 import java.awt.image.BufferedImage
-
 import scala.math._
 
 

@@ -2,9 +2,7 @@ package utils
 
 import java.awt.image.{BufferedImage, DataBufferByte}
 import java.io.File
-
 import javax.imageio.ImageIO
-
 import scala.collection.immutable.Set
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
