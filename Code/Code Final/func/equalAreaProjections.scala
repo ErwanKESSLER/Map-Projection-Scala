@@ -58,10 +58,10 @@ class equalAreaProjections {
         val conditions = (-90, 90, -180, 180)
         val tXYSinu = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYSinusoidal(lat, lon, width, height)
         whichToCall(typeOfFunction, "Sources/EqualArea/" + filename, tXYSinu, source, color, conditions, typeOfShape)
-      case "goode.jpg" =>
+      case "goodeHomolosine.jpg" =>
         val conditions = (-90, 90, -180, 180)
-        val tXYGood = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYGoode(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/EqualArea/" + filename, tXYGood, source, color, conditions, typeOfShape)
+        val tXYGoHo = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYGoodeHomolosine(lat, lon, width, height)
+        whichToCall(typeOfFunction, "Sources/EqualArea/" + filename, tXYGoHo, source, color, conditions, typeOfShape)
       case "balthasart.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYBalt = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYBalthasart(lat, lon, width, height)
@@ -70,6 +70,10 @@ class equalAreaProjections {
         val conditions = (-90, 90, -180, 180)
         val tXYTWIS = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYToblersWIS(lat, lon, width, height)
         whichToCall(typeOfFunction, "Sources/EqualArea/" + filename, tXYTWIS, source, color, conditions, typeOfShape)
+      case "equalEarth.jpg" =>
+        val conditions = (-90, 90, -180, 180)
+        val tXYEqEa = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYEqualEarth(lat, lon, width, height)
+        whichToCall(typeOfFunction, "Sources/EqualArea/" + filename, tXYEqEa, source, color, conditions, typeOfShape)
 
 
       case whoa => println("You got the wrong guy, sorry : " + whoa.toString)
@@ -206,8 +210,8 @@ class equalAreaProjections {
     var (lambda, phi) = (toRadians(lon), toRadians(lat))
     val k = (2 + Pi / 2) * sin(phi)
     val delta = phi * phi
-    var (flag,i) = (true,0)
-    while (i <10 && flag) {
+    var (flag, i) = (true, 0)
+    while (i < 10 && flag) {
       val (c, s) = (cos(phi), sin(phi))
       val delta = (phi + s * (c + 2) - k) / (2 * c * (1 + c))
       phi -= delta
@@ -216,8 +220,8 @@ class equalAreaProjections {
       }
       i += 1
     }
-    val x = 2 / sqrt(Pi*(4+Pi)) * lambda * (1+ cos(phi))
-    val y = 2*sqrt(Pi/(4+Pi))*sin(phi)
+    val x = 2 / sqrt(Pi * (4 + Pi)) * lambda * (1 + cos(phi))
+    val y = 2 * sqrt(Pi / (4 + Pi)) * sin(phi)
     linearTransformationEckertIV(x, y, width, height)
   }
 
@@ -236,8 +240,8 @@ class equalAreaProjections {
     var (lambda, phi) = (toRadians(lon), toRadians(lat))
     var k = (1 + Pi / 2) * sin(phi)
     val delta = phi * phi
-    var (flag,i) = (true,0)
-    while (i <10 && flag) {
+    var (flag, i) = (true, 0)
+    while (i < 10 && flag) {
       val (c, s) = (cos(phi), sin(phi))
       val delta = (phi + s - k) / (1 + c)
       phi -= delta
@@ -246,9 +250,9 @@ class equalAreaProjections {
       }
       i += 1
     }
-    k=sqrt(2+Pi)
-    val x =  lambda * (1 + cos(phi)) / k
-    val y =2 * phi / k
+    k = sqrt(2 + Pi)
+    val x = lambda * (1 + cos(phi)) / k
+    val y = 2 * phi / k
     linearTransformationEckertVI(x, y, width, height)
   }
 
@@ -267,6 +271,7 @@ class equalAreaProjections {
     val y = sin(toRadians(lat)) / cos(toRadians(φ0))
     linearTransformationHoboDyer(x, y, width, height)
   }
+
   def transformToXYBalthasart(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
     //Balthasart: https://map-projections.net/license/balthasart:mapimg-ssw
     val (λ0, φ0) = (0, 50)
@@ -274,6 +279,7 @@ class equalAreaProjections {
     val y = sin(toRadians(lat)) / cos(toRadians(φ0))
     linearTransformationBalthasart(x, y, width, height)
   }
+
   def transformToXYSinusoidal(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
     //Sinusoidal: https://en.wikipedia.org/wiki/Sinusoidal_projection
     val (λ0, φ0) = (0, 0)
@@ -281,34 +287,54 @@ class equalAreaProjections {
     val y = toRadians(lat)
     linearTransformationSinusoidal(x, y, width, height)
   }
+
   def transformToXYMollweide(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
     //Mollweide Bromley : https://en.wikipedia.org/wiki/Mollweide_projection
     //https://github.com/d3/d3-geo-projection/blob/bea1297b49a7c9f7009e827ca23062bfb9e6ca18/src/mollweide.js
-    val (cx, cy, cp)=(2*sqrt(2) / Pi, sqrt(2), Pi)
+    val (cx, cy, cp) = (2 * sqrt(2) / Pi, sqrt(2), Pi)
     var (lambda, phi) = (toRadians(lon), toRadians(lat))
-    val cpsinPhi=cp*sin(phi)
+    val cpsinPhi = cp * sin(phi)
     var delta = phi * phi
-    var (flag,i) = (true,60)
-    while (i>0 && flag) {
-      delta=(phi+sin(phi)-cpsinPhi)/(1+cos(phi))
-      phi-=delta
+    var (flag, i) = (true, 60)
+    while (i > 0 && flag) {
+      delta = (phi + sin(phi) - cpsinPhi) / (1 + cos(phi))
+      phi -= delta
       if (abs(delta) < 1e-7) {
         flag = false
       }
-      i-=1
+      i -= 1
     }
-    phi/=2
-    val x = cx*lambda*cos(phi)
-    val y = cy*sin(phi)
-    linearTransformationMollweide(x, y, width, height)
+    phi /= 2
+    val x = cx * lambda * cos(phi)
+    val y = cy * sin(phi)
+    if (width == -1) {
+      (round(x*10000000).toInt, round(y*10000000).toInt)
+    }
+    else {
+      linearTransformationMollweide(x, y, width, height)
+    }
+
   }
-  def transformToXYGoode(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
-    //Lambert Cylindrical: https://en.wikipedia.org/wiki/Lambert_cylindrical_equal-area_projection
-    val (λ0, φ0) = (0, 0)
-    val x = toRadians(lon - λ0) * cos(toRadians(φ0))
-    val y = sin(toRadians(lat)) / cos(toRadians(φ0))
-    linearTransformationGoode(x, y, width, height)
+
+  def transformToXYGoodeHomolosine(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
+    //Goode Homolosine: https://en.wikipedia.org/wiki/Goode_homolosine_projection
+    //its a sinusoidal + mollweide
+    //https://github.com/d3/d3-geo-projection/blob/master/src/homolosine.js
+    val (lambda, phi) = (toRadians(lon), toRadians(lat))
+    val sinuMollweidePhi = 0.7109889596207567
+    val sinuMollweideY = 0.0528035274542
+    if (abs(phi) > sinuMollweidePhi) {
+      val result = transformToXYMollweide(lat, lon, -1, height)
+      //mollweide
+      linearTransformationGoodeHomolosine(result._1.toDouble/10000000,result._2.toDouble/10000000-signum(phi)*sinuMollweideY,width,height)
+    }
+    else{
+      //sinusoidal
+      linearTransformationGoodeHomolosine(lambda * cos(phi), phi, width, height)
+    }
+
   }
+
   def transformToXYToblersWIS(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
     //Toblers Worls in a square: https://map-projections.net/single-view/toblers-world-in-a-square
     // end of the lamebert type: https://beta.observablehq.com/@mbostock/cylindrical-equal-area-projections
@@ -316,6 +342,18 @@ class equalAreaProjections {
     val x = toRadians(lon - λ0) * cos(toRadians(φ0))
     val y = sin(toRadians(lat)) / cos(toRadians(φ0))
     linearTransformationToblersWIS(x, y, width, height)
+  }
+
+  def transformToXYEqualEarth(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
+    //Equal Earth: https://en.wikipedia.org/wiki/Equal_Earth_projection
+    val (lambda, phi) = (toRadians(lon), toRadians(lat))
+    val (a1, a2, a3, a4) = (1.340264, -0.081106, 0.000893, 0.003796)
+    val theta = asin(sin(phi) * sqrt(3) / 2)
+    val theta2 = theta * theta
+    val theta6 = theta2 * theta2 * theta2
+    val x = 2 * lambda * cos(theta) / (sqrt(3) * (a1 + 3 * a2 * theta2 + theta6 * (7 * a3 + 9 * a4 * theta2)))
+    val y = theta * (a1 + a2 * theta2 + theta6*(a3 + a4 * theta2))
+    linearTransformationEqualEarth(x, y, width, height)
   }
 
   //-------------------------------------------End of Transformations-------------------------------------------------//
@@ -375,36 +413,49 @@ class equalAreaProjections {
     val (xShift, yshift) = (width / 2, height / 2)
     (round(x * scaling + xShift).toInt, round(-y * scaling + yshift).toInt)
   }
+
   def linearTransformationHoboDyer(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
     val scaling = 409
     val (xShift, yshift) = (width / 2, height / 2)
     (round(x * scaling + xShift).toInt, round(-y * scaling + yshift).toInt)
   }
+
   def linearTransformationBalthasart(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
     val scaling = 247
     val (xShift, yshift) = (width / 2, height / 2)
     (round(x * scaling + xShift).toInt, round(-y * scaling + yshift).toInt)
   }
+
   def linearTransformationMollweide(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
-    val scaling =362
+    val scaling = 362
     val (xShift, yshift) = (width / 2, height / 2)
     (round(x * scaling + xShift).toInt, round(-y * scaling + yshift).toInt)
   }
+
   def linearTransformationSinusoidal(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
     val scaling = 326
     val (xShift, yshift) = (width / 2, height / 2)
     (round(x * scaling + xShift).toInt, round(-y * scaling + yshift).toInt)
   }
-  def linearTransformationGoode(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
-    val scaling = 459
+
+  def linearTransformationGoodeHomolosine(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
+    val scaling = 325
     val (xShift, yshift) = (width / 2, height / 2)
     (round(x * scaling + xShift).toInt, round(-y * scaling + yshift).toInt)
   }
+
   def linearTransformationToblersWIS(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
     val scaling = 139
     val (xShift, yshift) = (width / 2, height / 2)
     (round(x * scaling + xShift).toInt, round(-y * scaling + yshift).toInt)
   }
+
+  def linearTransformationEqualEarth(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
+    val scaling = 378
+    val (xShift, yshift) = (width / 2, height / 2)
+    (round(x * scaling + xShift).toInt, round(-y * scaling + yshift).toInt)
+  }
+
 
   //---------------------------------------End of Linear Transformations----------------------------------------------//
 
