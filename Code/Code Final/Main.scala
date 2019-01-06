@@ -16,20 +16,34 @@ object Main extends App {
     /*density.loadCSV("populations.csv")
     println(util.showAllCountries(airports).mkString("\n"))
     println(util.countriesCodeTable())*/
-    /*
-        conformal.whichProjection("all", "mercator.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-        conformal.whichProjection("all", "lambertConic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-        conformal.whichProjection("all", "mercatorTransverse.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-        conformal.whichProjection("all", "stereographic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-        conformal.whichProjection("all", "peirceQuincuncial.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-        conformal.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-        conformal.whichProjection("all", "adamshemisphere1.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-        conformal.whichProjection("all", "adamshemisphere2.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
-        conformal.whichProjection("all", "adamsWIS1.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
-        conformal.whichProjection("all", "adamsWIS2.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
 
-    */
-    //equalArea.whichProjection("all", "lambertCylindric.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conformal.whichProjection("all", "mercator.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conformal.whichProjection("all", "lambertConic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conformal.whichProjection("all", "mercatorTransverse.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conformal.whichProjection("all", "stereographic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conformal.whichProjection("all", "peirceQuincuncial.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conformal.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conformal.whichProjection("all", "adamshemisphere1.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conformal.whichProjection("all", "adamshemisphere2.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conformal.whichProjection("all", "adamsWIS1.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conformal.whichProjection("all", "adamsWIS2.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+
+
+    equalArea.whichProjection("all", "lambertCylindric.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "behrmann.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "eckertI.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "eckertII.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "eckertIII.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "eckertIV.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "eckertV.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "eckertVI.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "gallPeters.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "mollweide.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "sinusoidal.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "balthasart.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "hoboDyer.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+    equalArea.whichProjection("all", "toblersWIS.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+
 
     /* (48.9666,2.333) //PARIS
      (16.55,18.505) //KABOUL

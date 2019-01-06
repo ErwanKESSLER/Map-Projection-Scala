@@ -129,7 +129,6 @@ class utils {
       }
     })
     h4
-
   }
 
   def readImage(filename: String): BufferedImage = {
@@ -140,7 +139,6 @@ class utils {
     val extension = filename.split("\\.")(1)
     val path = "/data/Results/" + filename.split("\\.")(0).split("/").dropRight(1).drop(1).mkString("/") + ("/")
     val name = filename.split("\\.")(0).split("/").last
-
     println("file saved as " + getClass.getResource(path).getPath + name + "_result." + extension)
     ImageIO.write(out, extension, new File(getClass.getResource(path).getPath + name + "_result." + extension))
   }
