@@ -50,6 +50,10 @@ class conformsProjections {
         val conditions = (-90, 90, -180, 180)
         val tXYAWIS2 = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYAdamsWIS2(lat, lon, width, height)
         whichToCall(typeOfFunction, "Sources/" + filename, tXYAWIS2, source, color, conditions, typeOfShape)
+      case "leeTetra.png" =>
+        val conditions = (-90, 90, -30, 30)
+        val tXYLee = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYLee(lat, lon, width, height)
+        whichToCall(typeOfFunction, "Sources/" + filename, tXYLee, source, color, conditions, typeOfShape)
       case whoa => println("You got the wrong guy, sorry : " + whoa.toString)
     }
   }
@@ -192,6 +196,10 @@ class conformsProjections {
     (x1._1 + x2._1, x1._2 + x2._2)
   }
 
+  def subComplex(x1: (Double, Double), x2: (Double, Double)): (Double, Double) = {
+    (x1._1 - x2._1, x1._2 - x2._2)
+  }
+
   def mulComplex(x1: (Double, Double), x2: (Double, Double)): (Double, Double) = {
     (x1._1 * x2._1 - x1._2 * x2._2, x1._1 * x2._2 + x1._2 * x2._1)
   }
@@ -200,25 +208,36 @@ class conformsProjections {
     (x._1 * k, x._2 * k)
   }
 
-  def powComplex(x1: (Double, Double), n: Double): (Double, Double) = {
-    if (n.isInstanceOf[Int] && n < 10) {
-      var result = x1
-      for (i <- Range(0, n - 1)) {
-        result = mulComplex(result, x1)
-      }
-      result
+  def powComplex(x1: (Double, Double), n: (Double, Double)): (Double, Double) = {
+    if (n._2 == 0) {
+      val (r, theta) = toPolarComplex(x1)
+      toAlgeComplex(pow(r, n._1), n._1 * theta)
     }
     else {
-      var x2 = toPolarComplex(x1)
-      toAlgebraicComplex((pow(x2._1, n), x2._2 * n))
+      var b = x1._2
+      var a = x1._1
+      val arg = atan2(b, a)
+      val loh = complexLogHypot(a, b)
+      a = exp(n._1 * loh - n._2 * arg)
+      b = n._2 * loh + n._1 * arg
+      (a * cos(b), a * sin(b))
     }
+  }
+
+  def complexLogHypot(a: Double, b: Double): Double = {
+    val _a = abs(a)
+    val _b = abs(b)
+    if (a == 0) return log(_b)
+    if (b == 0) return log(_a)
+    if (_a < 3000 && _b < 3000) return log(a * a + b * b) * 0.5
+    log(a / cos(atan2(b, a)))
   }
 
   def toPolarComplex(x: (Double, Double)): (Double, Double) = {
     (sqrt(x._1 * x._1 + x._2 * x._2), atan2(x._2, x._1))
   }
 
-  def toAlgebraicComplex(x: (Double, Double)): (Double, Double) = {
+  def toAlgeComplex(x: (Double, Double)): (Double, Double) = {
     (x._1 * cos(x._2), x._1 * sin(x._2))
   }
 
@@ -240,6 +259,10 @@ class conformsProjections {
 
   def absComplex(x: (Double, Double)): Double = {
     applyComplex(mulComplex(x, conjugateComplex(x)), sqrt)
+  }
+
+  def normComplex(x: (Double, Double)): Double = {
+    sqrt(x._1 * x._1 + x._2 * x._2)
   }
 
   //---------------------------------------------End of helpers Functions---------------------------------------------//
@@ -435,13 +458,16 @@ class conformsProjections {
     linearTransformationAdamsWIS2(x0, y0, width, height)
   }
 
-  def transformToXYLee(lat: Double, lon: Double, width: Int, height: Int): (Double, Double) = {
+  def transformToXYLee(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
     val (lambda, phi) = (toRadians(lon), toRadians(lat))
-    var (w, k, h, z) = ((-0.5, sqrt(3) / 2), (0.0, 0.0), (0.0, 0.0), mulConstComplex((lambda, phi), sqrt(2)))
-    val rot = Array(0.0, 1.0, 2.0).map(i => -1 * re(mulComplex(z, powComplex(w, i)))).sortWith(_ < _)(0)
-    val n = absComplex(z)
+    var (w, k, h, z) = ((-0.5, sqrt(3) / 2), (0.0, 0.0), (0.0, 0.0), mulComplex((lambda, phi), (sqrt(2), 0)))
+    val sector = Array(0, 1, 2).map(i => -1 * re(mulComplex(z, powComplex(w, (i, 0))))).zipWithIndex.reduceLeft((x1, x2) => {
+      if (x1._1 < x2._1) x1 else x2
+    })._2
+    val rot = powComplex(w, (sector, 0))
+    val n = normComplex(z)
     if (n > 0.3) {
-      val y = addComplex(mulConstComplex(mulConstComplex(z, -1), rot), (1, 0))
+      val y = subComplex((1, 0), mulComplex(z, rot))
       // if |z| > 0.5, use the approx based on y = (1-z)
       // McIlroy formula 6 p6 and table for G page 16
       // w1 = gamma(1/3) * gamma(1/2) / 3 / gamma(5/6);
@@ -452,10 +478,13 @@ class conformsProjections {
         1.91691805888369e-5, 1.73095888028726e-5, 1.03865580818367e-5, 4.70614523937179e-6, 1.4413500104181e-6, 1.92757960170179e-8,
         -3.82869799649063e-7, -3.57526015225576e-7, -2.2175964844211e-7)
       var G = (0.0, 0.0)
-      for (i <- Range(G0.length, 0, -1)) {
+      for (i <- Range(G0.length - 1, -1, -1)) {
         G = addComplex((G0(i), 0), mulComplex(y, G))
       }
-      k = mulConstComplex(mulConstComplex(addComplex((w1, 0), mulComplex((-sqrt(y._1), -sqrt(y._2)), G)), rot), rot)
+
+      k = subComplex((w1, 0), mulComplex(powComplex(y, (0.5, 0)), G))
+      k = mulComplex(k, rot)
+      k = mulComplex(k, rot)
     }
     if (n < 0.5) {
       // if |z| < 0.3
@@ -464,22 +493,35 @@ class conformsProjections {
       // https://www.wolframalpha.com/input/?i=integral+of+1+%2B+z%5E3%2F2+%2B+(3+z%5E6)%2F8+%2B+(5+z%5E9)%2F16+%2B+(35+z%5E12)%2F128+%2B+(63+z%5E15)%2F256+%2B+(231+z%5E18)%2F1024
       // (231 z^19)/19456 + (63 z^16)/4096 + (35 z^13)/1664 + z^10/32 + (3 z^7)/56 + z^4/8 + z + constant
       val H0 = Array(1, 1 / 8, 3 / 56, 1 / 32, 35 / 1664, 63 / 4096, 231 / 19456)
-      val z3 = powComplex(z, 3)
-      for (i <- Range(H0.length, 0, -1)) {
+      val z3 = powComplex(z, (3, 0))
+      for (i <- Range(H0.length - 1, -1, -1)) {
         h = addComplex((H0(i), 0), mulComplex(h, z3))
       }
       h = mulComplex(h, z)
     }
-    if (n < 0.3) return h
-    if (n > 0.5) return k
+    if (n < 0.3) return linearTransformationLee(h, width, height, lambda, phi)
+    if (n > 0.5) return linearTransformationLee(k, width, height, lambda, phi)
     // in between 0.3 and 0.5, interpolate
     var t = (n - 0.3) / (0.5 - 0.3)
-    addComplex(mulConstComplex(k, t), mulConstComplex(h, 1 - t))
+    linearTransformationLee(addComplex(mulComplex(k, (t, 0)), mulComplex(h, (1 - t, 0))), width, height, lambda, phi)
   }
 
   //-------------------------------------------End of Transformations-------------------------------------------------//
 
   //--------------------------------------Start of Linear Transformations---------------------------------------------//
+  def linearTransformationLee(xy: (Double, Double), width: Int, height: Int, lambda: Double, phi: Double): (Int, Int) = {
+    val epsilon = 1e-6
+    val asin1_3 = asin(1 / 3)
+    val centers = Array((0, 90), (-180, toRadians(-asin1_3)), (-60, toRadians(-asin1_3)), (60, toRadians(-asin1_3)))
+    var tetrahedron=Array(Array(1,2,3),Array(0,2,1),Array(0,3,2),Array(0,1,3)).map(el=>el.map(i=>centers(i)))
+    
+    val scaling = 300
+    val (x, y) = rotation(-45, xy._1, xy._2)
+    println(xy)
+    val (xShift, yshift) = (width / 2, height / 2)
+    (round(x * scaling + 4 / 3 * xShift).toInt, round(-y * scaling + yshift / 3).toInt)
+  }
+
   def linearTransformationAdamsWIS1(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
     val scaling = 130
     val (xShift, yshift) = (width / 2, height / 2)

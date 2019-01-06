@@ -20,7 +20,9 @@ object Main extends App {
     conform.whichProjection("range", "mercatorTransverse.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))*/
     //conform.whichProjection("all", "peirceQuincuncial.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
     //conform.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conform.whichProjection("all", "adamsWIS2.jpg", "o", util.RGBtoHexa(255, 0, 0), Left(airports))
+    //conform.whichProjection("all", "adamsWIS2.jpg", "o", util.RGBtoHexa(255, 0, 0), Left(airports))
+    conform.whichProjection("one", "leeTetra.png", "circle", util.RGBtoHexa(255, 0, 0), Right((16.55,18.505)))
+    conform.whichProjection("range", "leeTetra.png", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
     //conform.whichProjection("all", "adamsWIS1.jpg", "o", util.RGBtoHexa(255, 0, 0), Left(airports))
     //conform.whichProjection("one", "peirceQuincuncial.jpg", "o", util.RGBtoHexa(255, 0, 0), Right(( -28.4792625, 24.6727135)))
     //conform.traceit("peirceQuincuncial.jpg")
