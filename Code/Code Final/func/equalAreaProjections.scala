@@ -1,20 +1,23 @@
 package func
 
 import java.awt.image.BufferedImage
+
 import scala.math._
 
+class equalAreaProjections {
+  //---------------------------------------------Core Functions-------------------------------------------------------//
 
-class equiProjections {
-  //-------------------------------------Core Functions---------------------------------------------------//
   def whichProjection(typeOfFunction: String = "all", filename: String, typeOfShape: String, color: Int,
                       source: Either[Array[(Int, String, String, String, Double, Double)], (Double, Double)]): Unit = {
     filename match {
-      case "cyndricalLambert.jpg" =>
-        val conditions = (-90,90,-180,180)
-        val tXYCyndr = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYCyndrLambert(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/"+filename, tXYCyndr, source, color, conditions, typeOfShape)
+      case "lambertCylindric.jpg" =>
+        val conditions = (-90, 90, -180, 180)
+        val tXYLamCyl = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYLambertCylindric(lat, lon, width, height)
+        whichToCall(typeOfFunction, "Sources/EqualArea/" + filename, tXYLamCyl, source, color, conditions, typeOfShape)
+      case whoa => println("You got the wrong guy, sorry : " + whoa.toString)
     }
   }
+
   def whichToCall(typeOfFunction: String, filename: String, transformToXY: (Double, Double, Int, Int) => (Int, Int),
                   source: Either[Array[(Int, String, String, String, Double, Double)], (Double, Double)], color: Int,
                   conditions: (Int, Int, Int, Int), typeOfShape: String): Unit = {
@@ -25,6 +28,7 @@ class equiProjections {
       case whoa => println("You got the wrong guy, sorry : " + whoa.toString)
     }
   }
+
   //-------------------------------------------End of Core Functions--------------------------------------------------//
 
   //----------------------------------------Type of Image Modifications-----------------------------------------------//
@@ -75,18 +79,40 @@ class equiProjections {
       println("The point you are trying to draw is outside the scope of the projection, try another one or change projection.")
     }
   }
+
   //------------------------------------End of Type of Image Modifications--------------------------------------------//
+
+  //-----------------------------------------Start of helpers Functions-----------------------------------------------//
+  def toRadians(x: Double): Double = {
+    Pi * x / 180
+  }
+
+  def rotation(alpha: Double, x: Double, y: Double): (Double, Double) = {
+    (x * cos(toRadians(alpha)) - y * sin(toRadians(alpha)), y * cos(toRadians(alpha)) + x * sin(toRadians(alpha)))
+  }
+
+  //---------------------------------------------End of helpers Functions---------------------------------------------//
 
   //-----------------------------------------------Transformations----------------------------------------------------//
 
-  def transformToXYCyndrLambert(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
-    (1,1)
-
+  def transformToXYLambertCylindric(lat: Double, lon: Double, width: Int, height: Int): (Int, Int) = {
+    //Lambert Cylindrical: https://en.wikipedia.org/wiki/Lambert_cylindrical_equal-area_projection
+    val λ0 = 0
+    val x = toRadians(lon - λ0)
+    val y = sin(toRadians(lat))
+    linearTransformationLambertCylindric(x, y, width, height)
   }
+
 
   //-------------------------------------------End of Transformations-------------------------------------------------//
 
   //--------------------------------------Start of Linear Transformations---------------------------------------------//
+
+  def linearTransformationLambertCylindric(x: Double, y: Double, width: Int, height: Int): (Int, Int) = {
+    val scaling = 325
+    val (xShift, yshift) = (width / 2, height / 2)
+    (round(x * scaling + xShift).toInt, round(-y * scaling + yshift).toInt)
+  }
 
   //---------------------------------------End of Linear Transformations----------------------------------------------//
 
@@ -132,5 +158,4 @@ class equiProjections {
   }
 
   //---------------------------------------------End of Shape Utilities-----------------------------------------------//
-
 }

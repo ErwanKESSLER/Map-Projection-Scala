@@ -2,7 +2,9 @@ package utils
 
 import java.awt.image.{BufferedImage, DataBufferByte}
 import java.io.File
+
 import javax.imageio.ImageIO
+
 import scala.collection.immutable.Set
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -135,10 +137,12 @@ class utils {
   }
 
   def writeImage(out: BufferedImage, filename: String): Unit = {
-println("file saved as "+getClass.getResource("/data/").getPath +
-  filename.split("\\.")(0).split("/").last + "_result." + filename.split("\\.")(1))
-    ImageIO.write(out, "png", new File(getClass.getResource("/data/Results/").getPath +
-      filename.split("\\.")(0).split("/").last + "_result." + filename.split("\\.")(1)))
+    val extension = filename.split("\\.")(1)
+    val path = "/data/Results/" + filename.split("\\.")(0).split("/").dropRight(1).drop(1).mkString("/") + ("/")
+    val name = filename.split("\\.")(0).split("/").last
+
+    println("file saved as " + getClass.getResource(path).getPath + name + "_result." + extension)
+    ImageIO.write(out, extension, new File(getClass.getResource(path).getPath + name + "_result." + extension))
   }
 
   def returnTRGB(color: Int): (Int, Int, Int, Int) = {

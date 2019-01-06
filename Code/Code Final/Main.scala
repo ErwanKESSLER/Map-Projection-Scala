@@ -8,32 +8,33 @@ object Main extends App {
     val util = new utils.utils
     val restriction = new func.restrictArea
     val density = new func.densityAirports
-    val equirectangular = new func.equirectangularProjection
-    val conform = new func.conformsProjections
+    val equidistant = new func.equirectangularProjection
+    val conformal = new func.conformalProjections
+    val equalArea = new func.equalAreaProjections
     //Example of use of step 1 code
     val airports = loadAirport.loadAirport(filename = "airports.dat")
     /*density.loadCSV("populations.csv")
     println(util.showAllCountries(airports).mkString("\n"))
     println(util.countriesCodeTable())*/
-    /*conform.whichProjection("all", "mercator.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conform.whichProjection("range", "lambertConic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conform.whichProjection("range", "mercatorTransverse.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))*/
-    //conform.whichProjection("all", "peirceQuincuncial.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    //conform.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    //conform.whichProjection("all", "adamsWIS2.jpg", "o", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conform.whichProjection("one", "leeTetra.png", "circle", util.RGBtoHexa(255, 0, 0), Right((16.55,18.505)))
-    conform.whichProjection("range", "leeTetra.png", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    //conform.whichProjection("all", "adamsWIS1.jpg", "o", util.RGBtoHexa(255, 0, 0), Left(airports))
-    //conform.whichProjection("one", "peirceQuincuncial.jpg", "o", util.RGBtoHexa(255, 0, 0), Right(( -28.4792625, 24.6727135)))
-    //conform.traceit("peirceQuincuncial.jpg")
-   // conform.whichProjection("all", "mercatorTransverse.png", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    //equirectangular.modifyImage("equirectangular.png",airports)
-    //equirectangular.showTrace("equirectangular.png")
-    //image2.showTrace("lambertConic.jpg")
-    /* image2.addParis("lambertConic.jpg",48.9666,2.333) //PARIS
-     image2.addParis("lambertConic.jpg",16.55,18.505) //KABOUL
-     image2.addParis("lambertConic.jpg",40.71,-74.00) //WISCONSIN
-     image2.addParis("lambertConic.jpg",37.37,-84.32) //NEW YORK*/
+    /*
+        conformal.whichProjection("all", "mercator.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "lambertConic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "mercatorTransverse.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "stereographic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "peirceQuincuncial.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "adamshemisphere1.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "adamshemisphere2.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "adamsWIS1.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "adamsWIS2.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+
+    */
+    //equalArea.whichProjection("all", "lambertCylindric.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+
+    /* (48.9666,2.333) //PARIS
+     (16.55,18.505) //KABOUL
+     (40.71,-74.00) //WISCONSIN
+     (37.37,-84.32) //NEW YORK*/
     //util.problematicCountries(airports)
     //util.notOfficialNametoAlpha3(airports)
     //println(density.Densite(airports, "populations.csv"))

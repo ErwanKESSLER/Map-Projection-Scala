@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage
 
 import scala.math._
 
-class conformsProjections {
+class conformalProjections {
   //---------------------------------------------Core Functions-------------------------------------------------------//
 
   def whichProjection(typeOfFunction: String = "all", filename: String, typeOfShape: String, color: Int,
@@ -13,47 +13,48 @@ class conformsProjections {
       case "mercator.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYMerc = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYMercator(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/" + filename, tXYMerc, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/Conformal/" + filename, tXYMerc, source, color, conditions, typeOfShape)
       case "lambertConic.jpg" =>
         val conditions = (-30, 90, -180, 180)
         val tXYLamCon = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYLambertConic(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/" + filename, tXYLamCon, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/Conformal/" + filename, tXYLamCon, source, color, conditions, typeOfShape)
       case "mercatorTransverse.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYMercTran = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYMercatorTransverse(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/" + filename, tXYMercTran, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/Conformal/" + filename, tXYMercTran, source, color, conditions, typeOfShape)
       case "stereographic.jpg" =>
         val conditions = (-30, 90, -180, 180)
         val tXYStereo = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYStereographic(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/" + filename, tXYStereo, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/Conformal/" + filename, tXYStereo, source, color, conditions, typeOfShape)
       case "peirceQuincuncial.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYPeiQui = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYPeirceQuincuncial(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/" + filename, tXYPeiQui, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/Conformal/" + filename, tXYPeiQui, source, color, conditions, typeOfShape)
       case "guyou.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYGuyou = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYGuyou(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/" + filename, tXYGuyou, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/Conformal/" + filename, tXYGuyou, source, color, conditions, typeOfShape)
       case "adamshemisphere1.jpg" =>
         val conditions = (-90, 90, -90, 90)
         val tXYAHem1 = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYAdamsHemi1(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/" + filename, tXYAHem1, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/Conformal/" + filename, tXYAHem1, source, color, conditions, typeOfShape)
       case "adamshemisphere2.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYAHem2 = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYAdamsHemi2(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/" + filename, tXYAHem2, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/Conformal/" + filename, tXYAHem2, source, color, conditions, typeOfShape)
       case "adamsWIS1.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYAWIS1 = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYAdamsWIS1(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/" + filename, tXYAWIS1, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/Conformal/" + filename, tXYAWIS1, source, color, conditions, typeOfShape)
       case "adamsWIS2.jpg" =>
         val conditions = (-90, 90, -180, 180)
         val tXYAWIS2 = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYAdamsWIS2(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/" + filename, tXYAWIS2, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/Conformal/" + filename, tXYAWIS2, source, color, conditions, typeOfShape)
       case "leeTetra.png" =>
         val conditions = (-90, 90, -30, 30)
+        println("This Map projection is not stable yet!")
         val tXYLee = (lat: Double, lon: Double, width: Int, height: Int) => transformToXYLee(lat, lon, width, height)
-        whichToCall(typeOfFunction, "Sources/" + filename, tXYLee, source, color, conditions, typeOfShape)
+        whichToCall(typeOfFunction, "Sources/Conformal/" + filename, tXYLee, source, color, conditions, typeOfShape)
       case whoa => println("You got the wrong guy, sorry : " + whoa.toString)
     }
   }
@@ -514,7 +515,7 @@ class conformsProjections {
     val asin1_3 = asin(1 / 3)
     val centers = Array((0, 90), (-180, toRadians(-asin1_3)), (-60, toRadians(-asin1_3)), (60, toRadians(-asin1_3)))
     var tetrahedron=Array(Array(1,2,3),Array(0,2,1),Array(0,3,2),Array(0,1,3)).map(el=>el.map(i=>centers(i)))
-    
+
     val scaling = 300
     val (x, y) = rotation(-45, xy._1, xy._2)
     println(xy)
