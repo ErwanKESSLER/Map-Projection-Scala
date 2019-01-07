@@ -5,8 +5,7 @@
 \usepackage{float}
 \usepackage{geometry}
 \definecolor{orange}{rgb}{0.99,0.50,0.07}
-\definecolor{purple}{rgb}{0.60,0.07,0.99}
-
+\definecolor{color2}{rgb}{0.0,0.0,0.0}
 
 
 
@@ -19,7 +18,7 @@
 \end{figure}
 
 \title{\bf \color{orange} RAPPORT de Projet}
-\author{\color{purple} Camille COUÉ , Victor COUR , Erwan KESSLER}
+\author{\color{color2} Camille COUÉ , Victor COUR , Erwan KESSLER}
 \date{\it December 2018}
 
 \begin{document}
@@ -29,7 +28,7 @@
 
 \title{\bf \Large \color{orange} Sommaire}
 \begin{itemize}
-    \color{purple}
+    \color{color2}
     \item Introduction
     \item L'organisation pour répartir le travail 
     \item Gestion des étapes
@@ -40,7 +39,7 @@
 \end{itemize}
 \color{orange} \section { Introduction }
 
-\color{purple}
+\color{color2}
 
 Le but du projet est de créer un code qui permettrait de choisir la représentation (parmi celles qui sont proposées) où l’on placerait les différents aéroports du monde que le site openflight.org a rescencé en 2017. On pourrait aussi choisir de centrer cette représentation sur une zone souhaitée.
 
@@ -52,7 +51,7 @@ Nous avons profité du lendemain de l’annonce du projet pour nous donner rende
 
 \color{orange} \section{ L'organisation pour répartir le travail }
 
-\color{purple}
+\color{color2}
 
 Nous avons décidé pour hiérarchiser notre équipe de définir un chef de projet et nous avons convenu que Erwan remplirait ce poste.
 Ainsi, Camille et Victor joueront les rôles de secrétaires pour rédiger les comptes rendus à tour de rôle. (Listes des comptes rendus en annexe)
@@ -98,7 +97,7 @@ Enfin, il ne restait plus qu’à prévoir les risques possibles dans le déroul
 
 
 \subsection{ Étape 1} 
-\color{purple}
+\color{color2}
 
 \textbf{Problème rencontré :} \newline
 Au premier abord, nous voulions lire le fichier ligne par ligne, et séparer les éléments de ces lignes par des virgules, cependant, il existait des chaînes de caractères possédant des virgules, empêchant la bonne séparation des éléments.
@@ -111,7 +110,7 @@ Suite au problème de séparation des éléments ligne par ligne, il a fallu tro
 
 \color{orange}
 \subsection{Étape 2} 
-\color{purple}
+\color{color2}
 
 \textbf{Problème rencontré :} \newline
 Plusieurs calculs permettant de mesurer une distance existent, l’objectif était de sélectionner la méthode donnant la distance la plus précise possible mais aussi la moins coûteuse en calcul.
@@ -123,7 +122,7 @@ Nous avons alors implémenter plusieurs des méthodes que nous avions trouvées 
 
 \color{orange}
 \subsection{Étape 3} 
-\color{purple}
+\color{color2}
 
 \textbf{Problème rencontré :} \newline
 Dans les statistiques, plusieurs méthodes permettaient de calculer la médiane grâce à notre structure de données. Il fallait donc, comme dans l'étape précédante, choisir la "bonne" méthode.
@@ -135,13 +134,13 @@ Ici aussi nous avons selectionné plusieurs méthodes et ensuite testé sur nos 
 
 \color{orange}
 \subsection{Étape 4} 
-\color{purple}
+\color{color2}
 
 Pas de problème particulier sur cette étape.
 
 \color{orange}
 \subsection{Étape 5}
-\color{purple}
+\color{color2}
 
 \textbf{Problème rencontré :} \newline
  Nous avons convenu au départ de compter le nombre d'aéroports dans chaque pays en parcourant notre tableau et en mettant ce résultat dans un autre tableau (avec pour chaque case du tableau un pays lui étant associé). Cependant, il était compliqué d'attribuer un nombre pour chaque pays : la liste des identifiants de "airports.dat" n'étant pas des nombres consécutifs à chaque fois... 
@@ -154,7 +153,7 @@ Nous avons décidé d'utiliser les HashMap de la bibliothèque scala.collection.
 \vspace{1\baselineskip}
 \color{orange}
 \subsection{Étape 6} 
-\color{purple}
+\color{color2}
 
 \textbf{Problème rencontré :} \newline
 L'image wrapper ne fonctionnait pas sur notre version de scala (2.12.7) et les versions supportées étaient "2.9.2", "2.10.6" et "2.11.7".
@@ -166,7 +165,7 @@ Pour régler ce problème de version pour l'image wrapper nous avons décider de
 
 \color{orange}
 \subsection{Étape 7}
-\color{purple}
+\color{color2}
 
 \textbf{Problème rencontré :} \newline
 Après s'être documenté sur les projections conformes et équivalentes, il fallait transformer un couple (latitude,longitude) en (x,y) avec (x,y) les coordonnées dans la projection voulue. Cependant nous avons remarqué qu'il fallait faire une transformation linéaire sur ces coordonnées pour les placer au bon endroit dans notre image bitmap. Comment trouver ces transformations linéaires?
@@ -178,33 +177,37 @@ Après s'être documenté sur les projections conformes et équivalentes, il fal
 
 
 \color{orange} \section{ Production finale : Étape 8}
-\color{purple}
+\color{color2}
 
 \color{orange} \section{ Ce que le projet a apporté à chacun}
-\color{purple}
+\color{color2}
 
-Voici tout d'abord le tableau des heures passées sur le projet
+Voici tout d'abord le tableau des heures passées sur le projet :
 
-\begin{figure}
+\begin{figure}[H]
+    \centering
     \includegraphics[scale=0.5]{}
+    \caption{Table des heures de travail}
+    \label{fig:tableheures}
 \end{figure}
 
+
 \color{orange} \section{ Remerciements}
-\color{purple}
+\color{color2}
 
 \begin{itemize}
-    \color{purple}
+    \color{color2}
     \item Nous souhaitons remercier l’ensemble de l’équipe pédagogique de Telecom Nancy pour nous avoir enseigné les méthodes et outils indispensable à la réalisation de notre projet.
     \item Plus particulièrement Mr DA SILVA (responsable du projet) et Mme HEURTEL ainsi que Rémi BACHELET pour la gestion de projet.
     \item Nous remercions également Telecom Nancy, pour avoir mis à notre disposition les infrastructures et le matériel informatique nécessaires au projet.
     \end{itemize}
 
 \color{orange} \section{ Sources }
-\color{purple}
+\color{color2}
 
 \begin{itemize}
-    \color{purple}
-    \item 
+    \color{color2}
+    \item
     \item
     \item
     \item
