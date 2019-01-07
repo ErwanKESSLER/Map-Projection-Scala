@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[singlespacing]{setspace}
+\usepackage{geometry}
+\geometry{top=30, bottom=5, left=50, right=50}
+\usepackage{array}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{array,multirow,makecell}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\setcellgapes{1pt}
+\makegapedcells
+\usepackage[table]{xcolor}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash }b{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash }b{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash }b{#1}}
+
+\date{} 
+\begin{document}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.05]{logo_TNCY.png}
+    \label{fig:logo_tncy}
+    \ref{fig:logo_tncy}
+\end{figure}
+\title{Projet TOP - Compte-rendu n\,°8}
+\maketitle
+\vspace*{-1cm}
+
+\begin{tabular}{|c|c|}
+  \hline
+  Motif/ type de réunion: & Lieu: salle PI \\
+  \hline
+   Présent(s) (retard/excusés/non excusés): &  Date/heure de début/durée:
+ & Équipe-projet: Victor Cour,
+                  Erwan Kessler,
+                  Camille Coué
+ & 21 Décembre 2018/165h/3h\\
+  \hline
+\end{tabular}
+
+
+\section{Ordre du jour}
+
+\begin{itemize}
+  \item fin de l'étape 6 
+  \item fin de l'étape 7 (projections conforme et équivalente) 
+\end{itemize}
+
+\section{Informations échangées}
+Pour chaque projection, les latitudes et longitudes doivent être transformées en coordonnées en fonction de la projection. Mais lors des différentes transformations, il faut utiliser les coordonnées x et y des aéroports préalablement transformées linéairement.
+Il faut donc procéder en deux étapes : 
+\begin{itemize}
+  \item trouver les formules des transformations linéaires pour chaque projection
+  \item mettre en place les projections
+\end{itemize}
+
+\section{Décisions}
+Les projections conformes qui vont être mises en place dans un premier temps sont : 
+\begin{itemize}
+  \item Mercator 
+  \item Lambert conique 
+  \item Mercator transverse 
+\end{itemize}
+
+Au niveau des projections équivalentes, les suivantes vont être mises en place dans un premiers temps :
+\begin{itemize}
+  \item Lambert cylindrique 
+  \item Gall-Peter
+  \item Behrmann 
+\end{itemize}
+
+\section{Actions à suivre/ Todo list}
+
+\begin{tabular}{|C{5cm}|C{3cm}|C{3cm}|}
+\hline \rowcolor{lightgray} Description & Responsable & Délai \\
+\hline  Fin de l'étape 7 & Toute l'équipe projet  & 25 Décembre  \\
+\hline 
+Mise en place de l'étape 8 & Toute l'équipe projet  & 28 Décembre \\
+\hline
+\end{tabular}
+
+\paragraph{Date de la prochaine réunion}
+08 Décembre 2018
+\end{document}
+

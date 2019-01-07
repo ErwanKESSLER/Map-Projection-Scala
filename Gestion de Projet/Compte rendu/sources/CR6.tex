@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[singlespacing]{setspace}
+\usepackage{geometry}
+\geometry{top=30, bottom=5, left=50, right=50}
+\usepackage{array}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{array,multirow,makecell}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\setcellgapes{1pt}
+\makegapedcells
+\usepackage[table]{xcolor}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash }b{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash }b{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash }b{#1}}
+
+\date{} 
+\begin{document}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.05]{logo_TNCY.png}
+    \label{fig:logo_tncy}
+    \ref{fig:logo_tncy}
+\end{figure}
+\title{Projet TOP - Compte-rendu n\,°6}
+\maketitle
+\vspace*{-1cm}
+
+\begin{tabular}{|c|c|}
+  \hline
+  Motif/ type de réunion: & Lieu: salle PI \\
+  \hline
+   Présent(s) (retard/excusés/non excusés): &  Date/heure de début/durée:
+ & Équipe-projet: Victor Cour,
+                  Erwan Kessler,
+                  Camille Coué
+ & 14 Décembre 2018/15h/1h30 \\
+  \hline
+\end{tabular}
+
+
+\section{Ordre du jour}
+
+Avancement de l'étape 5 :
+\begin{itemize}
+  \item trouver des données de population et de superficie des pays 
+  \item mettre en place le calcul de densité 
+\end{itemize}
+
+\section{Informations échangées}
+Victor propose de travailler avec des tableaux pour réaliser la fonction du calcul de densité. Chaque pays a une case du tableau attribuée et une seconde case qui permet de compter les occurences d'aéroports. Erwan propose une autre solution : utiliser des hashMaps pour accéder directement au informations qui nous interessent sans compter les pays qui ne sont pas concernés.
+\section{Remarques/Questions}
+Comment ajouter les nouvelles données (superficie et population) dans d'autres fichiers au format csv ?
+Comment faire pour lier les différents fichiers de données lorsque les données permettant l'agregation ne sont pas identiques ? 
+Les noms de pays ne sont en effet pas identiques entre les fichiers. Erwan propose une méthode permettant de convertir les noms non officiels de pays en code alpha3 qui sera unique pour chaque pays. Il s'agit de la norme ISO 3166 de codage des pays constituée de deux lettres.
+\section{Décisions}
+La méthode proposée par Erwan va être mise en place.
+\section{Actions à suivre/ Todo list}
+
+\begin{tabular}{|C{5cm}|C{3cm}|C{3cm}|}
+\hline \rowcolor{lightgray} Description & Responsable & Délai \\
+\hline  Fin de l'étape 5  & Toute l'équipe projet  & 18 Décembre  \\
+\hline 
+Avancement de l'étape 6 & Toute l'équipe projet  & 18 Décembre \\
+\hline
+\end{tabular}
+
+\paragraph{Date de la prochaine réunion}
+18 Décembre 2018
+\end{document}
+

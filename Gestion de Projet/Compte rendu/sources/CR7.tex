@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[singlespacing]{setspace}
+\usepackage{geometry}
+\geometry{top=30, bottom=5, left=50, right=50}
+\usepackage{array}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{array,multirow,makecell}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\setcellgapes{1pt}
+\makegapedcells
+\usepackage[table]{xcolor}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash }b{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash }b{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash }b{#1}}
+
+\date{} 
+\begin{document}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.05]{logo_TNCY.png}
+    \label{fig:logo_tncy}
+    \ref{fig:logo_tncy}
+\end{figure}
+\title{Projet TOP - Compte-rendu n\,°7}
+\maketitle
+\vspace*{-1cm}
+
+\begin{tabular}{|c|c|}
+  \hline
+  Motif/ type de réunion: & Lieu: salle PI \\
+  \hline
+   Présent(s) (retard/excusés/non excusés): &  Date/heure de début/durée:
+ & Équipe-projet: Victor Cour,
+                  Erwan Kessler,
+                  Camille Coué
+ & 18 Décembre 2018/165h/1h\\
+  \hline
+\end{tabular}
+
+
+\section{Ordre du jour}
+
+Avancemement de l'étape 6 :
+\begin{itemize}
+  \item recherche de l'image bitmap
+  \item comprendre comment projeter les coordonnées d'un aéroport sur le planisphère
+\end{itemize}
+
+\section{Informations échangées}
+Erwan a trouvé une image bitmap haute résolution d’un planisphère correspondant à la projection cylindrique équidistante c'est à dire la projection équirectangulaire.
+
+\section{Remarques/Questions}
+ Notre version de scala (2.12.7) ne permet pas d'utiliser l'image wrapper.
+\section{Décisions}
+L'image wrapper proposée ne sera pas utilisé, une autre solution va être mise en place pour permettre l'affichage du planisphère.
+\section{Actions à suivre/ Todo list}
+
+\begin{tabular}{|C{5cm}|C{3cm}|C{3cm}|}
+\hline \rowcolor{lightgray} Description & Responsable & Délai \\
+\hline  mettre au point les algorithmes de projection de coordonnées & Toute l'équipe projet  & 21 Décembre  \\
+\hline 
+Mise en place de l'étape 7 & Toute l'équipe projet  & 21 Décembre \\
+\hline
+\end{tabular}
+
+\paragraph{Date de la prochaine réunion}
+21 Décembre 2018
+\end{document}
+

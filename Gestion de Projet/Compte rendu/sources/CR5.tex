@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[singlespacing]{setspace}
+\usepackage{geometry}
+\geometry{top=30, bottom=5, left=50, right=50}
+\usepackage{array}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{array,multirow,makecell}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\setcellgapes{1pt}
+\makegapedcells
+\usepackage[table]{xcolor}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash }b{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash }b{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash }b{#1}}
+
+\date{} 
+\begin{document}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.05]{logo_TNCY.png}
+    \label{fig:logo_tncy}
+    \ref{fig:logo_tncy}
+\end{figure}
+\title{Projet TOP - Compte-rendu n\,°5}
+\maketitle
+\vspace*{-1cm}
+
+\begin{tabular}{|c|c|}
+  \hline
+  Motif/ type de réunion: & Lieu: salle PI \\
+  \hline
+   Présent(s) (retard/excusés/non excusés): &  Date/heure de début/durée:
+ & Équipe-projet: Victor Cour,
+                  Erwan Kessler,
+                  Camille Coué
+ & 11 Décembre 2018/17h/1h \\
+  \hline
+\end{tabular}
+
+
+\section{Ordre du jour}
+
+Avancement de l'étape 4 (statistiques sur un sous-ensemble d'aéroports)
+
+\section{Informations échangées}
+La méthode de calcul de la médiane séléctionnée dans l'étape 3 est le quickSelect pour des raisons de rapidité d'éxécution.
+\newline
+L'étape 4 permet de sélectionner des aéroports en fonction : des pays, d'une zone définie par deux points, et d'une zone définie par un point et un rayon en km. Trois fonctions différentes permettront de filtrer les aéroports. La fonction qui permet de définir une zone selon un point et un rayon en km utilisera la distance d'Haversine. Dans chacune des fonctions, on test si l'aéroport est compris dans la zone sélectionnée et si oui on l'ajoute à une liste.
+\section{Remarques/Questions}
+/
+\section{Décisions}
+Mise en place des trois fonctions d'ici la prochaine réunion.
+
+\section{Actions à suivre/ Todo list}
+
+\begin{tabular}{|C{5cm}|C{3cm}|C{3cm}|}
+\hline \rowcolor{lightgray} Description & Responsable & Délai \\
+\hline  Fin de l'étape 4  & Toute l'équipe projet  & 14 Décembre  \\
+\hline 
+Mise en place de l'étape 5 & Toute l'équipe projet  & 14 Décembre \\
+\hline
+\end{tabular}
+
+\paragraph{Date de la prochaine réunion}
+14 Décembre 2018
+\end{document}
+

@@ -1,0 +1,79 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[singlespacing]{setspace}
+\usepackage{geometry}
+\geometry{top=30, bottom=5, left=50, right=50}
+\usepackage{array}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{array,multirow,makecell}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\setcellgapes{1pt}
+\makegapedcells
+\usepackage[table]{xcolor}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash }b{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash }b{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash }b{#1}}
+
+\date{} 
+\begin{document}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.05]{logo_TNCY.png}
+    \label{fig:logo_tncy}
+    \ref{fig:logo_tncy}
+\end{figure}
+\title{Projet TOP - Compte-rendu n\,°4}
+\maketitle
+\vspace*{-1cm}
+
+\begin{tabular}{|c|c|}
+  \hline
+  Motif/ type de réunion: & Lieu: salle PI \\
+  \hline
+   Présent(s) (retard/excusés/non excusés): &  Date/heure de début/durée:
+ & Équipe-projet: Victor Cour,
+                  Erwan Kessler,
+                  Camille Coué
+ & 4 Decembre 2018/18h/1h30 \\
+  \hline
+\end{tabular}
+
+
+\section{Ordre du jour}
+\begin{itemize}
+  \item Fin de l'étape 2
+  \item Etude de l'étape 3 (Statistiques descriptives sur les données)
+\end{itemize}
+\section{Informations échangées}
+La fonction permettant le chargement des données a été modifiée, une expression régulière permet de prendre en compte le problème des données contenant des virgules.
+\newline La méthode choisie pour le calcul de la distance : la plus précise (Havershine)
+Mise en place des statistiques descriptives du set de données. 
+\section{Remarques/Questions}
+Quelle est la meilleure méthode de calcul pour la médiane ? 
+Choix entre :
+\begin{itemize}
+  \item un quick sort des données puis sélection de la médiane 
+  \item un quick select de la médiane 
+  \item un introselect
+  \itme une amélioration du quick select avec la médiane des médiane 
+\end{itemize}
+
+\section{Décisions}
+Envoi des compte-rendus sur le GIT en plus du Trello.
+
+\section{Actions à suivre/ Todo list}
+
+\begin{tabular}{|C{5cm}|C{3cm}|C{3cm}|}
+\hline \rowcolor{lightgray} Description & Responsable & Délai \\
+\hline  Fin de l'étape 3 & Toute l'équipe projet  & 5 Décembre  \\
+\hline 
+Mise en place de l'étape 4 & Toute l'équipe projet  & 11 Décembre \\
+\hline
+\end{tabular}
+
+\paragraph{Date de la prochaine réunion}
+11 Décembre 2018
+\end{document}
