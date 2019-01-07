@@ -17,3 +17,6 @@ assemblyMergeStrategy in assembly := {
     oldStrategy(x)
 }
 
+enablePlugins(DockerPlugin)
+
+dockerAutoPackageJavaApplication()
