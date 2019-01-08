@@ -133,6 +133,7 @@ class utils {
   }
 
   def readImage(filename: String): BufferedImage = {
+    println(getClass.getResource("/"+ filename),filename)
     ImageIO.read(getClass.getResource( "/"+filename))
   }
 
@@ -140,7 +141,7 @@ class utils {
     val extension = filename.split("\\.")(1)
     val path = "/Results/" + filename.split("\\.")(0).split("/").dropRight(1).drop(1).mkString("/") + "/"
     val name = filename.split("\\.")(0).split("/").last
-    val jarPath = URLDecoder.decode(getClass().getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8")
+    val jarPath = URLDecoder.decode(getClass.getProtectionDomain.getCodeSource.getLocation.getPath, "UTF-8")
     val parent=new File(jarPath.substring(0, jarPath.lastIndexOf("/")) +path)
     parent.mkdirs()
     val file=new File(parent,name + "_result." + extension)

@@ -17,6 +17,7 @@ object Main {
     /*density.loadCSV("populations.csv")
     println(util.showAllCountries(airports).mkString("\n"))
     println(util.countriesCodeTable())*/
+    conformal.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
     val gui = new func.gui
     gui.top.visible=true
     /*
