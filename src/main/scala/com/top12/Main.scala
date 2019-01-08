@@ -3,7 +3,7 @@ package top12
 object Main{
   def main(args:Array[String]) = {
 
-    val loadAirport = new func.loadAirports
+    val loadAirport = new top12.func.loadAirports
     val distance = new func.distanceAirports
     val stats = new func.statsAirports
     val util = new utils.utils
@@ -17,7 +17,10 @@ object Main{
     /*density.loadCSV("populations.csv")
     println(util.showAllCountries(airports).mkString("\n"))
     println(util.countriesCodeTable())*/
+    val gui=new func.gui
+
 /*
+
     conformal.whichProjection("all", "mercator.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
     conformal.whichProjection("all", "lambertConic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
     conformal.whichProjection("all", "mercatorTransverse.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))

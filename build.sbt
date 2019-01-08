@@ -6,7 +6,7 @@ lazy val commonSettings = Seq(
   mainClass in assembly := Some("com.top12.Main"),
   assemblyJarName in assembly := "mapProjection.jar",
 )
-
+libraryDependencies += "org.scala-lang" % "scala-swing" % "2.10+"
 assemblyMergeStrategy in assembly := {
   case PathList("javax", "servlet", xs @ _*)         => MergeStrategy.first
   case PathList(ps @ _*) if ps.last endsWith ".html" => MergeStrategy.first
