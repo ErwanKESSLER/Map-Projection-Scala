@@ -25,7 +25,7 @@
     \label{fig:logo_tncy}
     \ref{fig:logo_tncy}
 \end{figure}
-\title{Projet TOP - Compte-rendu n\,°8}
+\title{Projet TOP - Compte-rendu n\,°9}
 \maketitle
 \vspace*{-1cm}
 
@@ -37,7 +37,7 @@
  & Équipe-projet: Victor Cour,
                   Erwan Kessler,
                   Camille Coué
- & 21 Décembre 2018/165h/3h\\
+ & 08 Janvier 2019/165h/2h\\
   \hline
 \end{tabular}
 
@@ -45,44 +45,27 @@
 \section{Ordre du jour}
 
 \begin{itemize}
-  \item fin de l'étape 6 
-  \item fin de l'étape 7 (projections conforme et équivalente) 
+  \item etape 8
+  \item compilation
+  \item post mortem
 \end{itemize}
 
 \section{Informations échangées}
-Pour chaque projection, les latitudes et longitudes doivent être transformées en coordonnées en fonction de la projection. Mais lors des différentes transformations, il faut utiliser les coordonnées x et y des aéroports préalablement transformées linéairement.
-Il faut donc procéder en deux étapes : 
-\begin{itemize}
-  \item trouver les formules des transformations linéaires pour chaque projection
-  \item mettre en place les projections
-\end{itemize}
+ Mise en place de l'etape 8 pour les projections cylindriques et coniques par la méthode dite de raytracing a travers une geodesie. Necessité d'un datum geodesique: utilisation de celui de D3.js/geo. utilisation de sbt pour construire le projet.
 
 \section{Décisions}
-Les projections conformes qui vont être mises en place dans un premier temps sont : 
-\begin{itemize}
-  \item Mercator 
-  \item Lambert conique 
-  \item Mercator transverse 
-\end{itemize}
+ Mise en place d'un sbt assembly pour generer un jar. Mise en place d'une petite interface, création de la geodesie pour le centrage et la generation de n'importe quelle image.
 
-Au niveau des projections équivalentes, les suivantes vont être mises en place dans un premiers temps :
-\begin{itemize}
-  \item Lambert cylindrique 
-  \item Gall-Peter
-  \item Behrmann 
-\end{itemize}
+
 
 \section{Actions à suivre/ Todo list}
 
 \begin{tabular}{|C{5cm}|C{3cm}|C{3cm}|}
 \hline \rowcolor{lightgray} Description & Responsable & Délai \\
-\hline  Fin de l'étape 7 & Toute l'équipe projet  & 25 Décembre  \\
+\hline  Post mortem, reunion de concertation pour la soutenance & Toute l'équipe projet  & 13 Janvier  \\
 \hline 
-Mise en place de l'étape 8 & Toute l'équipe projet  & 28 Décembre \\
-\hline
 \end{tabular}
 
 \paragraph{Date de la prochaine réunion}
-08 Janvier 2019
+13 Janvier 2019
 \end{document}
-
