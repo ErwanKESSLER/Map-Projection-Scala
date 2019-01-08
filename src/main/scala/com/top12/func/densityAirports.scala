@@ -1,4 +1,4 @@
-package func
+package com.top12.func
 
 import scala.io.Source
 import scala.collection.mutable
@@ -43,7 +43,7 @@ class densityAirports {
     })
     // On charge les donnees correspondantes a la metrique
     val h = loadCsv(filename)
-    val util = new utils.utils
+    val util =new com.top12.utils.utils
     // On appelle une méthode pour convertir les noms non officiels de pays en alpha3
     val conversionPaysversAlpha3 = util.notOfficialNametoAlpha3(source)
     for (paysEtnombre <- hashMapAirports) {

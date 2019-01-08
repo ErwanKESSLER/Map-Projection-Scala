@@ -1,4 +1,4 @@
-package func
+package com.top12.func
 
 import scala.collection.mutable
 import scala.math._

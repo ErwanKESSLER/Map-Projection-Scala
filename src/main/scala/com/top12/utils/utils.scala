@@ -1,4 +1,4 @@
-package utils
+package com.top12.utils
 
 import java.awt.image.{BufferedImage, DataBufferByte}
 import java.io.File

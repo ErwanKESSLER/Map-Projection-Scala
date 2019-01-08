@@ -1,4 +1,4 @@
-package func
+package com.top12.func
 
 import math._
 import scala.util.Random

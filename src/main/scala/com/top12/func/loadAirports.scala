@@ -1,4 +1,4 @@
-package func
+package com.top12.func
 
 import scala.io.Source
 import java.nio.charset.Charset

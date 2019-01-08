@@ -1,4 +1,4 @@
-package func
+package com.top12.func
 
 import java.awt.image.BufferedImage
 import scala.math._
@@ -24,7 +24,7 @@ class equirectangularProjection {
   }
 
   def modifyImage(filename: String, source: Array[(Int, String, String, String, Double, Double)]): Unit = {
-    val util = new utils.utils
+    val util =new com.top12.utils.utils
     var img = util.readImage(filename)
     val (width, height): (Int, Int) = (img.getWidth, img.getHeight)
     source.foreach(el => {
@@ -35,7 +35,7 @@ class equirectangularProjection {
   }
 
   def showTrace(filename: String): Unit = {
-    val util = new utils.utils
+    val util =new com.top12.utils.utils
     var img = util.readImage(filename)
     val (width, height): (Int, Int) = (img.getWidth, img.getHeight)
     for (i <- -180 to 180) {
@@ -48,7 +48,7 @@ class equirectangularProjection {
   }
 
   def addPoint(filename: String, lat: Double, lon: Double): Unit = {
-    val util = new utils.utils
+    val util =new com.top12.utils.utils
     var img = util.readImage(filename)
     val (width, height): (Int, Int) = (img.getWidth, img.getHeight)
     val (x, y): (Int, Int) = transformToXY(lat, lon, width, height)

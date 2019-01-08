@@ -1,12 +1,12 @@
-package top12
+package com.top12
 
-object Main{
-  def main(args:Array[String]) = {
+object Main {
+  def main(args: Array[String]) = {
 
-    val loadAirport = new top12.func.loadAirports
+    val loadAirport = new func.loadAirports
     val distance = new func.distanceAirports
     val stats = new func.statsAirports
-    val util = new utils.utils
+    val util = new com.top12.utils.utils
     val restriction = new func.restrictArea
     val density = new func.densityAirports
     val equidistant = new func.equirectangularProjection
@@ -17,22 +17,22 @@ object Main{
     /*density.loadCSV("populations.csv")
     println(util.showAllCountries(airports).mkString("\n"))
     println(util.countriesCodeTable())*/
-    val gui=new func.gui
+    val gui = new func.gui
+    gui.main.visible = true
+    /*
 
-/*
+        conformal.whichProjection("all", "mercator.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "lambertConic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "mercatorTransverse.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "stereographic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "peirceQuincuncial.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "adamshemisphere1.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "adamshemisphere2.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "adamsWIS1.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
+        conformal.whichProjection("all", "adamsWIS2.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
 
-    conformal.whichProjection("all", "mercator.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conformal.whichProjection("all", "lambertConic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conformal.whichProjection("all", "mercatorTransverse.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conformal.whichProjection("all", "stereographic.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conformal.whichProjection("all", "peirceQuincuncial.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conformal.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conformal.whichProjection("all", "adamshemisphere1.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conformal.whichProjection("all", "adamshemisphere2.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conformal.whichProjection("all", "adamsWIS1.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
-    conformal.whichProjection("all", "adamsWIS2.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
-
-*/
+    */
     equalArea.whichProjection("all", "lambertCylindric.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
     equalArea.whichProjection("all", "behrmann.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
     equalArea.whichProjection("all", "eckert1.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
@@ -47,9 +47,9 @@ object Main{
     equalArea.whichProjection("all", "balthasart.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
     equalArea.whichProjection("all", "hoboDyer.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
     equalArea.whichProjection("all", "toblersWIS.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
-/*
-    equalArea.whichProjection("all", "equalEarth.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-    equalArea.whichProjection("all", "goodeHomolosine.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))*/
+    /*
+        equalArea.whichProjection("all", "equalEarth.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+        equalArea.whichProjection("all", "goodeHomolosine.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))*/
     /* (48.9666,2.333) //PARIS
      (16.55,18.505) //KABOUL
      (40.71,-74.00) //WISCONSIN
