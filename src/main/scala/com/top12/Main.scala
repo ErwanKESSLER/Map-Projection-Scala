@@ -18,7 +18,7 @@ object Main {
     println(util.showAllCountries(airports).mkString("\n"))
     println(util.countriesCodeTable())*/
     val gui = new func.gui
-    gui.main.visible = true
+    gui.top.visible=true
     /*
 
         conformal.whichProjection("all", "mercator.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
@@ -32,7 +32,7 @@ object Main {
         conformal.whichProjection("all", "adamsWIS1.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
         conformal.whichProjection("all", "adamsWIS2.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
 
-    */
+    *//*
     equalArea.whichProjection("all", "lambertCylindric.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
     equalArea.whichProjection("all", "behrmann.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
     equalArea.whichProjection("all", "eckert1.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
@@ -47,7 +47,7 @@ object Main {
     equalArea.whichProjection("all", "balthasart.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
     equalArea.whichProjection("all", "hoboDyer.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
     equalArea.whichProjection("all", "toblersWIS.jpg", "dot", util.RGBtoHexa(255, 0, 0), Left(airports))
-    /*
+    *//*
         equalArea.whichProjection("all", "equalEarth.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
         equalArea.whichProjection("all", "goodeHomolosine.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))*/
     /* (48.9666,2.333) //PARIS
