@@ -1,11 +1,9 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
-\usepackage{color}
 \usepackage{float}
 \usepackage{geometry}
-\definecolor{orange}{rgb}{0.99,0.50,0.07}
-\definecolor{color2}{rgb}{0.0,0.0,0.0}
+
 
 
 
@@ -17,8 +15,8 @@
 \label{fig:logo_tncy}
 \end{figure}
 
-\title{\bf \color{orange} RAPPORT de Projet}
-\author{\color{color2} Camille COUÉ , Victor COUR , Erwan KESSLER}
+\title{\bf RAPPORT de Projet}
+\author{ Camille COUÉ , Victor COUR , Erwan KESSLER}
 \date{\it December 2018}
 
 \begin{document}
@@ -26,9 +24,8 @@
 \maketitle
 
 
-\title{\bf \Large \color{orange} Sommaire}
+\title{\bf \Large Sommaire}
 \begin{itemize}
-    \color{color2}
     \item Introduction
     \item L'organisation pour répartir le travail 
     \item Gestion des étapes
@@ -36,22 +33,23 @@
     \item Ce que le projet a apporté à chacun
     \item Remerciements
     \item Sources
+    \item État de l'art
 \end{itemize}
-\color{orange} \section { Introduction }
+\section { Introduction }
 
-\color{color2}
+
 
 Le but du projet est de créer un code qui permettrait de choisir la représentation (parmi celles qui sont proposées) où l’on placerait les différents aéroports du monde que le site openflight.org a rescencé en 2017. On pourrait aussi choisir de centrer cette représentation sur une zone souhaitée.
 
 \vspace{1\baselineskip}
 
-Nous avons profité du lendemain de l’annonce du projet pour nous donner rendez-vous dans un restaurant afin de faire connaissance. Après avoir défini l’heure de notre première réunion pour fixer l’organisation du projet , Erwan nous a suggérer de créer un Trello (plateforme visant à la gestion de version de projet) en attendant que la plateforme Git soit configurée.
+Nous avons profité du lendemain de l’annonce du projet pour nous donner rendez-vous dans un restaurant afin de faire connaissance. Après avoir défini l’heure de notre première réunion pour fixer l’organisation du projet , Erwan nous a suggérer de créer un Trello (plateforme de gestion de projet) en attendant que la plateforme Git soit configurée.
 
 \vspace{1\baselineskip}
 
-\color{orange} \section{ L'organisation pour répartir le travail }
 
-\color{color2}
+\section{ L'organisation pour répartir le travail }
+
 
 Nous avons décidé pour hiérarchiser notre équipe de définir un chef de projet et nous avons convenu que Erwan remplirait ce poste.
 Ainsi, Camille et Victor joueront les rôles de secrétaires pour rédiger les comptes rendus à tour de rôle. (Listes des comptes rendus en annexe)
@@ -64,7 +62,7 @@ La première étape pour se répartir le travail a été de prévoir la durée d
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.3]{gantt.png}
+    \includegraphics[scale=0.4]{gantt.png}
     \caption{Gantt prévisionnel}
     \label{fig:gantt}
 \end{figure}
@@ -93,11 +91,11 @@ Enfin, il ne restait plus qu’à prévoir les risques possibles dans le déroul
 
 \vspace{3\baselineskip}
 
-\color{orange} \section{ Gestion des étapes}
+\section{ Gestion des étapes}
 
 
 \subsection{ Étape 1} 
-\color{color2}
+
 
 \textbf{Problème rencontré :} \newline
 Au premier abord, nous voulions lire le fichier ligne par ligne, et séparer les éléments de ces lignes par des virgules, cependant, il existait des chaînes de caractères possédant des virgules, empêchant la bonne séparation des éléments.
@@ -108,9 +106,9 @@ Au premier abord, nous voulions lire le fichier ligne par ligne, et séparer les
 Suite au problème de séparation des éléments ligne par ligne, il a fallu trouver une expression régulière permettant d’écarter ce problème de virgules en donnant une séparation avec “,” ou “,\textbackslash{} ou encore “,[0-9] qui permettrait de gérer les conflits rencontrés avec les chaînes de caractères possédant des virgules.
 
 
-\color{orange}
+
 \subsection{Étape 2} 
-\color{color2}
+
 
 \textbf{Problème rencontré :} \newline
 Plusieurs calculs permettant de mesurer une distance existent, l’objectif était de sélectionner la méthode donnant la distance la plus précise possible mais aussi la moins coûteuse en calcul.
@@ -120,9 +118,9 @@ Plusieurs calculs permettant de mesurer une distance existent, l’objectif éta
 \noindent{\textbf{Solution :}} \newline
 Nous avons alors implémenter plusieurs des méthodes que nous avions trouvées en nous documentant. En testant sur nos données, nous avons remarqué que la méthode d'Harversine était la plus rapide et en plus, la plus précise. Nous avons donc choisi de l'utiliser dans la suite de notre travail. 
 
-\color{orange}
+
 \subsection{Étape 3} 
-\color{color2}
+
 
 \textbf{Problème rencontré :} \newline
 Dans les statistiques, plusieurs méthodes permettaient de calculer la médiane grâce à notre structure de données. Il fallait donc, comme dans l'étape précédante, choisir la "bonne" méthode.
@@ -132,15 +130,15 @@ Dans les statistiques, plusieurs méthodes permettaient de calculer la médiane 
 \noindent{\textbf{Solution :}} \newline
 Ici aussi nous avons selectionné plusieurs méthodes et ensuite testé sur nos données. Nous avons choisi dans un premier temps d'utiliser la fonction .sorted pour trier le tableau, pour ensuite prendre l'élément au milieu (la médiane). Cependant, nous avons cherché pour voir s'il y avait une meilleure méthode que le .sorted, et Erwan a suggeré d'utiliser la méthode du quick select pour trier les données. Il est avéré qu'elle était plus rapide que .sorted.
 
-\color{orange}
+
 \subsection{Étape 4} 
-\color{color2}
+
 
 Pas de problème particulier sur cette étape.
 
-\color{orange}
+
 \subsection{Étape 5}
-\color{color2}
+
 
 \textbf{Problème rencontré :} \newline
  Nous avons convenu au départ de compter le nombre d'aéroports dans chaque pays en parcourant notre tableau et en mettant ce résultat dans un autre tableau (avec pour chaque case du tableau un pays lui étant associé). Cependant, il était compliqué d'attribuer un nombre pour chaque pays : la liste des identifiants de "airports.dat" n'étant pas des nombres consécutifs à chaque fois... 
@@ -151,9 +149,9 @@ Pas de problème particulier sur cette étape.
 Nous avons décidé d'utiliser les HashMap de la bibliothèque scala.collection.mutable car les HashMap permettent de créer un moyen plus pratique pour accéder aux données que l'on souhaite avoir sous la main. Il faut donc déjà parcourir une fois notre tableau de données pour créer cette HashMap, cependant on accède aux éléments avec une complexité en \textit{O}(1).
 
 \vspace{1\baselineskip}
-\color{orange}
+
 \subsection{Étape 6} 
-\color{color2}
+
 
 \textbf{Problème rencontré :} \newline
 L'image wrapper ne fonctionnait pas sur notre version de scala (2.12.7) et les versions supportées étaient "2.9.2", "2.10.6" et "2.11.7".
@@ -161,14 +159,14 @@ L'image wrapper ne fonctionnait pas sur notre version de scala (2.12.7) et les v
 \vspace{1\baselineskip}
 
 \noindent{\textbf{Solution :}} \newline
-Pour régler ce problème de version pour l'image wrapper nous avons décider de regarder sur GitHub pour trouver une version adéquate. (Lien dans la partie Sources)
+Pour régler ce problème de version pour l'image wrapper nous avons décider de regarder sur GitHub pour trouver une version adéquate. [2]
 
-\color{orange}
+
 \subsection{Étape 7}
-\color{color2}
+
 
 \textbf{Problème rencontré :} \newline
-Après s'être documenté sur les projections conformes et équivalentes, il fallait transformer un couple (latitude,longitude) en (x,y) avec (x,y) les coordonnées dans la projection voulue. Cependant nous avons remarqué qu'il fallait faire une transformation linéaire sur ces coordonnées pour les placer au bon endroit dans notre image bitmap. Comment trouver ces transformations linéaires?
+Après s'être documenté sur les projections conformes et équivalentes [1], il fallait transformer un couple (latitude,longitude) en (x,y) avec (x,y) les coordonnées dans la projection voulue. Cependant nous avons remarqué qu'il fallait faire une transformation linéaire sur ces coordonnées pour les placer au bon endroit dans notre image bitmap. Comment trouver ces transformations linéaires?
 
 \vspace{1\baselineskip}
 \noindent{\textbf{Solution :}}
@@ -176,44 +174,437 @@ Après s'être documenté sur les projections conformes et équivalentes, il fal
 
 
 
-\color{orange} \section{ Production finale : Étape 8}
-\color{color2}
+ \section{ Production finale : Étape 8}
 
-\color{orange} \section{ Ce que le projet a apporté à chacun}
-\color{color2}
 
-Voici tout d'abord le tableau des heures passées sur le projet :
+ \section{ Ce que le projet a apporté à chacun}
+
+%Ajout des tableaux de post mortem et ensuite la table des heures
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{}
+    \includegraphics[scale=0.5]{TableHeures.png}
     \caption{Table des heures de travail}
     \label{fig:tableheures}
 \end{figure}
 
 
-\color{orange} \section{ Remerciements}
-\color{color2}
+\section{ Remerciements}
+
 
 \begin{itemize}
-    \color{color2}
     \item Nous souhaitons remercier l’ensemble de l’équipe pédagogique de Telecom Nancy pour nous avoir enseigné les méthodes et outils indispensable à la réalisation de notre projet.
     \item Plus particulièrement Mr DA SILVA (responsable du projet) et Mme HEURTEL ainsi que Rémi BACHELET pour la gestion de projet.
     \item Nous remercions également Telecom Nancy, pour avoir mis à notre disposition les infrastructures et le matériel informatique nécessaires au projet.
     \end{itemize}
 
-\color{orange} \section{ Sources }
-\color{color2}
+\section{ Sources }
+
 
 \begin{itemize}
-    \color{color2}
-    \item
-    \item
-    \item
-    \item
-    \item
-    \item
+    \item \textbf{Sources des projections} [1] :
+    \begin{itemize}
+        \item Projections conformes :
+        \begin{itemize}
+            \item https://en.wikipedia.org/wiki/Mercator\_projection
+            \item https://en.wikipedia.org/wiki/Lambert\_conformal\_conic\_projection
+            \item https://en.wikipedia.org/wiki/Transverse\_Mercator\_projection
+            \item https://en.wikipedia.org/wiki/Stereographic\_projection
+            \item https://en.wikipedia.org/wiki/Peirce\_quincuncial\_projection
+            \item https://en.wikipedia.org/wiki/Lee\_Conformal\_Projection
+            \item https://en.wikipedia.org/wiki/Guyou\_hemisphere-in-a-square\_projection
+            \item https://en.wikipedia.org/wiki/Adams\_hemisphere-in-a-square\_projection
+        \end{itemize}
+        \vspace{2\baselineskip}
+        \item Projections équivalentes :
+        \begin{itemize}
+            \item https://en.wikipedia.org/wiki/Lambert\_cylindrical\_equal-area\_projection
+            \item https://en.wikipedia.org/wiki/Behrmann\_projection
+            \item https://en.wikipedia.org/wiki/Eckert\_projection
+            \item https://en.wikipedia.org/wiki/Gall–Peters\_projection
+            \item https://en.wikipedia.org/wiki/Hobo–Dyer\_projection
+            \item https://en.wikipedia.org/wiki/Mollweide\_projection
+            \item https://en.wikipedia.org/wiki/Sinusoidal\_projection
+            \item https://en.wikipedia.org/wiki/Goode\_homolosine\_projection
+            \item https://en.wikipedia.org/wiki/Tobler\_hyperelliptical\_projection
+            \item https://en.wikipedia.org/wiki/Equal\_Earth\_projection
+        \end{itemize}
     \end{itemize}
+    \item \textbf{Image Wrapper} [2] : https://github.com/tncytop/top-roaddetection?fbclid=IwAR36FJKJONnHDibsnBvIsHB53R1sOlaTBIlAwqijN0JS7-KgKKlp\_CkiqD8
+    \item 
+    \item 
+    \item 
+    \item 
+\end{itemize}
 
+\vspace{1\baselineskip}
+\section{ État de l'art}
+
+\textbf{Définition :} \newline
+
+Projection cartographique : Représentation
+d'une surface modèle (sphère ou ellipsoïde) sur un plan. \newline
+
+\textbf{Type de projections :}
+\begin{itemize}
+    \item \underline{Cylindrique :}
+        \begin{itemize}
+            In standard presentation, these map regularly-spaced meridians to equally spaced 
+            vertical lines, and parallels to horizontal lines.
+        \end{itemize}
+    \item \underline{Pseudocylindrique :}
+        \begin{itemize} In standard presentation, these map the central meridian and parallels as straight lines. 
+        Other meridians are curves (or possibly straight from pole to equator), regularly spaced 
+        along parallels.
+        \end{itemize}
+    \item \underline{Conique :}
+        \begin{itemize} In standard presentation, conic (or conical) projections map meridians as straight lines, 
+        and parallels as arcs of circles.
+        \end{itemize}
+    \item \underline{Pseudoconique :}
+        \begin{itemize} In standard presentation, pseudoconical projections represent the central meridian as a 
+        straight line, other mer
+        idians as complex curves, and parallels as circular arcs.
+        \end{itemize}
+    \item \underline{Azimutale :}
+        \begin{itemize} In standard presentation, azimuthal projections map meridians as straight lines and 
+        parallels as complete, concentric circles. They are radially symmetrical. In any 
+        presentation (or aspect), they preserve directions from the center point. This means great 
+        circles through the central point are represented by straight lines on the map.
+        \end{itemize}
+    \item \underline{Pseudoazimutale :}
+        \begin{itemize} In standard presentation, pseudoazimuthal projections map the equator
+        and central 
+        meridian to perpendicular, intersecting straight lines. They map parallels to complex 
+        curves bowing away from the equator, and meridians to complex curves bowing in toward 
+        the central meridian. Listed here after pseudocylindrical as generally 
+        similar to them in 
+        shape and purpose.
+        \end{itemize}
+\end{itemize}
+
+\vspace{1\baselineskip}
+
+Other
+Typically calculated from formula, and not based on a particular projection
+
+\begin{itemize}
+    \item \underline{Polyhédrique :}
+        \begin{itemize} Polyhedral maps can be folded up into a polyhedral approximation to the sphere, using 
+        particular projection to map each 
+        face with low distortion
+        \end{itemize}
+\end{itemize}
+
+
+\textbf{Propriétés :}
+
+\begin{itemize}
+    \item \underline{Conforme :}
+        \begin{itemize} Preserves angles locally, implying that local shapes are not 
+        distorted and that local scale 
+        is constant in all directions from any chosen point.
+        \end{itemize}
+    \item \underline{Aires égales :}
+        \begin{itemize}Area measure is conserved everywhere.
+        \end{itemize}
+    \item \underline{Compromise :}
+        \begin{itemize}Neither conformal nor equal
+        area, but a balance intended to reduce overall distortion.
+        \end{itemize}
+    \item \underline{Equidistante :}
+        \begin{itemize} All 
+        distances from one (or two) points are correct. Other equidistant properties are 
+        mentioned in the notes.
+        \end{itemize}
+    \item \underline{Gnomonique :}
+        \begin{itemize} All great circles are straight lines.
+        \end{itemize}
+    \item \underline{Retroazimutale :}
+        \begin{itemize} Direction to a fixed location B (by the shortest route) corresponds to the direction on t
+        he 
+        map from A to B.
+        \end{itemize}
+\end{itemize}
+
+
+Il en existe de plusieurs types
+: 
+-
+Cylindrique
+: On projette l'ellipsoïde sur un cylindre qui l'englobe. Celui
+-
+ci peut être tangent au 
+grand cercle, ou sécant en deux cercles. Puis on déroule le cylindre pour obtenir la carte.
+-
+Coniqu
+e
+: On projette l'ellipsoïde sur une surface conique tangente à une ellipse ou sécant en deux 
+ellipses. Puis on déroule le cône pour obtenir la carte.
+-
+Azimutale
+: On projette l'ellipsoïde sur un plan tangent en un point ou sécant en un cercle
+-
+Stéréographique
+: Le point de perspective est placé sur le sphéroïde ou l'ellipsoïde à l'opposé du 
+plan de projection. Le plan de projection, qui sépare les deux
+hémisphères
+nord et sud de la sphère, 
+est appelé plan équatorial
+-
+Gnomonique
+: Le point de per
+spective est au centre du sphéroïde. La projection gnomonique 
+conserve les
+orthodromies, puisque tout arc de grand cercle est projeté en un segment.
+-
+Orthographique
+: Le point de perspective est à une distance
+infinie. On perçoit 
+un
+hémisphère
+du
+globe
+com
+me si on était situé dans l'espace. Les
+surfaces
+et formes 
+sont
+déformées, mais les distances sont préservées sur des lignes parallèles.
+-
+Autres
+: On peut mélanger differentes projections, utiliser des proprietes mathematiques de 
+certaines fonctions comme 
+des sinusoides ou encore effectuer des decoupages dans une projection 
+afin de la rendre la plus fidele possible.
+Elles peuvent avoir plusieurs propriétés
+:
+-
+équivalente
+: conserve localement les surfaces
+-
+conforme
+: conserve localement les angles, donc 
+les formes
+;
+-
+equidistante
+:
+conserver les distances sur les méridiens.
+-
+avec compromis
+: on ne conserve plus de metrique mais on essaye de reduire les distorsions au 
+maximum
+•
+Area preserving projection 
+–
+equal area or equivalent projection
+•
+Shape 
+preserving 
+–
+conformal, orthomorphic
+•
+Direction preserving 
+–
+conformal, orthomorphic, azimuthal (only from a the central 
+point)
+•
+Distance preserving 
+–
+equidistant (shows the true distance between one or two 
+points and every other point)
+https://gisgeography.com/wp
+-
+content/uploads/2016/12/North
+-
+America
+-
+Lambert
+-
+Conformal
+-
+Conic
+-
+Projection
+-
+425x233.png
+https://gisgeography.com/wp
+-
+content/uploads/2016/12/Miller
+-
+Cylindrical
+-
+Projection
+-
+425x233.png
+https://gisgeography.com/wp
+-
+content/uploads/2016/12/Stereographic
+-
+Projection
+-
+425x233.png
+Equivalente et conforme s’excluent mutuellement
+Les Metriques sont la surface, la forme, les angles , la distance, l’echelle
+Toute projection doiv
+ent s’appuyer sur un datum
+geodesique pour cela il existent plusieur ellipsoides 
+courantes
+:
+•
+Clarke 1866
+•
+Clarke 1880 anglais
+•
+Clarke 1880 IGN
+•
+Bessel
+•
+Airy
+•
+Hayford 1909
+•
+International 1924
+•
+WGS 66
+•
+International 1967
+•
+WGS 72
+•
+IAG
+-
+GRS80
+•
+WGS 84
+•
+WGS 84
+, 72, 64 and 60 of the
+World Geodetic System
+•
+NAD83
+, the
+North American Datum
+which is very similar to WGS 84
+•
+NAD27
+, the older
+North American Datum
+, of which NAD83 was basically a 
+readjustment
+[1]
+•
+OSGB36
+of the
+Ordnance Survey
+of
+Great Britain
+•
+ETRS89
+, the European Datum, related to
+ITRS
+•
+ED50
+, the older European Datum
+•
+GDA94
+, the Australian Datum
+[7]
+•
+JGD2011
+, the Japanese Datum, adjusted for changes caused by
+2011 Tōhoku 
+earthquake and tsunami
+[8]
+•
+Tokyo97
+, the older Japanese Datum
+[9]
+•
+KGD2002
+, the Korean Datum
+[10]
+•
+TWD67
+and
+TWD97
+, different datum currently used in Taiwan.
+[11]
+•
+BJS54
+and
+XAS80
+, o
+ld geodetic datum used in China
+[12]
+•
+GCJ
+-
+02
+and
+BD
+-
+09
+, Chinese encrypted geodetic datum.
+•
+PZ
+-
+90.11
+, the current geodetic reference 
+used by
+GLONASS
+[13]
+•
+GTRF
+, the geodetic 
+reference used by
+Galileo
+[14]
+•
+CGCS2000
+, or
+CGS
+-
+2000
+, the geodet
+ic reference used by
+BeiDou Navigation Satellite 
+System
+[14]
+[15]
+[16]
+•
+International Terrestrial Reference Frames
+(ITRF88, 89, 90, 91, 92, 93, 94, 96, 97, 2000, 
+2005, 2008, 2014), different real
+izations of the
+ITRS
+.
+[17]
+[18]
+•
+Hong Kong Principal Datum
+, 
+a vertical datum used in Hong Kong
+Google maps utilize la projection d
+e mercator
+
+
+
+Librairie existante permettant d’effectuer des projections cartographiques:
+
+C/C++ : https://proj4.org/
+
+Java : https://github.com/OSUCartography/JMapProjLib et https://github.com/orbisgis/cts
+
+JavaScript : https://github.com/d3/d3-geo-projection/ et http://proj4js.org/
+
+Python : https://github.com/jswhit/pyproj, https://github.com/geo-data/python-epsg et https://github.com/SciTools/cartopy
+
+Go: https://github.com/pebbe/go-proj-4 ethttps://github.com/omniscale/go-proj
+
+Rust : https://github.com/georust/rust-proj
+https://gist.github.com/mbostock/29cddc0006f8b98eff12e60dd08f59a7/raw/373b59870a3cc451ec62c4998082079cf27eb21e/all.gif
 
 \end{document}
