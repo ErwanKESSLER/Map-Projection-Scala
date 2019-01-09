@@ -1,0 +1,411 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.1.9)  9 JAN 2019 16:09
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**RapportProjet.tex
+(./RapportProjet.tex
+LaTeX2e <2018-04-01> patch level 2
+Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2018/04/06 v1.3b Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count88
+\float@exts=\toks17
+\float@box=\box26
+\@float@everytoks=\toks18
+\@floatcapt=\box27
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2018/03/24 v5.7 Page Geometry
+
+(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+)
+(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(/usr/local/texlive/2018/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count89
+\Gm@cntv=\count90
+\c@Gm@tempcnt=\count91
+\Gm@bindingoffset=\dimen105
+\Gm@wd@mp=\dimen106
+\Gm@odd@mp=\dimen107
+\Gm@even@mp=\dimen108
+\Gm@layoutwidth=\dimen109
+\Gm@layoutheight=\dimen110
+\Gm@layouthoffset=\dimen111
+\Gm@layoutvoffset=\dimen112
+\Gm@dimlist=\toks19
+)
+(./RapportProjet.aux)
+\openout1 = `RapportProjet.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+
+(/usr/local/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count92
+\scratchdimen=\dimen113
+\scratchbox=\box28
+\nofMPsegments=\count93
+\nofMParguments=\count94
+\everyMPshowfont=\toks20
+\MPscratchCnt=\count95
+\MPscratchDim=\dimen114
+\MPnumerator=\count96
+\makeMPintoPDFobject=\count97
+\everyMPtoPDFconversion=\toks21
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+
+(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)))
+(/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+
+(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2018/01/30 v0.27 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(28.45274pt, 557.38951pt, 28.45274pt)
+* v-part:(T,H,B)=(85.35826pt, 652.70622pt, 56.9055pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=557.38951pt
+* \textheight=652.70622pt
+* \oddsidemargin=-43.81725pt
+* \evensidemargin=-43.81725pt
+* \topmargin=-23.91173pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+<logo_TNCY.png, id=1, 2007.5pt x 914.41624pt>
+File: logo_TNCY.png Graphic file (type png)
+<use logo_TNCY.png>
+Package pdftex.def Info: logo_TNCY.png  used on input line 15.
+(pdftex.def)             Requested size: 200.76175pt x 91.44698pt.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 23.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 23.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 23.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 28.
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 28.
+<trello.png, id=3, 2055.68pt x 1370.11874pt>
+File: trello.png Graphic file (type png)
+<use trello.png>
+Package pdftex.def Info: trello.png  used on input line 49.
+(pdftex.def)             Requested size: 411.12872pt x 274.01889pt.
+ [1
+
+{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./logo_
+TNCY.png>]
+<gantt.png, id=15, 1156.32pt x 518.53725pt>
+File: gantt.png Graphic file (type png)
+<use gantt.png>
+Package pdftex.def Info: gantt.png  used on input line 71.
+(pdftex.def)             Requested size: 462.5198pt x 207.41122pt.
+
+[2 <./trello.png>]
+<raci.png, id=20, 742.57425pt x 327.02174pt>
+File: raci.png Graphic file (type png)
+<use raci.png>
+Package pdftex.def Info: raci.png  used on input line 82.
+(pdftex.def)             Requested size: 297.02443pt x 130.80637pt.
+ [3 <./gantt.png> <./raci.png>]
+<swot.png, id=26, 887.11424pt x 249.3315pt>
+File: swot.png Graphic file (type png)
+<use swot.png>
+Package pdftex.def Info: swot.png  used on input line 93.
+(pdftex.def)             Requested size: 443.55605pt x 124.66544pt.
+ [4 <./swot.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 178--179
+
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 187.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 187.
+
+Underfull \hbox (badness 10000) in paragraph at lines 186--188
+
+ []
+
+<etape1comp.png, id=32, 362.35374pt x 22.0825pt>
+File: etape1comp.png Graphic file (type png)
+<use etape1comp.png>
+Package pdftex.def Info: etape1comp.png  used on input line 191.
+(pdftex.def)             Requested size: 181.17642pt x 11.04121pt.
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+
+ []
+
+<etape2comp.png, id=37, 740.7675pt x 112.42pt>
+File: etape2comp.png Graphic file (type png)
+<use etape2comp.png>
+Package pdftex.def Info: etape2comp.png  used on input line 205.
+(pdftex.def)             Requested size: 370.38284pt x 56.20985pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 211--212
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 213--214
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--218
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 219--221
+
+ []
+
+[6 <./etape1comp.png> <./etape2comp.png>]
+<etape6.png, id=45, 1937.2375pt x 971.63pt>
+File: etape6.png Graphic file (type png)
+<use etape6.png>
+Package pdftex.def Info: etape6.png  used on input line 237.
+(pdftex.def)             Requested size: 581.17574pt x 291.49126pt.
+
+Overfull \hbox (23.78622pt too wide) in paragraph at lines 237--238
+ [][] 
+ []
+
+<peirceQuincuncial_result.jpg, id=46, 2065.7175pt x 2065.7175pt>
+File: peirceQuincuncial_result.jpg Graphic file (type jpg)
+<use peirceQuincuncial_result.jpg>
+Package pdftex.def Info: peirceQuincuncial_result.jpg  used on input line 246.
+(pdftex.def)             Requested size: 413.13618pt x 413.13618pt.
+[7 <./etape6.png>]
+<guyou_result.jpg, id=52, 2065.7175pt x 1039.885pt>
+File: guyou_result.jpg Graphic file (type jpg)
+<use guyou_result.jpg>
+Package pdftex.def Info: guyou_result.jpg  used on input line 253.
+(pdftex.def)             Requested size: 516.42812pt x 259.97061pt.
+ [8 <./peirceQuincuncial_result.jpg>]
+<eckertVI_result.jpg, id=56, 2065.7175pt x 1039.885pt>
+File: eckertVI_result.jpg Graphic file (type jpg)
+<use eckertVI_result.jpg>
+Package pdftex.def Info: eckertVI_result.jpg  used on input line 260.
+(pdftex.def)             Requested size: 516.42812pt x 259.97061pt.
+<Interface.png, id=57, 1447.4075pt x 820.06375pt>
+File: Interface.png Graphic file (type png)
+<use Interface.png>
+Package pdftex.def Info: Interface.png  used on input line 269.
+(pdftex.def)             Requested size: 434.2256pt x 246.02103pt.
+ [9 <./guyou_result.jpg> <./eckertVI_result.jpg>] [10 <./Interface.png (PNG cop
+y)>]
+<TabledesHeures.png, id=64, 877.2775pt x 603.25375pt>
+File: TabledesHeures.png Graphic file (type png)
+<use TabledesHeures.png>
+Package pdftex.def Info: TabledesHeures.png  used on input line 282.
+(pdftex.def)             Requested size: 438.63768pt x 301.62613pt.
+ [11 <./TabledesHeures.png>]
+<CamillePM.png, id=69, 915.42pt x 596.2275pt>
+File: CamillePM.png Graphic file (type png)
+<use CamillePM.png>
+Package pdftex.def Info: CamillePM.png  used on input line 294.
+(pdftex.def)             Requested size: 411.9352pt x 268.2999pt.
+<VictorPM.png, id=70, 914.41624pt x 594.22pt>
+File: VictorPM.png Graphic file (type png)
+<use VictorPM.png>
+Package pdftex.def Info: VictorPM.png  used on input line 302.
+(pdftex.def)             Requested size: 411.4835pt x 267.39653pt.
+ [12 <./CamillePM.png> <./VictorPM.png>]
+<ErwanPM.png, id=76, 915.42pt x 594.22pt>
+File: ErwanPM.png Graphic file (type png)
+<use ErwanPM.png>
+Package pdftex.def Info: ErwanPM.png  used on input line 312.
+(pdftex.def)             Requested size: 411.9352pt x 267.39653pt.
+ [13 <./ErwanPM.png>]
+Overfull \hbox (77.00023pt too wide) in paragraph at lines 360--361
+[]\OT1/cmr/bx/n/10 Image Wrap-per \OT1/cmr/m/n/10 [2] : https://github.com/tncy
+top/top-roaddetection?fbclid=IwAR36FJKJONnHDibsnBvIsHB53R1sOlaTBIlAwqijN0JS7-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 366--367
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 368--371
+
+ []
+
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 445--450
+
+ []
+
+[15]
+Overfull \hbox (24.7507pt too wide) in paragraph at lines 493--494
+[]\OT1/cmr/m/n/10 Python : https://github.com/jswhit/pyproj, https://github.com
+/geo-data/python-epsg et https:// github.com/SciTools/cartopy 
+ []
+
+<projections.png, id=88, 6022.5pt x 8993.6pt>
+File: projections.png Graphic file (type png)
+<use projections.png>
+Package pdftex.def Info: projections.png  used on input line 500.
+(pdftex.def)             Requested size: 361.33441pt x 539.59273pt.
+[16] [17 <./projections.png>] (./RapportProjet.aux) ) 
+Here is how much of TeX's memory you used:
+ 2142 strings out of 492649
+ 31389 string characters out of 6129623
+ 104037 words of memory out of 5000000
+ 5993 multiletter control sequences out of 15000+600000
+ 8895 words of font info for 31 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 41i,7n,25p,502b,236s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2018/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2018/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2018/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2018/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2018/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2018/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2018/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on RapportProjet.pdf (17 pages, 7196821 bytes).
+PDF statistics:
+ 125 PDF objects out of 1000 (max. 8388607)
+ 67 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 86 words of extra memory for PDF output out of 10000 (max. 10000000)
+
