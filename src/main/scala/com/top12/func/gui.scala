@@ -543,9 +543,8 @@ var division:Int=6
           airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
           division=1
         case 3=>
-          airportsTemp=airports
+          airportsTemp=airports.clone()
           airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
-          println(airports2.foreach(el=>el.mkString("\n")))
           division=6
 
       }
