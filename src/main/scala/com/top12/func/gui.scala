@@ -227,9 +227,9 @@ class gui extends SimpleSwingApplication {
           contents += new Label {
             text = "Deux Points"
           }
-          contents += Swing.HStrut(10)
+          contents += Swing.HStrut(5)
           contents += SecondPointButton
-          contents += Swing.HStrut(10)
+          contents += Swing.HStrut(5)
           contents += SecondCheckBox
         }
         contents += new BoxPanel(Orientation.Horizontal) {
@@ -580,7 +580,7 @@ class gui extends SimpleSwingApplication {
           airportsTemp = restriction.byCountry(airports, selectedCountries)
           airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
           division = 1
-           distances = distance.distancesArray(airports)
+           distances = distance.distancesArray(airportsTemp)
           dmnTemp = stats.distanceMin(distances).toString
           dmxTemp = stats.distanceMax(distances).toString
           dmyTemp = stats.distanceMoyenne(distances).toString
@@ -593,7 +593,7 @@ class gui extends SimpleSwingApplication {
             airportsTemp = restriction.byArea(airports, (lon(0).toDouble, lon(1).toDouble), (lat(0).toDouble, lat(1).toDouble))
             airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
             division = 1
-            distances= distance.distancesArray(airports)
+            distances= distance.distancesArray(airportsTemp)
             dmnTemp = stats.distanceMin(distances).toString
             dmxTemp = stats.distanceMax(distances).toString
             dmyTemp = stats.distanceMoyenne(distances).toString
@@ -609,7 +609,7 @@ class gui extends SimpleSwingApplication {
             airportsTemp = restriction.byRadius(airports, (point(0).toDouble, point(1).toDouble), rtemp.toDouble)
             airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
             division = 1
-            distances= distance.distancesArray(airports)
+            distances= distance.distancesArray(airportsTemp)
             dmnTemp = stats.distanceMin(distances).toString
             dmxTemp = stats.distanceMax(distances).toString
             dmyTemp = stats.distanceMoyenne(distances).toString
