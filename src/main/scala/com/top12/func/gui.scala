@@ -24,7 +24,8 @@ class gui extends SimpleSwingApplication {
   val conformal = new com.top12.func.conformalProjections
   val equalArea = new com.top12.func.equalAreaProjections
   val airports: Array[(Int, String, String, String, Double, Double)] = loadAirport.loadAirport(filename = "airports.dat")
-  val airports2: Array[Array[Any]] = airports.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+  var airportsTemp:Array[(Int, String, String, String, Double, Double)]=airports
+  var airports2: Array[Array[Any]] = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
   lazy val distances: Array[Double] = distance.distancesArray(airports)
   val dmn: String = stats.distanceMin(distances).toString
   val dmx: String = stats.distanceMax(distances).toString
@@ -33,8 +34,8 @@ class gui extends SimpleSwingApplication {
   val ect: String = stats.ecartType(distances).toString
   val countries: Array[String] = util.showAllCountries(airports)
   var currentButton: (Button, Int) = _
-  var currentButton1: Int = 0
-  var currentButton2: Int = 1
+  var currentButton1: Int = 1
+  var currentButton2: Int = 2
   var currentButton3: String = "Par Pays"
   var currentCheckBox: CheckBox = _
   var saveCondition: String = ""
@@ -45,7 +46,7 @@ class gui extends SimpleSwingApplication {
   var fileName: String = "Sources/Conformal/guyou.jpg"
   var image: ImagePanel = setImage(fileName)
   var densiteArray: Array[Array[Any]] = _
-
+var division:Int=6
   def top: MainFrame = new MainFrame {
     frame =>
     title = "Map Projection TOP 12"
@@ -89,14 +90,14 @@ class gui extends SimpleSwingApplication {
           airportsList.visible = true
         })
       }
-      val step2: BoxPanel = new BoxPanel(Orientation.Vertical) {
+      var step2: BoxPanel = new BoxPanel(Orientation.Vertical) {
         preferredSize = siz(4).left.get
         val distanceA1: TextArea = new TextArea {
           rows = 1
           lineWrap = true
           wordWrap = true
           editable = false
-          text = "Aéroport 1: " + airports(0)._2
+          text = "Aéroport 1: " + airportsTemp(0)._2
           caret.position = 0
         }
         val distanceA2: TextArea = new TextArea {
@@ -104,7 +105,7 @@ class gui extends SimpleSwingApplication {
           lineWrap = true
           wordWrap = true
           editable = false
-          text = "Aéroport 2: " + airports(1)._2
+          text = "Aéroport 2: " + (if (airportsTemp.length>1) airportsTemp(1)._2  else airportsTemp(0)._2)
           caret.position = 0
         }
         val distanceA1A2: TextArea = new TextArea {
@@ -112,7 +113,8 @@ class gui extends SimpleSwingApplication {
           lineWrap = true
           wordWrap = true
           editable = false
-          text = "Distance (en km) entre aéroport 1 et aéroport 2: " + distance.distanceHaversine(airports(0)._5, airports(1)._5, airports(0)._6, airports(1)._6).toString
+          text = "Distance (en km) entre aéroport 1 et aéroport 2: " +
+            distance.distanceHaversine(airportsTemp(0)._5,if (airportsTemp.length>1) airportsTemp(1)._5  else airportsTemp(0)._5, airportsTemp(0)._6, if (airportsTemp.length>1) airportsTemp(1)._6  else airportsTemp(0)._6).toString
           caret.position = 0
         }
         border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 2: Calculer les distances")
@@ -199,6 +201,7 @@ class gui extends SimpleSwingApplication {
           case ButtonClicked(SixthCheckBox) => excludeAndNotify(SixthCheckBox, 5)
         }
         FourthCheckBox.selected = true
+        currentCheckBox=FourthCheckBox
         contents += new BoxPanel(Orientation.Horizontal) {
           contents += new Label {
             text = "Un Point"
@@ -317,13 +320,13 @@ class gui extends SimpleSwingApplication {
       })
       //ici on triche mais disons que ce n'est pas raisonable d'occuper autant de ressource et de memoir pour quelque chose
       //que l'on n'utilisera pas...
-      val distancesArray: Array[Array[Any]] = Array.ofDim[Any](airports.length / 6 * (airports.length / 6 - 1) / 2, 3)
+      val distancesArray: Array[Array[Any]] = Array.ofDim[Any](airportsTemp.length / division * (airportsTemp.length / division - 1) / 2, 3)
       var index: Int = 0
-      for (i <- Range(0, airports.length / 6)) {
+      for (i <- Range(0, airportsTemp.length / division)) {
         for (j <- 0 until i) {
-          distancesArray(index)(0) = airports(i)._2
-          distancesArray(index)(1) = airports(j)._2
-          distancesArray(index)(2) = distance.distanceHaversine(airports(i)._5, airports(j)._5, airports(i)._6, airports(j)._6).toString.asInstanceOf[Any]
+          distancesArray(index)(0) = airportsTemp(i)._2
+          distancesArray(index)(1) = airportsTemp(j)._2
+          distancesArray(index)(2) = distance.distanceHaversine(airportsTemp(i)._5, airportsTemp(j)._5, airportsTemp(i)._6, airportsTemp(j)._6).toString.asInstanceOf[Any]
           index += 1
         }
       }
@@ -391,7 +394,6 @@ class gui extends SimpleSwingApplication {
       }
 
       def updateText(): Unit = {
-        println(saveCondition, saveTypeCondition)
         saveTypeCondition match {
           case "Par ID" => updateTable(partOfDB((a: Array[Any]) => a(0).toString, saveCondition.r))
           case "Par Nom" => updateTable(partOfDB((a: Array[Any]) => a(1).toString, saveCondition.r))
@@ -459,7 +461,7 @@ class gui extends SimpleSwingApplication {
       contents = step4
     }
 
-    def SmartOneSelect(button: Button, i: Int) = {
+    def SmartOneSelect(button: Button, i: Int):Unit = {
       selectOnePoint.visible = true
       currentButton = (button, i)
     }
@@ -472,9 +474,7 @@ class gui extends SimpleSwingApplication {
       location = siz(3).right.get
       visible = false
 
-      val exited = new Button(Action("Done") {
-        selectOnePoint.visible = false
-      })
+
       var table: TextArea = new TextArea {
         background = new Color(204, 204, 204)
         rows = 10
@@ -498,13 +498,17 @@ class gui extends SimpleSwingApplication {
       var tableScrollable2: ScrollPane = new ScrollPane(tablebis) {
         preferredSize = siz(8).left.get
       }
+      val exited = new Button(Action("Done") {
+        selectMultiplePoint.visible = false
+        selectedCountries=tablebis.text.split("\n").toSet
+      })
       val countriesPlus: Button = new Button("+")
       val countriesMoins: Button = new Button("-")
       val step4bis: BoxPanel = new BoxPanel(Orientation.Vertical) {
         contents += new BorderPanel {
           add(exited, BorderPanel.Position.Center)
         }
-        new BoxPanel(Orientation.Horizontal) {
+        contents+=new BoxPanel(Orientation.Horizontal) {
 
           border = Swing.EmptyBorder(10, 10, 10, 10)
           contents += tableScrollable
@@ -519,12 +523,34 @@ class gui extends SimpleSwingApplication {
       contents = step4bis
     }
 
-    def SmartConditionsSelect(button: Button) = {
+    def SmartConditionsSelect(button: Button):Unit = {
       selectMultiplePoint.visible = true
     }
 
-    def excludeAndNotify(b: CheckBox, i: Int) = {
+    def excludeAndNotify(b: CheckBox, i: Int):Unit = {
+      currentCheckBox.selected=false
+      currentCheckBox=b
+      i match {
+        case 0=>
+          var line=util.airportsIdToNumbers(airports)(currentButton1)
+          airportsTemp=Array(airports(line))
+          airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+          division=1
+        case 1=>
+          var line=util.airportsIdToNumbers(airports)(currentButton1)
+          var line2=util.airportsIdToNumbers(airports)(currentButton2)
+          airportsTemp=Array(airports(line),airports(line2))
+          airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+          division=1
+        case 3=>
+          airportsTemp=airports
+          airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+          println(airports2.foreach(el=>el.mkString("\n")))
+          division=6
 
+      }
+      globalWindows.revalidate()
+      globalWindows.repaint()
     }
 
     //-----------------------------------------------------------------------------------------------------------
@@ -567,7 +593,7 @@ class gui extends SimpleSwingApplication {
         val typeDensite = new ComboBox(List("surfaces", "populations"))
         contents += new Button(Action("Afficher les données") {
           val formatter = new DecimalFormat("#.###################")
-          densiteArray = density.Densite(airports, typeDensite.selection.item + ".csv").map(el => Array(el._1.asInstanceOf[Any], formatter.format(el._2.toDouble))).toArray
+          densiteArray = density.Densite(airportsTemp, typeDensite.selection.item + ".csv").map(el => Array(el._1.asInstanceOf[Any], formatter.format(el._2.toDouble))).toArray
           densite.visible = true
         })
         contents += typeDensite
@@ -579,7 +605,7 @@ class gui extends SimpleSwingApplication {
         val button6 = new Button(Action("Afficher") {
 
           fileName = "Sources/Equidistant/equirectangular.png"
-          equidistant.modifyImage(fileName, airports)
+          equidistant.modifyImage(fileName, airportsTemp)
           imagePart.contents -= image
           image = setImage(fileName)
           imagePart.contents += image
@@ -603,7 +629,7 @@ class gui extends SimpleSwingApplication {
             fileName = "Sources/EqualArea/" + equivalentList.selection.item + ".jpg"
             val exceptions = Set("eckert1", "eckert3", "eckert5", "balthasart", "toblersWIS")
 
-            equalArea.whichProjection("all", equivalentList.selection.item + ".jpg", if (exceptions(equivalentList.selection.item)) "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+            equalArea.whichProjection("all", equivalentList.selection.item + ".jpg", if (exceptions(equivalentList.selection.item)) "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airportsTemp))
             imagePart.contents -= image
             image = setImage(fileName)
             imagePart.contents += image
@@ -620,7 +646,7 @@ class gui extends SimpleSwingApplication {
           contents += new Button(Action("Afficher \n Conforme") {
             fileName = "Sources/Conformal/" + conformList.selection.item + ".jpg"
             val exception = Set("adamshemisphere2", "adamsWIS1", "adamsWIS2")
-            conformal.whichProjection("all", conformList.selection.item + ".jpg", if (exception(conformList.selection.item)) "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+            conformal.whichProjection("all", conformList.selection.item + ".jpg", if (exception(conformList.selection.item)) "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airportsTemp))
             imagePart.contents -= image
             image = setImage(fileName)
             imagePart.contents += image
@@ -641,7 +667,7 @@ class gui extends SimpleSwingApplication {
       contents += image
 
     }
-    var globalWindows = new BorderPanel {
+    var globalWindows:BorderPanel = new BorderPanel {
       add(step1to4, BorderPanel.Position.West)
       add(imagePart, BorderPanel.Position.Center)
       add(exitBtn, BorderPanel.Position.South)
