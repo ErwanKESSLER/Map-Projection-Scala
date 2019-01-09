@@ -7,10 +7,12 @@
 
 
 
-\geometry{top=55pt, bottom=55pt,left=50pt ,right=50pt}
+\geometry{top=3cm, bottom=2cm,left=1cm ,right=1cm}
+
 \begin{document}
+
 \begin{figure}
-\hspace{155pt}
+\centering
 \includegraphics[scale=0.1]{logo_TNCY.png}
 \label{fig:logo_tncy}
 \end{figure}
@@ -18,7 +20,6 @@
 \title{\bf RAPPORT de Projet}
 \author{ Camille COUÉ , Victor COUR , Erwan KESSLER}
 \date{\it December 2018}
-
 
 \maketitle
 
@@ -77,9 +78,9 @@ Nous avons ensuite réparti les tâches avec un responsable pour chacune d’ent
     \label{fig:raci}
 \end{figure}
 
+\newpage
 Enfin, il ne restait plus qu’à prévoir les risques possibles dans le déroulement du projet, c’est pourquoi nous avons utilisé une matrice SWOT pour rendre compte des différents facteurs pouvant nous faire gagner du temps, ou nous en faire perdre.
 
-\vspace{1\baselineskip}
 
 \begin{figure}[H]
     \centering
@@ -176,17 +177,51 @@ Après s'être documenté sur les projections conformes et équivalentes [1], il
  \section{ Production finale : Étape 8}
 
 
+
+\newpage
+
  \section{ Ce que le projet a apporté à chacun}
 
-%Ajout des tableaux de post mortem et ensuite la table des heures
+    Tout d'abord, voici la table des heures que nous avons effectuées.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{TableHeures.png}
+    \includegraphics[scale=0.5]{TabledesHeures.png}
     \caption{Table des heures de travail}
     \label{fig:tableheures}
 \end{figure}
 
+    Nous avons ensuite fait une réunion post mortem pour évaluer en 2 points ce que le projet nous a apporté : les compétences que nous avons acquises grâce à ce travail, puis les points que nous pensions devoir améliorer.
+    
+    \newpage
+    
+    \textbf{Camille :}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.45]{CamillePM.png}
+        \caption{CamillePM}
+        \label{fig:camillepm}
+    \end{figure}
+    
+    \textbf{Victor :}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.45]{VictorPM.png}
+        \caption{VictorPM}
+        \label{fig:victorpm}
+    \end{figure}
+    
+    \newpage
+    
+    \textbf{Erwan :}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.45]{ErwanPM.png}
+        \caption{ErwanPM}
+        \label{fig:erwanpm}
+    \end{figure}
+    
+    
 
 \section{ Remerciements}
 
@@ -201,7 +236,7 @@ Après s'être documenté sur les projections conformes et équivalentes [1], il
 
 
 \begin{itemize}
-    \item \textbf{Sources des projections} [1] :
+    \item \textbf{Sources des projections} [1] : (https://fr.wikipedia.org/wiki/Projection\_cartographique)
     \begin{itemize}
         \item Projections conformes :
         \begin{itemize}
@@ -214,7 +249,7 @@ Après s'être documenté sur les projections conformes et équivalentes [1], il
             \item https://en.wikipedia.org/wiki/Guyou\_hemisphere-in-a-square\_projection
             \item https://en.wikipedia.org/wiki/Adams\_hemisphere-in-a-square\_projection
         \end{itemize}
-        \vspace{2\baselineskip}
+        \newpage
         \item Projections équivalentes :
         \begin{itemize}
             \item https://en.wikipedia.org/wiki/Lambert\_cylindrical\_equal-area\_projection
@@ -230,10 +265,6 @@ Après s'être documenté sur les projections conformes et équivalentes [1], il
         \end{itemize}
     \end{itemize}
     \item \textbf{Image Wrapper} [2] : https://github.com/tncytop/top-roaddetection?fbclid=IwAR36FJKJONnHDibsnBvIsHB53R1sOlaTBIlAwqijN0JS7-KgKKlp\_CkiqD8
-    \item 
-    \item 
-    \item 
-    \item 
 \end{itemize}
 
 \vspace{1\baselineskip}
@@ -241,357 +272,137 @@ Après s'être documenté sur les projections conformes et équivalentes [1], il
 
 \textbf{Définition :} \newline
 
-Projection cartographique : Représentation
-d'une surface modèle (sphère ou ellipsoïde) sur un plan. \newline
+\noindent{Projection cartographique : Représentation
+d'une surface modèle (sphère ou ellipsoïde) sur un plan.} \newline
+Il en existe plusieurs types. \newline
 
 \textbf{Type de projections :}
 \begin{itemize}
-    \item \underline{Cylindrique :}
-        In standard presentation, these map regularly-spaced meridians to equally spaced 
-        vertical lines, and parallels to horizontal lines.
-    \item \underline{Pseudocylindrique :}
+    \item \underline{Cylindrique :} \newline
+        On projette l'ellipsoïde sur un cylindre qui l'englobe. Celui-ci peut être tangent au grand cercle, ou sécant en deux cercles. Puis on déroule le cylindre pour obtenir la carte.
+    \item \underline{Pseudo-cylindrique :} \newline
         In standard presentation, these map the central meridian and parallels as straight lines. 
         Other meridians are curves (or possibly straight from pole to equator), regularly spaced 
         along parallels.
-    \item \underline{Conique :}
-         In standard presentation, conic (or conical) projections map meridians as straight lines, 
-        and parallels as arcs of circles.
-    \item \underline{Pseudoconique :}
+    \item \underline{Conique :} \newline
+        On projette l'ellipsoïde sur une surface conique tangente à une ellipse ou sécant en deux ellipses. Puis on déroule le cône pour obtenir la carte.
+    \item \underline{Pseudoconique :} \newline
         In standard presentation, pseudoconical projections represent the central meridian as a 
         straight line, other mer
         idians as complex curves, and parallels as circular arcs.
-    \item \underline{Azimutale :}
-        In standard presentation, azimuthal projections map meridians as straight lines and 
-        parallels as complete, concentric circles. They are radially symmetrical. In any 
-        presentation (or aspect), they preserve directions from the center point. This means great 
-        circles through the central point are represented by straight lines on the map.
-    \item \underline{Pseudoazimutale :}
+    \item \underline{Azimutale :} \newline
+        On projette l'ellipsoïde sur un plan tangent en un point ou sécant en un cercle.
+    \item \underline{Pseudo-azimutale :} \newline
         In standard presentation, pseudoazimuthal projections map the equator
-        and central meridian to perpendicular, intersecting straight lines. They map parallels to complex 
+        and central 
+        meridian to perpendicular, intersecting straight lines. They map parallels to complex 
         curves bowing away from the equator, and meridians to complex curves bowing in toward 
         the central meridian. Listed here after pseudocylindrical as generally 
-        similar to them in shape and purpose.
+        similar to them in 
+        shape and purpose.
+    \item \underline{Stéréographique :} \newline
+    		Le point de perspective est placé sur le sphéroïde ou l'ellipsoïde à l'opposé du 
+         plan de projection. Le plan de projection, qui sépare les deux hémisphères nord et sud de la sphère,
+         est appelé plan équatorial
+    \item \underline{Orthographique :} \newline
+    		Le point de perspective est à une distance infinie. On perçoit un hémisphère du globe comme si on
+    		était situé dans l'espace. Les surfaces et formes sont déformées, mais les distances sont préservées 
+    		sur des lignes parallèles.
 \end{itemize}
 
 \vspace{1\baselineskip}
 
-Other
-Typically calculated from formula, and not based on a particular projection
+D'autres projections sont calculées seulement avec des formules, et ne sont pas basées sur des projections particulières.
 
 \begin{itemize}
-    \item \underline{Polyhédrique :}
-     Polyhedral maps can be folded up into a polyhedral approximation to the sphere, using 
+    \item \underline{Polyhédrique :} \newline
+        Polyhedral maps can be folded up into a polyhedral approximation to the sphere, using 
         particular projection to map each 
         face with low distortion
 \end{itemize}
 
-
 \textbf{Propriétés :}
 
 \begin{itemize}
-    \item \underline{Conforme :} 
-    Preserves angles locally, implying that local shapes are not 
-        distorted and that local scale 
+    \item \underline{Équivalente :} \newline
+        Conserve localement les surfaces.
         is constant in all directions from any chosen point.
-    \item \underline{Aires égales :}
-        Area measure is conserved everywhere.
-       
-    \item \underline{Compromise :}
-        Neither conformal nor equal
-        area, but a balance intended to reduce overall distortion.
-       
-    \item \underline{Equidistante :}
-         All 
-        distances from one (or two) points are correct. Other equidistant properties are 
-        mentioned in the notes.
-       
-    \item \underline{Gnomonique :}
-        All great circles are straight lines.
-        
-    \item \underline{Retroazimutale :}
-         Direction to a fixed location B (by the shortest route) corresponds to the direction on the 
-        map from A to B.
-        
+    \item \underline{Conforme :} \newline
+        Conserve localement les angles, donc les formes.
+    \item \underline{Aphylactique :} \newline
+        On ne conserve plus de métrique , mais on essaie des réduire les distorsions.
+    \item \underline{Equidistante :} \newline
+		Conserve les distances sur les méridiens.
+    \item \underline{Gnomonique :} \newline
+		Transforme les grands cercles en lignes droites.
+		Le point de perspective est au centre du sphéroïde. La projection gnomonique conserve les orthodromies, puisque tout arc de grand cercle est projeté en un segment.
+\end{itemize}
+
+\textbf{Liste de certaines projections :}
+\begin{itemize}
+    \item Mercartor (Conforme,Cylindrique) Google Maps utilise cette projection.
+    \item Peters (Équivalente,Cylindrique)
+    \item Robinson (Pseudo-cylindrique, aphylactique)
+    \item Mollweide (Pseudo-cylindrique)
+    \item Albers (Conique)
+    \item Projection conique conforme de Lambert (Conique,Conforme)
+    \item Projection azimutale équivalente de Lambert (Azimutale,Équivalente)
+\end{itemize}
+
+\noindent{On peut mélanger différentes projections, utiliser des propriétés mathematiques de certaines fonctions comme 
+des sinusoïdes ou encore effectuer des découpages dans une projection afin de la rendre la plus fidèle possible.}
+\newline
+\noindent{Équivalente et conforme s’excluent mutuellement. Les métriques sont la surface, la forme, les angles , la distance, l’échelle
+Toute projection doit s’appuyer sur un datum géodesique , pour cela il existe plusieurs ellipsoïdes courants :} \newline
+
+\begin{itemize}
+    \item Clarke 1866
+    \item Clarke 1880 anglais
+    \item Clarke 1880 IGN
+    \item Bessel
+    \item Airy
+    \item Hayford 1909
+    \item International 1924
+    \item WGS 66
+    \item International 1967
+    \item WGS 72
+    \item IAG - GRS 80
+    \item WGS 84
+    \item NADS27
+    \item NADS83
+    \item OSGB36
+    \item ETRS89
+    \item ED50
+    \item GDA94
+    \item JGD2011
+    \item Tokyo97
+    \item KGD2002
+    \item TWD67 et TWD97
+    \item BJS54
+    \item XAS80
+    \item GCJ - 02
+    \item BD - 09
+    \item PZ - 09.11
+    \item GTRF
+    \item CGCS200
+    \item Hong Kong Princpal Datum
+    \item ITRF2014
 \end{itemize}
 
 
-Il en existe de plusieurs types
-: 
--
-Cylindrique
-: On projette l'ellipsoïde sur un cylindre qui l'englobe. Celui
--
-ci peut être tangent au 
-grand cercle, ou sécant en deux cercles. Puis on déroule le cylindre pour obtenir la carte.
--
-Coniqu
-e
-: On projette l'ellipsoïde sur une surface conique tangente à une ellipse ou sécant en deux 
-ellipses. Puis on déroule le cône pour obtenir la carte.
--
-Azimutale
-: On projette l'ellipsoïde sur un plan tangent en un point ou sécant en un cercle
--
-Stéréographique
-: Le point de perspective est placé sur le sphéroïde ou l'ellipsoïde à l'opposé du 
-plan de projection. Le plan de projection, qui sépare les deux
-hémisphères
-nord et sud de la sphère, 
-est appelé plan équatorial
--
-Gnomonique
-: Le point de per
-spective est au centre du sphéroïde. La projection gnomonique 
-conserve les
-orthodromies, puisque tout arc de grand cercle est projeté en un segment.
--
-Orthographique
-: Le point de perspective est à une distance
-infinie. On perçoit 
-un
-hémisphère
-du
-globe
-com
-me si on était situé dans l'espace. Les
-surfaces
-et formes 
-sont
-déformées, mais les distances sont préservées sur des lignes parallèles.
--
-Autres
-: On peut mélanger differentes projections, utiliser des proprietes mathematiques de 
-certaines fonctions comme 
-des sinusoides ou encore effectuer des decoupages dans une projection 
-afin de la rendre la plus fidele possible.
-Elles peuvent avoir plusieurs propriétés
-:
--
-équivalente
-: conserve localement les surfaces
--
-conforme
-: conserve localement les angles, donc 
-les formes
-;
--
-equidistante
-:
-conserver les distances sur les méridiens.
--
-avec compromis
-: on ne conserve plus de metrique mais on essaye de reduire les distorsions au 
-maximum
-•
-Area preserving projection 
-–
-equal area or equivalent projection
-•
-Shape 
-preserving 
-–
-conformal, orthomorphic
-•
-Direction preserving 
-–
-conformal, orthomorphic, azimuthal (only from a the central 
-point)
-•
-Distance preserving 
-–
-equidistant (shows the true distance between one or two 
-points and every other point)
-https://gisgeography.com/wp
--
-content/uploads/2016/12/North
--
-America
--
-Lambert
--
-Conformal
--
-Conic
--
-Projection
--
-425x233.png
-https://gisgeography.com/wp
--
-content/uploads/2016/12/Miller
--
-Cylindrical
--
-Projection
--
-425x233.png
-https://gisgeography.com/wp
--
-content/uploads/2016/12/Stereographic
--
-Projection
--
-425x233.png
-Equivalente et conforme s’excluent mutuellement
-Les Metriques sont la surface, la forme, les angles , la distance, l’echelle
-Toute projection doiv
-ent s’appuyer sur un datum
-geodesique pour cela il existent plusieur ellipsoides 
-courantes
-:
-•
-Clarke 1866
-•
-Clarke 1880 anglais
-•
-Clarke 1880 IGN
-•
-Bessel
-•
-Airy
-•
-Hayford 1909
-•
-International 1924
-•
-WGS 66
-•
-International 1967
-•
-WGS 72
-•
-IAG
--
-GRS80
-•
-WGS 84
-•
-WGS 84
-, 72, 64 and 60 of the
-World Geodetic System
-•
-NAD83
-, the
-North American Datum
-which is very similar to WGS 84
-•
-NAD27
-, the older
-North American Datum
-, of which NAD83 was basically a 
-readjustment
-[1]
-•
-OSGB36
-of the
-Ordnance Survey
-of
-Great Britain
-•
-ETRS89
-, the European Datum, related to
-ITRS
-•
-ED50
-, the older European Datum
-•
-GDA94
-, the Australian Datum
-[7]
-•
-JGD2011
-, the Japanese Datum, adjusted for changes caused by
-2011 Tōhoku 
-earthquake and tsunami
-[8]
-•
-Tokyo97
-, the older Japanese Datum
-[9]
-•
-KGD2002
-, the Korean Datum
-[10]
-•
-TWD67
-and
-TWD97
-, different datum currently used in Taiwan.
-[11]
-•
-BJS54
-and
-XAS80
-, o
-ld geodetic datum used in China
-[12]
-•
-GCJ
--
-02
-and
-BD
--
-09
-, Chinese encrypted geodetic datum.
-•
-PZ
--
-90.11
-, the current geodetic reference 
-used by
-GLONASS
-[13]
-•
-GTRF
-, the geodetic 
-reference used by
-Galileo
-[14]
-•
-CGCS2000
-, or
-CGS
--
-2000
-, the geodet
-ic reference used by
-BeiDou Navigation Satellite 
-System
-[14]
-[15]
-[16]
-•
-International Terrestrial Reference Frames
-(ITRF88, 89, 90, 91, 92, 93, 94, 96, 97, 2000, 
-2005, 2008, 2014), different real
-izations of the
-ITRS
-.
-[17]
-[18]
-•
-Hong Kong Principal Datum
-, 
-a vertical datum used in Hong Kong
-Google maps utilize la projection d
-e mercator
 
+\textbf{Librairies existantes permettant d'effectuer des projections cartographiques :}
 
-
-Librairie existante permettant d’effectuer des projections cartographiques:
-
-C/C++ : https://proj4.org/
-
-Java : https://github.com/OSUCartography/JMapProjLib et https://github.com/orbisgis/cts
-
-JavaScript : https://github.com/d3/d3-geo-projection/ et http://proj4js.org/
-
-Python : https://github.com/jswhit/pyproj, https://github.com/geo-data/python-epsg et https://github.com/SciTools/cartopy
-
-Go: https://github.com/pebbe/go-proj-4 ethttps://github.com/omniscale/go-proj
-
-Rust : https://github.com/georust/rust-proj
+\begin{itemize} 
+	\item C/C++ : https://proj4.org/
+	\item Java : https://github.com/OSUCartography/JMapProjLib et https://github.com/orbisgis/cts
+	\item JavaScript : https://github.com/d3/d3-geo-projection/ et http://proj4js.org/
+	\item Python : https://github.com/jswhit/pyproj, https://github.com/geo-data/python-epsg et https://			github.com/SciTools/cartopy
+	\item Go: https://github.com/pebbe/go-proj-4 ethttps://github.com/omniscale/go-proj
+	\item Rust : https://github.com/georust/rust-proj
 https://gist.github.com/mbostock/29cddc0006f8b98eff12e60dd08f59a7/raw/373b59870a3cc451ec62c4998082079cf27eb21e/all.gif
+\end{itemize}
+
+
 
 \end{document}
