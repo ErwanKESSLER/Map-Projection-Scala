@@ -73,7 +73,6 @@ class gui extends SimpleSwingApplication {
       val parent:File=new File(jarPath.substring(0, jarPath.lastIndexOf("/")) +path)
       parent.mkdirs()
       val file:File=new File(parent,nam + "_result." + extension)
-      println(file.getPath)
       width=preferredSize.width
       height=preferredSize.height
       imagePath=file.getPath
