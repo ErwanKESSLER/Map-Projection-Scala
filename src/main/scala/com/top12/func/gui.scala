@@ -51,7 +51,7 @@ class gui extends SimpleSwingApplication {
   var Lattemp: String = _
   var pointr: String = _
   var rtemp: String = _
-
+  var step3:BoxPanel=_
   var division: Int = 6
 
   def top: MainFrame = new MainFrame {
@@ -134,7 +134,7 @@ class gui extends SimpleSwingApplication {
 
 
       }
-      val step3: BoxPanel = new BoxPanel(Orientation.Vertical) {
+      step3= new BoxPanel(Orientation.Vertical) {
         preferredSize = siz(4).left.get
         border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 3: Statistiques")
         val distanceMin: Label = new Label {
@@ -621,6 +621,34 @@ class gui extends SimpleSwingApplication {
           }
 
       }
+step1to4.contents-=step3
+step3 = new BoxPanel(Orientation.Vertical) {
+        preferredSize = siz(4).left.get
+        border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 3: Statistiques")
+        val distanceMin: Label = new Label {
+          text = "Minimum : " + dmnTemp + " km."
+        }
+        val distanceMax: Label = new Label {
+          text = "Maximum : " + dmxTemp + " km."
+        }
+        val distanceMoyenne: Label = new Label {
+          text = "Moyenne : " + dmyTemp + " km."
+        }
+        val distanceMediane: Label = new Label {
+          text = "Médiane : " + dmdTemp + " km."
+        }
+        val ecartype: Label = new Label {
+          text = "Ecart type : " + ectTemp + " km."
+        }
+        contents += distanceMin
+        contents += distanceMax
+        contents += distanceMoyenne
+        contents += distanceMediane
+        contents += ecartype
+}
+step1to4.contents+=step3
+step1to4.revalidate()
+step1to4.repaint()
       globalWindows.revalidate()
       globalWindows.repaint()
     }
