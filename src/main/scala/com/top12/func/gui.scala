@@ -4,9 +4,9 @@ import java.awt.event.{WindowAdapter, WindowEvent}
 import java.awt.{Color, Toolkit}
 import java.io.File
 import java.net.URLDecoder
-import java.awt.event.{MouseAdapter, MouseEvent}
+import java.text.DecimalFormat
 
-import javax.swing.UIManager
+import com.top12.utils.ImagePanel
 import javax.swing.table.DefaultTableCellRenderer
 
 import scala.swing._
@@ -31,17 +31,20 @@ class gui extends SimpleSwingApplication {
   val dmy: String = stats.distanceMoyenne(distances).toString
   val dmd: String = stats.distanceMediane2(distances).toString
   val ect: String = stats.ecartType(distances).toString
-  val countries:Array[Array[Any]]=util.showAllCountries(airports).map(el=>Array(el.asInstanceOf[Any]))
-  var currentButton:(Button,Int)=_
-  var currentButton1:Int=0
-  var currentButton2:Int=1
-  var currentButton3:String="Par Pays"
-  var currentCheckBox:CheckBox=_
-  var saveCondition:String=""
-  var saveTypeCondition:String="Par ID"
-  var tempArray:Array[Array[Any]]=airports2
-  var selectedCountries:Set[String]=Set()
-  var rowSelection:Int=_
+  val countries: Array[String] = util.showAllCountries(airports)
+  var currentButton: (Button, Int) = _
+  var currentButton1: Int = 0
+  var currentButton2: Int = 1
+  var currentButton3: String = "Par Pays"
+  var currentCheckBox: CheckBox = _
+  var saveCondition: String = ""
+  var saveTypeCondition: String = "Par ID"
+  var tempArray: Array[Array[Any]] = airports2
+  var selectedCountries: Set[String] = Set()
+  var rowSelection: Int = _
+  var fileName: String = "Sources/Conformal/guyou.jpg"
+  var image: ImagePanel = setImage(fileName)
+  var densiteArray: Array[Array[Any]] = _
 
   def top: MainFrame = new MainFrame {
     frame =>
@@ -80,7 +83,7 @@ class gui extends SimpleSwingApplication {
       preferredSize = siz(5).left.get
       border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 1 à 4")
       val step1: BoxPanel = new BoxPanel(Orientation.Vertical) {
-        preferredSize = siz(4).left.get
+        preferredSize = siz(9).left.get
         border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 1: Charger les données")
         contents += new Button(Action("Afficher les données") {
           airportsList.visible = true
@@ -109,7 +112,7 @@ class gui extends SimpleSwingApplication {
           lineWrap = true
           wordWrap = true
           editable = false
-          text = "Distance (en m) entre aéroport 1 et aéroport 2: " + distance.distanceHaversine(airports(0)._5, airports(1)._5, airports(0)._6, airports(1)._6).toString
+          text = "Distance (en km) entre aéroport 1 et aéroport 2: " + distance.distanceHaversine(airports(0)._5, airports(1)._5, airports(0)._6, airports(1)._6).toString
           caret.position = 0
         }
         border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 2: Calculer les distances")
@@ -147,7 +150,7 @@ class gui extends SimpleSwingApplication {
         contents += ecartype
       }
       val step4: BoxPanel = new BoxPanel(Orientation.Vertical) {
-        preferredSize = siz(4).left.get
+        preferredSize = siz(10).left.get
         border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 4: Selection")
         val FirstPointButton = new Button(airports(0)._2)
         val SecondPointButton = new Button(airports(1)._2)
@@ -156,6 +159,21 @@ class gui extends SimpleSwingApplication {
         val SecondCheckBox = new CheckBox()
         val ThirdCheckBox = new CheckBox()
         val FourthCheckBox = new CheckBox()
+        val FifthCheckBox = new CheckBox()
+        val SixthCheckBox = new CheckBox()
+        val latRest: TextField = new TextField {
+          columns = 20
+        }
+        val lonRest: TextField = new TextField {
+          columns = 20
+        }
+        val pointRest: TextField = new TextField {
+          columns = 20
+        }
+        val rayonRest: TextField = new TextField {
+          columns = 20
+        }
+
         listenTo(FirstPointButton)
         listenTo(SecondPointButton)
         listenTo(ConditionsButton)
@@ -163,32 +181,40 @@ class gui extends SimpleSwingApplication {
         listenTo(SecondCheckBox)
         listenTo(ThirdCheckBox)
         listenTo(FourthCheckBox)
+        listenTo(FifthCheckBox)
+        listenTo(SixthCheckBox)
+        listenTo(latRest)
+        listenTo(lonRest)
+        listenTo(pointRest)
+        listenTo(rayonRest)
         reactions += {
-          case ButtonClicked(FirstPointButton) => SmartOneSelect(FirstPointButton,0)
-          case ButtonClicked(SecondPointButton) => SmartOneSelect(SecondPointButton,1)
+          case ButtonClicked(FirstPointButton) => SmartOneSelect(FirstPointButton, 0)
+          case ButtonClicked(SecondPointButton) => SmartOneSelect(SecondPointButton, 1)
           case ButtonClicked(ConditionsButton) => SmartConditionsSelect(ConditionsButton)
-          case ButtonClicked(FirstCheckBox) => excludeAndNotify(FirstCheckBox,0)
-          case ButtonClicked(SecondCheckBox) => excludeAndNotify(SecondCheckBox,1)
-          case ButtonClicked(ThirdCheckBox) => excludeAndNotify(ThirdCheckBox,2)
-          case ButtonClicked(FourthCheckBox) => excludeAndNotify(FourthCheckBox,3)
+          case ButtonClicked(FirstCheckBox) => excludeAndNotify(FirstCheckBox, 0)
+          case ButtonClicked(SecondCheckBox) => excludeAndNotify(SecondCheckBox, 1)
+          case ButtonClicked(ThirdCheckBox) => excludeAndNotify(ThirdCheckBox, 2)
+          case ButtonClicked(FourthCheckBox) => excludeAndNotify(FourthCheckBox, 3)
+          case ButtonClicked(FifthCheckBox) => excludeAndNotify(FifthCheckBox, 4)
+          case ButtonClicked(SixthCheckBox) => excludeAndNotify(SixthCheckBox, 5)
         }
         FourthCheckBox.selected = true
         contents += new BoxPanel(Orientation.Horizontal) {
           contents += new Label {
             text = "Un Point"
           }
-          contents += Swing.HStrut(20)
+          contents += Swing.HStrut(10)
           contents += FirstPointButton
-          contents += Swing.HStrut(20)
+          contents += Swing.HStrut(10)
           contents += FirstCheckBox
         }
         contents += new BoxPanel(Orientation.Horizontal) {
           contents += new Label {
             text = "Deux Points"
           }
-          contents += Swing.HStrut(20)
+          contents += Swing.HStrut(10)
           contents += SecondPointButton
-          contents += Swing.HStrut(20)
+          contents += Swing.HStrut(10)
           contents += SecondCheckBox
         }
         contents += new BoxPanel(Orientation.Horizontal) {
@@ -206,6 +232,40 @@ class gui extends SimpleSwingApplication {
           }
           contents += Swing.HStrut(20)
           contents += FourthCheckBox
+        }
+        contents += new BoxPanel(Orientation.Horizontal) {
+          contents += new BoxPanel(Orientation.Vertical) {
+            contents += new Label {
+              text = "Par lat (min,max)"
+            }
+            contents += latRest
+          }
+          contents += Swing.HStrut(5)
+          contents += new BoxPanel(Orientation.Vertical) {
+            contents += new Label {
+              text = "Par lon (min,max)"
+            }
+            contents += lonRest
+          }
+          contents += Swing.HStrut(5)
+          contents += FifthCheckBox
+        }
+        contents += new BoxPanel(Orientation.Horizontal) {
+          contents += new BoxPanel(Orientation.Vertical) {
+            contents += new Label {
+              text = "Par Point"
+            }
+            contents += pointRest
+          }
+          contents += Swing.HStrut(5)
+          contents += new BoxPanel(Orientation.Vertical) {
+            contents += new Label {
+              text = "+ rayon"
+            }
+            contents += rayonRest
+          }
+          contents += Swing.HStrut(5)
+          contents += SixthCheckBox
         }
       }
       contents += step1
@@ -267,7 +327,7 @@ class gui extends SimpleSwingApplication {
           index += 1
         }
       }
-      val table: Table = new Table(distancesArray, Seq("Aéroport 1", "Aéroport 2", "Distance en mètres")) {
+      val table: Table = new Table(distancesArray, Seq("Aéroport 1", "Aéroport 2", "Distance en kilomètres")) {
         background = new Color(204, 204, 204)
         autoResizeMode = Table.AutoResizeMode.SubsequentColumns
       }
@@ -299,14 +359,16 @@ class gui extends SimpleSwingApplication {
       val exited = new Button(Action("Done") {
         selectOnePoint.visible = false
         currentButton._2 match {
-          case 0=>currentButton._1.text=tempArray(rowSelection)(1).toString
-            currentButton1=tempArray(rowSelection)(0).toString.toInt
-          case 1=>currentButton._1.text=tempArray(rowSelection)(1).toString
-            currentButton2=tempArray(rowSelection)(0).toString.toInt
+          case 0 => currentButton._1.text = tempArray(rowSelection)(1).toString
+            currentButton1 = tempArray(rowSelection)(0).toString.toInt
+          case 1 => currentButton._1.text = tempArray(rowSelection)(1).toString
+            currentButton2 = tempArray(rowSelection)(0).toString.toInt
         }
       })
-      val searchField:TextField = new TextField { columns = 200 }
-      val criteriaSearch:ComboBox[String]=new ComboBox[String](List("Par ID","Par Nom","Par Ville","Par Pays","Par Latitude et Longitude"))
+      val searchField: TextField = new TextField {
+        columns = 200
+      }
+      val criteriaSearch: ComboBox[String] = new ComboBox[String](List("Par ID", "Par Nom", "Par Ville", "Par Pays", "Par Latitude et Longitude"))
 
       var table: Table = new Table(airports2, Seq("ID", "Name", "City", "Country", "Latitude", "Longitude")) {
         background = new Color(204, 204, 204)
@@ -315,43 +377,45 @@ class gui extends SimpleSwingApplication {
       listenTo(table.selection)
       listenTo(criteriaSearch.selection)
       listenTo(searchField)
-      reactions+={
-        case EditDone(`searchField`)=>
-          saveCondition=searchField.text
+      reactions += {
+        case EditDone(`searchField`) =>
+          saveCondition = searchField.text
           updateText()
           step4.requestFocus()
-        case SelectionChanged(`criteriaSearch`)=>
-          saveTypeCondition=criteriaSearch.selection.item
+        case SelectionChanged(`criteriaSearch`) =>
+          saveTypeCondition = criteriaSearch.selection.item
           updateText()
-        case TableRowsSelected(_,r,_)=>
-          rowSelection=table.selection.rows.leadIndex
+        case TableRowsSelected(_, r, _) =>
+          rowSelection = table.selection.rows.leadIndex
 
       }
+
       def updateText(): Unit = {
-        println(saveCondition,saveTypeCondition)
+        println(saveCondition, saveTypeCondition)
         saveTypeCondition match {
-          case "Par ID"=>updateTable(partOfDB((a:Array[Any])=>a(0).toString,saveCondition.r))
-          case "Par Nom"=>updateTable(partOfDB((a:Array[Any])=>a(1).toString,saveCondition.r))
-          case "Par Ville"=>updateTable(partOfDB((a:Array[Any])=>a(2).toString,saveCondition.r))
-          case "Par Pays"=>updateTable(partOfDB((a:Array[Any])=>a(3).toString,saveCondition.r))
-          case "Par Latitude et Longitude"=>updateTable(partOfDB2((a:Array[Any])=>(a(4).toString.toDouble,a(5).toString.toDouble),saveCondition))
+          case "Par ID" => updateTable(partOfDB((a: Array[Any]) => a(0).toString, saveCondition.r))
+          case "Par Nom" => updateTable(partOfDB((a: Array[Any]) => a(1).toString, saveCondition.r))
+          case "Par Ville" => updateTable(partOfDB((a: Array[Any]) => a(2).toString, saveCondition.r))
+          case "Par Pays" => updateTable(partOfDB((a: Array[Any]) => a(3).toString, saveCondition.r))
+          case "Par Latitude et Longitude" => updateTable(partOfDB2((a: Array[Any]) => (a(4).toString.toDouble, a(5).toString.toDouble), saveCondition))
 
         }
       }
-      def updateTable(array: Array[Array[Any]]): Unit ={
-        table= new Table(array, Seq("ID", "Name", "City", "Country", "Latitude", "Longitude")) {
+
+      def updateTable(array: Array[Array[Any]]): Unit = {
+        table = new Table(array, Seq("ID", "Name", "City", "Country", "Latitude", "Longitude")) {
           background = new Color(204, 204, 204)
           autoResizeMode = Table.AutoResizeMode.SubsequentColumns
         }
-        tempArray=array
+        tempArray = array
         listenTo(table.selection)
         table.peer.setDefaultRenderer(classOf[String], centerRenderer)
-        step4.contents-=tableScrollable
+        step4.contents -= tableScrollable
 
-        tableScrollable=new ScrollPane(table) {
+        tableScrollable = new ScrollPane(table) {
           preferredSize = siz(7).left.get
         }
-        step4.contents+=tableScrollable
+        step4.contents += tableScrollable
         step4.revalidate()
         step4.repaint()
       }
@@ -360,43 +424,44 @@ class gui extends SimpleSwingApplication {
         airports2.filter(x => rx.findFirstIn(f(x)).isDefined)
       }
 
-      def partOfDB2(f: Array[Any] => (Double,Double), rx: String): Array[Array[Any]] = {
-        try{
-          val r=rx.split(",")
-          val (lmn,lmx,lamn,lamx)=(r(0).toDouble,r(1).toDouble,r(2).toDouble,r(3).toDouble)
-          airports2.filter(x => f(x)._1>=lamn && f(x)._1<=lamx && f(x)._2>=lmn && f(x)._2<=lmx)
+      def partOfDB2(f: Array[Any] => (Double, Double), rx: String): Array[Array[Any]] = {
+        try {
+          val r = rx.split(",")
+          val (lmn, lmx, lamn, lamx) = (r(0).toDouble, r(1).toDouble, r(2).toDouble, r(3).toDouble)
+          airports2.filter(x => f(x)._1 >= lamn && f(x)._1 <= lamx && f(x)._2 >= lmn && f(x)._2 <= lmx)
         }
         catch {
-          case _:Throwable=>println("error the format is latmin,latmax,lonmin,lonmax")
+          case _: Throwable => println("error the format is latmin,latmax,lonmin,lonmax")
             airports2
         }
 
       }
+
       val centerRenderer = new DefaultTableCellRenderer()
       centerRenderer.setHorizontalAlignment(0)
       table.peer.setDefaultRenderer(classOf[String], centerRenderer)
-      var tableScrollable:ScrollPane=new ScrollPane(table) {
+      var tableScrollable: ScrollPane = new ScrollPane(table) {
         preferredSize = siz(7).left.get
       }
-      val step4:BoxPanel = new BoxPanel(Orientation.Vertical) {
+      val step4: BoxPanel = new BoxPanel(Orientation.Vertical) {
         border = Swing.EmptyBorder(10, 10, 10, 10)
         contents += new BorderPanel {
           add(exited, BorderPanel.Position.Center)
         }
         contents += Swing.VStrut(10)
-        contents += new BoxPanel(Orientation.Horizontal){
-          contents+=searchField
-          contents+=Swing.HStrut(20)
-          contents+=criteriaSearch
+        contents += new BoxPanel(Orientation.Horizontal) {
+          contents += searchField
+          contents += Swing.HStrut(20)
+          contents += criteriaSearch
         }
         contents += tableScrollable
       }
-      contents=step4
+      contents = step4
     }
 
-    def SmartOneSelect(button:Button,i:Int)={
-      selectOnePoint.visible=true
-      currentButton=(button,i)
+    def SmartOneSelect(button: Button, i: Int) = {
+      selectOnePoint.visible = true
+      currentButton = (button, i)
     }
 
     lazy val selectMultiplePoint: Frame = new Frame {
@@ -410,43 +475,182 @@ class gui extends SimpleSwingApplication {
       val exited = new Button(Action("Done") {
         selectOnePoint.visible = false
       })
-      val table: Table = new Table(countries, Seq("Pays")) {
+      var table: TextArea = new TextArea {
         background = new Color(204, 204, 204)
-        autoResizeMode = Table.AutoResizeMode.SubsequentColumns
+        rows = 10
+        lineWrap = true
+        wordWrap = true
+        editable = false
+        text = countries.mkString("\n")
       }
-      val step4bis:BoxPanel=new BoxPanel(Orientation.Horizontal){
-      
+
+      var tableScrollable: ScrollPane = new ScrollPane(table) {
+        preferredSize = siz(8).left.get
       }
+      var tablebis: TextArea = new TextArea {
+        background = new Color(204, 204, 204)
+        rows = 10
+        lineWrap = true
+        wordWrap = true
+        editable = true
+        text = selectedCountries.mkString("\n")
+      }
+      var tableScrollable2: ScrollPane = new ScrollPane(tablebis) {
+        preferredSize = siz(8).left.get
+      }
+      val countriesPlus: Button = new Button("+")
+      val countriesMoins: Button = new Button("-")
+      val step4bis: BoxPanel = new BoxPanel(Orientation.Vertical) {
+        contents += new BorderPanel {
+          add(exited, BorderPanel.Position.Center)
+        }
+        new BoxPanel(Orientation.Horizontal) {
+
+          border = Swing.EmptyBorder(10, 10, 10, 10)
+          contents += tableScrollable
+          contents += tableScrollable2
+          contents += new BoxPanel(Orientation.Vertical) {
+            contents += countriesPlus
+            contents += countriesMoins
+          }
+        }
+      }
+      table.requestFocus()
+      contents = step4bis
     }
-    def SmartConditionsSelect(button:Button)={
-      selectMultiplePoint.visible=true
+
+    def SmartConditionsSelect(button: Button) = {
+      selectMultiplePoint.visible = true
     }
-    def excludeAndNotify(b:CheckBox,i:Int)={
+
+    def excludeAndNotify(b: CheckBox, i: Int) = {
 
     }
 
-    val image: com.top12.utils.ImagePanel = new com.top12.utils.ImagePanel {
-      preferredSize = siz(6).left.get
-      val filename: String = "Sources/Conformal/guyou.jpg"
-      val extension: String = filename.split("\\.")(1)
-      val path: String = "/Results/" + filename.split("\\.")(0).split("/").dropRight(1).drop(1).mkString("/") + "/"
-      val nam: String = filename.split("\\.")(0).split("/").last
-      val jarPath: String = URLDecoder.decode(getClass.getProtectionDomain.getCodeSource.getLocation.getPath, "UTF-8")
-      val parent: File = new File(jarPath.substring(0, jarPath.lastIndexOf("/")) + path)
-      parent.mkdirs()
-      val file: File = new File(parent, nam + "_result." + extension)
-      width = preferredSize.width
-      height = preferredSize.height
-      imagePath = file.getPath
+    //-----------------------------------------------------------------------------------------------------------
+    val step5to8: FlowPanel = new FlowPanel {
+      preferredSize = siz(5).left.get
+      border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 5 à 8")
+      lazy val densite: Frame = new Frame {
+        densiteFrame =>
+        title = "Densite par rapport a une metrique"
+        preferredSize = siz(0).left.get
+        location = siz(3).right.get
+        visible = false
+        val exited = new Button(Action("Exit") {
+          densiteFrame.visible = false
+        })
+
+        val table: Table = new Table(densiteArray, Seq("Pays", "Densite")) {
+          background = new Color(204, 204, 204)
+          autoResizeMode = Table.AutoResizeMode.SubsequentColumns
+        }
+
+        val centerRenderer = new DefaultTableCellRenderer()
+        centerRenderer.setHorizontalAlignment(0)
+        table.peer.setDefaultRenderer(classOf[String], centerRenderer)
+        contents = new BoxPanel(Orientation.Vertical) {
+          contents += new BorderPanel {
+            add(exited, BorderPanel.Position.Center)
+          }
+          contents += Swing.VStrut(10)
+          contents += new ScrollPane(table) {
+            preferredSize = siz(7).left.get
+          }
+          border = Swing.EmptyBorder(10, 10, 10, 10)
+        }
+
+      }
+      val step5: BoxPanel = new BoxPanel(Orientation.Vertical) {
+        preferredSize = siz(4).left.get
+        border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 5: Densité")
+        val typeDensite = new ComboBox(List("surfaces", "populations"))
+        contents += new Button(Action("Afficher les données") {
+          val formatter = new DecimalFormat("#.###################")
+          densiteArray = density.Densite(airports, typeDensite.selection.item + ".csv").map(el => Array(el._1.asInstanceOf[Any], formatter.format(el._2.toDouble))).toArray
+          densite.visible = true
+        })
+        contents += typeDensite
+      }
+      val step6: BoxPanel = new BoxPanel(Orientation.Vertical) {
+        preferredSize = siz(9).left.get
+
+        border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 6: projection equidistante")
+        val button6 = new Button(Action("Afficher") {
+
+          fileName = "Sources/Equidistant/equirectangular.png"
+          equidistant.modifyImage(fileName, airports)
+          imagePart.contents -= image
+          image = setImage(fileName)
+          imagePart.contents += image
+          imagePart.revalidate()
+          imagePart.repaint()
+          globalWindows.repaint()
+        })
+        contents += button6
+
+      }
+      val step7: BoxPanel = new BoxPanel(Orientation.Vertical) {
+        preferredSize = siz(4).left.get
+        border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 7: Projection Conforme ou équivalente")
+        contents += new BoxPanel(Orientation.Horizontal) {
+          val equivalentList = new ComboBox(List("lambertCylindric", "behrmann", "eckert1",
+            "eckert2", "eckert3", "eckert4", "eckert5", "eckert6", "gallPeters",
+            "hoboDyer", "mollweide", "sinusoidal", "balthasart",
+            "toblersWIS", "equalEarth"))
+          contents += equivalentList
+          contents += new Button(Action("Afficher \n Equivalente") {
+            fileName = "Sources/EqualArea/" + equivalentList.selection.item + ".jpg"
+            val exceptions = Set("eckert1", "eckert3", "eckert5", "balthasart", "toblersWIS")
+
+            equalArea.whichProjection("all", equivalentList.selection.item + ".jpg", if (exceptions(equivalentList.selection.item)) "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+            imagePart.contents -= image
+            image = setImage(fileName)
+            imagePart.contents += image
+            imagePart.revalidate()
+            imagePart.repaint()
+            globalWindows.repaint()
+          })
+        }
+        contents += new BoxPanel(Orientation.Horizontal) {
+          val conformList = new ComboBox(List("mercator", "lambertConic", "mercatorTransverse",
+            "stereographic", "peirceQuincuncial", "guyou", "adamshemisphere1", "adamshemisphere2",
+            "adamsWIS1", "adamsWIS2"))
+          contents += conformList
+          contents += new Button(Action("Afficher \n Conforme") {
+            fileName = "Sources/Conformal/" + conformList.selection.item + ".jpg"
+            val exception = Set("adamshemisphere2", "adamsWIS1", "adamsWIS2")
+            conformal.whichProjection("all", conformList.selection.item + ".jpg", if (exception(conformList.selection.item)) "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
+            imagePart.contents -= image
+            image = setImage(fileName)
+            imagePart.contents += image
+            imagePart.revalidate()
+            imagePart.repaint()
+            globalWindows.repaint()
+          })
+        }
+      }
+      contents += step5
+      contents += step6
+      contents += step7
     }
-    contents = new BorderPanel {
+    //----------------------------------------------Etape5----------------------------------------------------------
+
+
+    val imagePart: BoxPanel = new BoxPanel(Orientation.Horizontal) {
+      contents += image
+
+    }
+    var globalWindows = new BorderPanel {
       add(step1to4, BorderPanel.Position.West)
-      add(image, BorderPanel.Position.Center)
+      add(imagePart, BorderPanel.Position.Center)
       add(exitBtn, BorderPanel.Position.South)
       add(Button("Authors") {
         pressMe()
       }, BorderPanel.Position.North)
+      add(step5to8, BorderPanel.Position.East)
     }
+    contents = globalWindows
 
     def pressMe() {
       Dialog.showMessage(contents.head, "UI by Erwan KESSLER, code by Victor COUR, Camille Coue and Erwan KESSLER", title = "Authors")
@@ -465,10 +669,32 @@ class gui extends SimpleSwingApplication {
       case 3 => Right(new Point((w * 0.125).toInt, (h * 0.125).toInt))
       case 4 => Left(new Dimension((w * 0.75 * 0.2 * 0.94).toInt, (h * 0.75 * 0.25 * 0.95 * 0.87).toInt))
       case 5 => Left(new Dimension((w * 0.75 * 0.2).toInt, (h * 0.75 * 0.94).toInt))
-      case 6 => Left(new Dimension((w * 0.75 * 0.6).toInt, (h * 0.75 * 0.6 * 0.94).toInt))
+      case 6 => Left(new Dimension((w * 0.75 * 0.6 * 0.80).toInt, (h * 0.75 * 0.6 * 0.80).toInt))
       case 7 => Left(new Dimension((w * 0.75 * 0.95).toInt, (h * 0.75 * 80).toInt))
+      case 8 => Left(new Dimension((w * 0.75 * 0.95 * 0.2).toInt, (h * 0.75 * 30).toInt))
+      case 9 => Left(new Dimension((w * 0.75 * 0.2 * 0.94).toInt, (h * 0.75 * 0.10 * 0.95 * 0.87).toInt))
+      case 10 => Left(new Dimension((w * 0.75 * 0.2 * 0.94).toInt, (h * 0.75 * 0.40 * 0.95 * 0.87).toInt))
     }
 
+  }
+
+  def setImage(pat: String): ImagePanel = {
+    var image: com.top12.utils.ImagePanel = new com.top12.utils.ImagePanel {
+
+      preferredSize = siz(6).left.get
+      var filename: String = pat
+      val extension: String = filename.split("\\.")(1)
+      val path: String = "/Results/" + filename.split("\\.")(0).split("/").dropRight(1).drop(1).mkString("/") + "/"
+      val nam: String = filename.split("\\.")(0).split("/").last
+      val jarPath: String = URLDecoder.decode(getClass.getProtectionDomain.getCodeSource.getLocation.getPath, "UTF-8")
+      val parent: File = new File(jarPath.substring(0, jarPath.lastIndexOf("/")) + path)
+      parent.mkdirs()
+      val file: File = new File(parent, nam + "_result." + extension)
+      width = preferredSize.width
+      height = preferredSize.height
+      imagePath = file.getPath
+    }
+    image
   }
 
 

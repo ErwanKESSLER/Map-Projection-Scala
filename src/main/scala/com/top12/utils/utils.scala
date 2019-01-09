@@ -61,7 +61,7 @@ class utils {
     var (h1, h2, h3): (mutable.HashMap[String, String], mutable.HashMap[String, String],
       mutable.HashMap[String, String]) = (mutable.HashMap.empty[String, String], mutable.HashMap.empty[String, String],
       mutable.HashMap.empty[String, String])
-    val bufferedSource = Source.fromFile(getClass.getResource("/countriesCode.csv").getPath)
+    val bufferedSource = Source.fromInputStream(getClass.getResourceAsStream("/countriesCode.csv"))
     var iterator = bufferedSource.getLines
     var headers = iterator.next()
     var content = iterator.toArray
@@ -91,7 +91,7 @@ class utils {
 
   def notOfficialNametoAlpha2(): mutable.HashMap[String, String] = {
     var h1: mutable.HashMap[String, String] = mutable.HashMap.empty[String, String]
-    val bufferedSource = Source.fromFile(getClass.getResource("/countries.dat").getPath)
+    val bufferedSource = Source.fromInputStream(getClass.getResourceAsStream("/countries.dat"))
     var content = bufferedSource.getLines.toArray
     for (i <- content.indices) {
       var c = content(i).split(",(?=[0-9\"-\\\\])")

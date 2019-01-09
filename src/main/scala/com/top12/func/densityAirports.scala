@@ -52,8 +52,9 @@ class densityAirports {
       // On recupere la metrique associee au alpha3
       val metrique = h(alpha3)
       // On fait le rapport entre le nombre d'aéroport et la metrique
-      hashMapDensite += paysEtnombre._1 -> (paysEtnombre._2 / metrique)
+      hashMapDensite += paysEtnombre._1 -> (paysEtnombre._2.toDouble / metrique)
     }
+    print(hashMapDensite)
     // On renvoie le résultat de la densité sous forme de hashmap avec les noms de pays utilisés dans aiports.dat
     hashMapDensite
   }
