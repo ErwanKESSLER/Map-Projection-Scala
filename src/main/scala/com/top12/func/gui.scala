@@ -4,11 +4,13 @@ import java.awt.event.{WindowAdapter, WindowEvent}
 import java.awt.{Color, Toolkit}
 import java.io.File
 import java.net.URLDecoder
-import scala.util.matching.Regex
+import java.awt.event.{MouseAdapter, MouseEvent}
+
+import javax.swing.UIManager
 import javax.swing.table.DefaultTableCellRenderer
 
 import scala.swing._
-import scala.swing.event.{ButtonClicked, EditDone, SelectionChanged}
+import scala.swing.event.{ButtonClicked, EditDone, SelectionChanged, TableRowsSelected}
 import scala.util.matching.Regex
 
 class gui extends SimpleSwingApplication {
@@ -29,10 +31,18 @@ class gui extends SimpleSwingApplication {
   val dmy: String = stats.distanceMoyenne(distances).toString
   val dmd: String = stats.distanceMediane2(distances).toString
   val ect: String = stats.ecartType(distances).toString
-  var currentButton:Button=_
+  val countries:Array[Array[Any]]=util.showAllCountries(airports).map(el=>Array(el.asInstanceOf[Any]))
+  var currentButton:(Button,Int)=_
+  var currentButton1:Int=0
+  var currentButton2:Int=1
+  var currentButton3:String="Par Pays"
   var currentCheckBox:CheckBox=_
   var saveCondition:String=""
   var saveTypeCondition:String="Par ID"
+  var tempArray:Array[Array[Any]]=airports2
+  var selectedCountries:Set[String]=Set()
+  var rowSelection:Int=_
+
   def top: MainFrame = new MainFrame {
     frame =>
     title = "Map Projection TOP 12"
@@ -141,7 +151,7 @@ class gui extends SimpleSwingApplication {
         border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 4: Selection")
         val FirstPointButton = new Button(airports(0)._2)
         val SecondPointButton = new Button(airports(1)._2)
-        val ConditionsButton = new Button(airports(1)._2)
+        val ConditionsButton = new Button("Par Pays")
         val FirstCheckBox = new CheckBox()
         val SecondCheckBox = new CheckBox()
         val ThirdCheckBox = new CheckBox()
@@ -154,17 +164,15 @@ class gui extends SimpleSwingApplication {
         listenTo(ThirdCheckBox)
         listenTo(FourthCheckBox)
         reactions += {
-          case ButtonClicked(FirstPointButton) => SmartOneSelect(FirstPointButton)
-          case ButtonClicked(SecondPointButton) => SmartOneSelect(SecondPointButton)
+          case ButtonClicked(FirstPointButton) => SmartOneSelect(FirstPointButton,0)
+          case ButtonClicked(SecondPointButton) => SmartOneSelect(SecondPointButton,1)
           case ButtonClicked(ConditionsButton) => SmartConditionsSelect(ConditionsButton)
-          case ButtonClicked(FirstCheckBox) => excludeAndNotify(FirstCheckBox)
-          case ButtonClicked(SecondCheckBox) => excludeAndNotify(SecondCheckBox)
-          case ButtonClicked(ThirdCheckBox) => excludeAndNotify(ThirdCheckBox)
-          case ButtonClicked(FourthCheckBox) => excludeAndNotify(FourthCheckBox)
-
-
+          case ButtonClicked(FirstCheckBox) => excludeAndNotify(FirstCheckBox,0)
+          case ButtonClicked(SecondCheckBox) => excludeAndNotify(SecondCheckBox,1)
+          case ButtonClicked(ThirdCheckBox) => excludeAndNotify(ThirdCheckBox,2)
+          case ButtonClicked(FourthCheckBox) => excludeAndNotify(FourthCheckBox,3)
         }
-        FirstCheckBox.selected = true
+        FourthCheckBox.selected = true
         contents += new BoxPanel(Orientation.Horizontal) {
           contents += new Label {
             text = "Un Point"
@@ -187,9 +195,9 @@ class gui extends SimpleSwingApplication {
           contents += new Label {
             text = "Multiple Points"
           }
-          contents += Swing.HStrut(20)
+          contents += Swing.HStrut(10)
           contents += ConditionsButton
-          contents += Swing.HStrut(20)
+          contents += Swing.HStrut(10)
           contents += ThirdCheckBox
         }
         contents += new BoxPanel(Orientation.Horizontal) {
@@ -287,50 +295,91 @@ class gui extends SimpleSwingApplication {
       preferredSize = siz(0).left.get
       location = siz(3).right.get
       visible = false
+
       val exited = new Button(Action("Done") {
         selectOnePoint.visible = false
+        currentButton._2 match {
+          case 0=>currentButton._1.text=tempArray(rowSelection)(1).toString
+            currentButton1=tempArray(rowSelection)(0).toString.toInt
+          case 1=>currentButton._1.text=tempArray(rowSelection)(1).toString
+            currentButton2=tempArray(rowSelection)(0).toString.toInt
+        }
       })
+      val searchField:TextField = new TextField { columns = 200 }
+      val criteriaSearch:ComboBox[String]=new ComboBox[String](List("Par ID","Par Nom","Par Ville","Par Pays","Par Latitude et Longitude"))
 
       var table: Table = new Table(airports2, Seq("ID", "Name", "City", "Country", "Latitude", "Longitude")) {
         background = new Color(204, 204, 204)
         autoResizeMode = Table.AutoResizeMode.SubsequentColumns
       }
-      val searchField:TextField = new TextField { columns = 200 }
-      val criteriaSearch:ComboBox[String]=new ComboBox[String](List("Par ID","Par Nom","Par Ville","Par Pays","Par Latitude et Longitude"))
-      val centerRenderer = new DefaultTableCellRenderer()
-      listenTo(criteriaSearch)
+      listenTo(table.selection)
+      listenTo(criteriaSearch.selection)
       listenTo(searchField)
       reactions+={
         case EditDone(`searchField`)=>
           saveCondition=searchField.text
           updateText()
+          step4.requestFocus()
         case SelectionChanged(`criteriaSearch`)=>
           saveTypeCondition=criteriaSearch.selection.item
           updateText()
+        case TableRowsSelected(_,r,_)=>
+          rowSelection=table.selection.rows.leadIndex
+
       }
       def updateText(): Unit = {
-        println(saveTypeCondition)
+        println(saveCondition,saveTypeCondition)
         saveTypeCondition match {
           case "Par ID"=>updateTable(partOfDB((a:Array[Any])=>a(0).toString,saveCondition.r))
+          case "Par Nom"=>updateTable(partOfDB((a:Array[Any])=>a(1).toString,saveCondition.r))
+          case "Par Ville"=>updateTable(partOfDB((a:Array[Any])=>a(2).toString,saveCondition.r))
+          case "Par Pays"=>updateTable(partOfDB((a:Array[Any])=>a(3).toString,saveCondition.r))
+          case "Par Latitude et Longitude"=>updateTable(partOfDB2((a:Array[Any])=>(a(4).toString.toDouble,a(5).toString.toDouble),saveCondition))
+
         }
       }
       def updateTable(array: Array[Array[Any]]): Unit ={
-        var table: Table = new Table(array, Seq("ID", "Name", "City", "Country", "Latitude", "Longitude")) {
+        table= new Table(array, Seq("ID", "Name", "City", "Country", "Latitude", "Longitude")) {
           background = new Color(204, 204, 204)
           autoResizeMode = Table.AutoResizeMode.SubsequentColumns
         }
+        tempArray=array
+        listenTo(table.selection)
+        table.peer.setDefaultRenderer(classOf[String], centerRenderer)
+        step4.contents-=tableScrollable
+
+        tableScrollable=new ScrollPane(table) {
+          preferredSize = siz(7).left.get
+        }
+        step4.contents+=tableScrollable
         step4.revalidate()
         step4.repaint()
       }
-      def partOfDB(f:Array[Any]=>String,rx:Regex): Array[Array[Any] ]={
 
-        val temp=airports2.filter(x=>rx.findFirstIn(f(x)).isDefined)
-        println(temp.length,airports2.length)
-        temp
+      def partOfDB(f: Array[Any] => String, rx: Regex): Array[Array[Any]] = {
+        airports2.filter(x => rx.findFirstIn(f(x)).isDefined)
       }
+
+      def partOfDB2(f: Array[Any] => (Double,Double), rx: String): Array[Array[Any]] = {
+        try{
+          val r=rx.split(",")
+          val (lmn,lmx,lamn,lamx)=(r(0).toDouble,r(1).toDouble,r(2).toDouble,r(3).toDouble)
+          airports2.filter(x => f(x)._1>=lamn && f(x)._1<=lamx && f(x)._2>=lmn && f(x)._2<=lmx)
+        }
+        catch {
+          case _:Throwable=>println("error the format is latmin,latmax,lonmin,lonmax")
+            airports2
+        }
+
+      }
+      val centerRenderer = new DefaultTableCellRenderer()
       centerRenderer.setHorizontalAlignment(0)
       table.peer.setDefaultRenderer(classOf[String], centerRenderer)
+      var tableScrollable:ScrollPane=new ScrollPane(table) {
+        preferredSize = siz(7).left.get
+      }
       val step4:BoxPanel = new BoxPanel(Orientation.Vertical) {
+        border = Swing.EmptyBorder(10, 10, 10, 10)
         contents += new BorderPanel {
           add(exited, BorderPanel.Position.Center)
         }
@@ -340,20 +389,39 @@ class gui extends SimpleSwingApplication {
           contents+=Swing.HStrut(20)
           contents+=criteriaSearch
         }
-        contents += new ScrollPane(table) {
-          preferredSize = siz(7).left.get
-        }
-        border = Swing.EmptyBorder(10, 10, 10, 10)
+        contents += tableScrollable
       }
       contents=step4
     }
-    def SmartOneSelect(button:Button)={
+
+    def SmartOneSelect(button:Button,i:Int)={
       selectOnePoint.visible=true
+      currentButton=(button,i)
+    }
+
+    lazy val selectMultiplePoint: Frame = new Frame {
+      selectMultipleFrame =>
+
+      title = "Selection de points"
+      preferredSize = siz(0).left.get
+      location = siz(3).right.get
+      visible = false
+
+      val exited = new Button(Action("Done") {
+        selectOnePoint.visible = false
+      })
+      val table: Table = new Table(countries, Seq("Pays")) {
+        background = new Color(204, 204, 204)
+        autoResizeMode = Table.AutoResizeMode.SubsequentColumns
+      }
+      val step4bis:BoxPanel=new BoxPanel(Orientation.Horizontal){
+      
+      }
     }
     def SmartConditionsSelect(button:Button)={
-
+      selectMultiplePoint.visible=true
     }
-    def excludeAndNotify(b:CheckBox)={
+    def excludeAndNotify(b:CheckBox,i:Int)={
 
     }
 
