@@ -10,7 +10,7 @@ import com.top12.utils.ImagePanel
 import javax.swing.table.DefaultTableCellRenderer
 
 import scala.swing._
-import scala.swing.event.{ButtonClicked, EditDone, SelectionChanged, TableRowsSelected}
+import scala.swing.event._
 import scala.util.matching.Regex
 
 class gui extends SimpleSwingApplication {
@@ -46,6 +46,10 @@ class gui extends SimpleSwingApplication {
   var fileName: String = "Sources/Conformal/guyou.jpg"
   var image: ImagePanel = setImage(fileName)
   var densiteArray: Array[Array[Any]] = _
+  var Lontemp:String=_
+  var Lattemp:String=_
+  var pointr:String=_
+  var rtemp:String=_
 var division:Int=6
   def top: MainFrame = new MainFrame {
     frame =>
@@ -199,6 +203,11 @@ var division:Int=6
           case ButtonClicked(FourthCheckBox) => excludeAndNotify(FourthCheckBox, 3)
           case ButtonClicked(FifthCheckBox) => excludeAndNotify(FifthCheckBox, 4)
           case ButtonClicked(SixthCheckBox) => excludeAndNotify(SixthCheckBox, 5)
+          case EditDone(`lonRest`)=>Lontemp=lonRest.text
+          case EditDone(`latRest`)=>Lattemp=latRest.text
+          case EditDone(`pointRest`)=>pointr=pointRest.text
+          case EditDone(`rayonRest`)=>rtemp=rayonRest.text
+
         }
         FourthCheckBox.selected = true
         currentCheckBox=FourthCheckBox
@@ -239,14 +248,14 @@ var division:Int=6
         contents += new BoxPanel(Orientation.Horizontal) {
           contents += new BoxPanel(Orientation.Vertical) {
             contents += new Label {
-              text = "Par lat (min,max)"
+              text = "Par Point1 (lat,lon)"
             }
             contents += latRest
           }
           contents += Swing.HStrut(5)
           contents += new BoxPanel(Orientation.Vertical) {
             contents += new Label {
-              text = "Par lon (min,max)"
+              text = "Par Point2 (lat,lon)"
             }
             contents += lonRest
           }
@@ -546,6 +555,32 @@ var division:Int=6
           airportsTemp=airports.clone()
           airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
           division=6
+        case 2=>
+          airportsTemp=restriction.byCountry(airports,selectedCountries)
+          airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+          division=1
+        case 4=>
+          try {
+            val lon=Lontemp.split(",")
+            val lat=Lattemp.split(",")
+            airportsTemp=restriction.byArea(airports,(lon(0).toDouble,lon(1).toDouble),(lat(0).toDouble,lat(1).toDouble))
+            airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+            division=1
+          }
+          catch{
+            case _: Throwable => println("error the format is lat1,lon1 et lat2,lon2")
+          }
+        case 5=>
+          try{
+            val point =pointr.split(",")
+            airportsTemp=restriction.byRadius(airports,(point(0).toDouble,point(1).toDouble),rtemp.toDouble)
+            airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+            division=1
+            )
+          }
+          catch {
+            case _: Throwable => println("error the format is lat1,lon1 et R")
+          }
 
       }
       globalWindows.revalidate()
