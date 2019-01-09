@@ -24,14 +24,15 @@ class gui extends SimpleSwingApplication {
   val conformal = new com.top12.func.conformalProjections
   val equalArea = new com.top12.func.equalAreaProjections
   val airports: Array[(Int, String, String, String, Double, Double)] = loadAirport.loadAirport(filename = "airports.dat")
-  var airportsTemp:Array[(Int, String, String, String, Double, Double)]=airports
+  var airportsTemp: Array[(Int, String, String, String, Double, Double)] = airports
   var airports2: Array[Array[Any]] = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
-  lazy val distances: Array[Double] = distance.distancesArray(airports)
+  var distances: Array[Double] = distance.distancesArray(airports)
   val dmn: String = stats.distanceMin(distances).toString
   val dmx: String = stats.distanceMax(distances).toString
   val dmy: String = stats.distanceMoyenne(distances).toString
   val dmd: String = stats.distanceMediane2(distances).toString
   val ect: String = stats.ecartType(distances).toString
+  var (dmnTemp, dmxTemp, dmyTemp, dmdTemp, ectTemp) = (dmn, dmx, dmy, dmd, ect)
   val countries: Array[String] = util.showAllCountries(airports)
   var currentButton: (Button, Int) = _
   var currentButton1: Int = 1
@@ -46,11 +47,13 @@ class gui extends SimpleSwingApplication {
   var fileName: String = "Sources/Conformal/guyou.jpg"
   var image: ImagePanel = setImage(fileName)
   var densiteArray: Array[Array[Any]] = _
-  var Lontemp:String=_
-  var Lattemp:String=_
-  var pointr:String=_
-  var rtemp:String=_
-var division:Int=6
+  var Lontemp: String = _
+  var Lattemp: String = _
+  var pointr: String = _
+  var rtemp: String = _
+
+  var division: Int = 6
+
   def top: MainFrame = new MainFrame {
     frame =>
     title = "Map Projection TOP 12"
@@ -109,7 +112,7 @@ var division:Int=6
           lineWrap = true
           wordWrap = true
           editable = false
-          text = "Aéroport 2: " + (if (airportsTemp.length>1) airportsTemp(1)._2  else airportsTemp(0)._2)
+          text = "Aéroport 2: " + (if (airportsTemp.length > 1) airportsTemp(1)._2 else airportsTemp(0)._2)
           caret.position = 0
         }
         val distanceA1A2: TextArea = new TextArea {
@@ -118,7 +121,7 @@ var division:Int=6
           wordWrap = true
           editable = false
           text = "Distance (en km) entre aéroport 1 et aéroport 2: " +
-            distance.distanceHaversine(airportsTemp(0)._5,if (airportsTemp.length>1) airportsTemp(1)._5  else airportsTemp(0)._5, airportsTemp(0)._6, if (airportsTemp.length>1) airportsTemp(1)._6  else airportsTemp(0)._6).toString
+            distance.distanceHaversine(airportsTemp(0)._5, if (airportsTemp.length > 1) airportsTemp(1)._5 else airportsTemp(0)._5, airportsTemp(0)._6, if (airportsTemp.length > 1) airportsTemp(1)._6 else airportsTemp(0)._6).toString
           caret.position = 0
         }
         border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 2: Calculer les distances")
@@ -135,19 +138,19 @@ var division:Int=6
         preferredSize = siz(4).left.get
         border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 3: Statistiques")
         val distanceMin: Label = new Label {
-          text = "Minimum : " + dmn + " m."
+          text = "Minimum : " + dmnTemp + " km."
         }
         val distanceMax: Label = new Label {
-          text = "Maximum : " + dmx + " m."
+          text = "Maximum : " + dmxTemp + " km."
         }
         val distanceMoyenne: Label = new Label {
-          text = "Moyenne : " + dmy + " m."
+          text = "Moyenne : " + dmyTemp + " km."
         }
         val distanceMediane: Label = new Label {
-          text = "Médiane : " + dmd + " m."
+          text = "Médiane : " + dmdTemp + " km."
         }
         val ecartype: Label = new Label {
-          text = "Ecart type : " + ect + " m."
+          text = "Ecart type : " + ectTemp + " km."
         }
         contents += distanceMin
         contents += distanceMax
@@ -203,14 +206,14 @@ var division:Int=6
           case ButtonClicked(FourthCheckBox) => excludeAndNotify(FourthCheckBox, 3)
           case ButtonClicked(FifthCheckBox) => excludeAndNotify(FifthCheckBox, 4)
           case ButtonClicked(SixthCheckBox) => excludeAndNotify(SixthCheckBox, 5)
-          case EditDone(`lonRest`)=>Lontemp=lonRest.text
-          case EditDone(`latRest`)=>Lattemp=latRest.text
-          case EditDone(`pointRest`)=>pointr=pointRest.text
-          case EditDone(`rayonRest`)=>rtemp=rayonRest.text
+          case EditDone(`lonRest`) => Lontemp = lonRest.text
+          case EditDone(`latRest`) => Lattemp = latRest.text
+          case EditDone(`pointRest`) => pointr = pointRest.text
+          case EditDone(`rayonRest`) => rtemp = rayonRest.text
 
         }
         FourthCheckBox.selected = true
-        currentCheckBox=FourthCheckBox
+        currentCheckBox = FourthCheckBox
         contents += new BoxPanel(Orientation.Horizontal) {
           contents += new Label {
             text = "Un Point"
@@ -470,7 +473,7 @@ var division:Int=6
       contents = step4
     }
 
-    def SmartOneSelect(button: Button, i: Int):Unit = {
+    def SmartOneSelect(button: Button, i: Int): Unit = {
       selectOnePoint.visible = true
       currentButton = (button, i)
     }
@@ -509,7 +512,7 @@ var division:Int=6
       }
       val exited = new Button(Action("Done") {
         selectMultiplePoint.visible = false
-        selectedCountries=tablebis.text.split("\n").toSet
+        selectedCountries = tablebis.text.split("\n").toSet
       })
       val countriesPlus: Button = new Button("+")
       val countriesMoins: Button = new Button("-")
@@ -517,7 +520,7 @@ var division:Int=6
         contents += new BorderPanel {
           add(exited, BorderPanel.Position.Center)
         }
-        contents+=new BoxPanel(Orientation.Horizontal) {
+        contents += new BoxPanel(Orientation.Horizontal) {
 
           border = Swing.EmptyBorder(10, 10, 10, 10)
           contents += tableScrollable
@@ -532,51 +535,86 @@ var division:Int=6
       contents = step4bis
     }
 
-    def SmartConditionsSelect(button: Button):Unit = {
+    def SmartConditionsSelect(button: Button): Unit = {
       selectMultiplePoint.visible = true
     }
 
-    def excludeAndNotify(b: CheckBox, i: Int):Unit = {
-      currentCheckBox.selected=false
-      currentCheckBox=b
+    def excludeAndNotify(b: CheckBox, i: Int): Unit = {
+      currentCheckBox.selected = false
+      currentCheckBox = b
       i match {
-        case 0=>
-          var line=util.airportsIdToNumbers(airports)(currentButton1)
-          airportsTemp=Array(airports(line))
-          airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
-          division=1
-        case 1=>
-          var line=util.airportsIdToNumbers(airports)(currentButton1)
-          var line2=util.airportsIdToNumbers(airports)(currentButton2)
-          airportsTemp=Array(airports(line),airports(line2))
-          airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
-          division=1
-        case 3=>
-          airportsTemp=airports.clone()
-          airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
-          division=6
-        case 2=>
-          airportsTemp=restriction.byCountry(airports,selectedCountries)
-          airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
-          division=1
-        case 4=>
+        case 0 =>
+          var line = util.airportsIdToNumbers(airports)(currentButton1)
+          airportsTemp = Array(airports(line))
+          airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+          division = 1
+          distances= distance.distancesArray(airportsTemp)
+          dmnTemp = stats.distanceMin(distances).toString
+          dmxTemp = stats.distanceMax(distances).toString
+          dmyTemp = stats.distanceMoyenne(distances).toString
+          dmdTemp = stats.distanceMediane2(distances).toString
+          ectTemp = stats.ecartType(distances).toString
+        case 1 =>
+          var line = util.airportsIdToNumbers(airports)(currentButton1)
+          var line2 = util.airportsIdToNumbers(airports)(currentButton2)
+          airportsTemp = Array(airports(line), airports(line2))
+          airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+          distances= distance.distancesArray(airportsTemp)
+          division = 1
+          dmnTemp = stats.distanceMin(distances).toString
+          dmxTemp = stats.distanceMax(distances).toString
+          dmyTemp = stats.distanceMoyenne(distances).toString
+          dmdTemp = stats.distanceMediane2(distances).toString
+          ectTemp = stats.ecartType(distances).toString
+        case 3 =>
+          airportsTemp = airports.clone()
+          airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+          distances= distance.distancesArray(airportsTemp)
+          dmnTemp = dmn
+          dmxTemp = dmx
+          dmyTemp = dmy
+          dmdTemp = dmd
+          ectTemp = ect
+          division = 6
+        case 2 =>
+          airportsTemp = restriction.byCountry(airports, selectedCountries)
+          airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+          division = 1
+           distances = distance.distancesArray(airports)
+          dmnTemp = stats.distanceMin(distances).toString
+          dmxTemp = stats.distanceMax(distances).toString
+          dmyTemp = stats.distanceMoyenne(distances).toString
+          dmdTemp = stats.distanceMediane2(distances).toString
+          ectTemp = stats.ecartType(distances).toString
+        case 4 =>
           try {
-            val lon=Lontemp.split(",")
-            val lat=Lattemp.split(",")
-            airportsTemp=restriction.byArea(airports,(lon(0).toDouble,lon(1).toDouble),(lat(0).toDouble,lat(1).toDouble))
-            airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
-            division=1
+            val lon = Lontemp.split(",")
+            val lat = Lattemp.split(",")
+            airportsTemp = restriction.byArea(airports, (lon(0).toDouble, lon(1).toDouble), (lat(0).toDouble, lat(1).toDouble))
+            airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+            division = 1
+            distances= distance.distancesArray(airports)
+            dmnTemp = stats.distanceMin(distances).toString
+            dmxTemp = stats.distanceMax(distances).toString
+            dmyTemp = stats.distanceMoyenne(distances).toString
+            dmdTemp = stats.distanceMediane2(distances).toString
+            ectTemp = stats.ecartType(distances).toString
           }
-          catch{
+          catch {
             case _: Throwable => println("error the format is lat1,lon1 et lat2,lon2")
           }
-        case 5=>
-          try{
-            val point =pointr.split(",")
-            airportsTemp=restriction.byRadius(airports,(point(0).toDouble,point(1).toDouble),rtemp.toDouble)
-            airports2= airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
-            division=1
-            )
+        case 5 =>
+          try {
+            val point = pointr.split(",")
+            airportsTemp = restriction.byRadius(airports, (point(0).toDouble, point(1).toDouble), rtemp.toDouble)
+            airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+            division = 1
+            distances= distance.distancesArray(airports)
+            dmnTemp = stats.distanceMin(distances).toString
+            dmxTemp = stats.distanceMax(distances).toString
+            dmyTemp = stats.distanceMoyenne(distances).toString
+            dmdTemp = stats.distanceMediane2(distances).toString
+            ectTemp = stats.ecartType(distances).toString
           }
           catch {
             case _: Throwable => println("error the format is lat1,lon1 et R")
@@ -701,7 +739,7 @@ var division:Int=6
       contents += image
 
     }
-    var globalWindows:BorderPanel = new BorderPanel {
+    var globalWindows: BorderPanel = new BorderPanel {
       add(step1to4, BorderPanel.Position.West)
       add(imagePart, BorderPanel.Position.Center)
       add(exitBtn, BorderPanel.Position.South)

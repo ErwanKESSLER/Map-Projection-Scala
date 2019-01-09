@@ -133,7 +133,8 @@ class utils {
   }
 
   def readImage(filename: String): BufferedImage = {
-    ImageIO.read(getClass.getResource( "/"+filename))
+    println("Reqding " + filename + "from" + getClass.getResource("/" + filename))
+    ImageIO.read(getClass.getResource("/" + filename))
   }
 
   def writeImage(out: BufferedImage, filename: String): Unit = {
@@ -141,12 +142,12 @@ class utils {
     val path = "/Results/" + filename.split("\\.")(0).split("/").dropRight(1).drop(1).mkString("/") + "/"
     val name = filename.split("\\.")(0).split("/").last
     val jarPath = URLDecoder.decode(getClass.getProtectionDomain.getCodeSource.getLocation.getPath, "UTF-8")
-    val parent=new File(jarPath.substring(0, jarPath.lastIndexOf("/")) +path)
+    val parent = new File(jarPath.substring(0, jarPath.lastIndexOf("/")) + path)
     parent.mkdirs()
-    val file=new File(parent,name + "_result." + extension)
+    val file = new File(parent, name + "_result." + extension)
     file.createNewFile()
     ImageIO.write(out, extension, file)
-    println(AnsiColor.GREEN+ AnsiColor.BLINK +"file saved as " + file + AnsiColor.RESET)
+    println(AnsiColor.GREEN + AnsiColor.BLINK + "file saved as " + file + AnsiColor.RESET)
   }
 
   def returnTRGB(color: Int): (Int, Int, Int, Int) = {
