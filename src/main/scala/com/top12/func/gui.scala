@@ -5,10 +5,8 @@ import java.awt.{Color, Toolkit}
 import java.io.File
 import java.net.URLDecoder
 import java.text.DecimalFormat
-
 import com.top12.utils.ImagePanel
 import javax.swing.table.DefaultTableCellRenderer
-
 import scala.swing._
 import scala.swing.event._
 import scala.util.matching.Regex
@@ -63,6 +61,7 @@ class gui extends SimpleSwingApplication {
     title = "Map Projection TOP 12"
     preferredSize = siz(0).left.get
     location = siz(3).right.get
+    peer.setUndecorated(true)
     //-------------------------------------Exiting--------------------------------//
     val sf: Frame = new Frame {
       secondFrame =>
@@ -336,7 +335,6 @@ class gui extends SimpleSwingApplication {
       })
       //ici on triche mais disons que ce n'est pas raisonable d'occuper autant de ressource et de memoir pour quelque chose
       //que l'on n'utilisera pas...
-      println(airportsTemp.mkString(" ; "))
       val distancesArray: Array[Array[Any]] = Array.ofDim[Any](airportsTemp.length / division * (airportsTemp.length / division - 1) / 2, 3)
       var index: Int = 0
       for (i <- Range(0, airportsTemp.length / division)) {
@@ -700,16 +698,16 @@ class gui extends SimpleSwingApplication {
 
       step1to4.contents += step3
       step1to4.contents += sp4
-      if (fileName == "Sources/Equidistant/equirectangular.png"){
+      if (fileName == "Sources/Equidistant/equirectangular.png") {
         equidistant.modifyImage(fileName, airportsTemp)
-    }
-      else if (fileName.split("/")(1)=="Conformal"){
+      }
+      else if (fileName.split("/")(1) == "Conformal") {
         val exceptions = Set("eckert1", "eckert3", "eckert5", "balthasart", "toblersWIS")
         val exception = Set("adamshemisphere2", "adamsWIS1", "adamsWIS2")
         conformal.whichProjection("all", fileName.split("/")(2), if (exception(fileName.split("/")(2).split("\\.")(0)))
           "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airportsTemp))
       }
-      else if (fileName.split("/")(1)=="EqualArea") {
+      else if (fileName.split("/")(1) == "EqualArea") {
         val exceptions = Set("eckert1", "eckert3", "eckert5", "balthasart", "toblersWIS")
 
         equalArea.whichProjection("all", fileName.split("/")(2), if (exceptions(fileName.split("/")(2).split("\\.")(0)))
@@ -833,20 +831,44 @@ class gui extends SimpleSwingApplication {
       contents += step6
       contents += step7
     }
-    //----------------------------------------------Etape5----------------------------------------------------------
+    //----------------------------------------------Image----------------------------------------------------------
+    val modalImage:Frame = new Frame {
+      imageFrame =>
+      title = "Image"
+      preferredSize = siz(0).left.get
+      location = siz(3).right.get
+      visible = false
+      val exited = new Button(Action("Exit") {
+        imageFrame.visible = false
+      })
+      contents=new BoxPanel(Orientation.Vertical) {
+        contents += new BorderPanel {
+          add(exited, BorderPanel.Position.Center)
 
+        }
+        contents += setImage(fileName)
+    }
 
     val imagePart: BoxPanel = new BoxPanel(Orientation.Horizontal) {
       contents += image
+      listenTo(mouse.clicks)
+      reactions += {
+        case e: MouseClicked => modalImage.visible=true
+
+      }
 
     }
+
+
     var globalWindows: BorderPanel = new BorderPanel {
       add(step1to4, BorderPanel.Position.West)
-      add(imagePart, BorderPanel.Position.Center)
-      add(exitBtn, BorderPanel.Position.South)
+      add(new BorderPanel {
+        add(imagePart, BorderPanel.Position.Center)
+      }, BorderPanel.Position.Center)
+      add(exitBtn, BorderPanel.Position.North)
       add(Button("Authors") {
         pressMe()
-      }, BorderPanel.Position.North)
+      }, BorderPanel.Position.South)
       add(step5to8, BorderPanel.Position.East)
     }
     contents = globalWindows
@@ -865,7 +887,7 @@ class gui extends SimpleSwingApplication {
       case 0 => Left(new Dimension((w * 0.95).toInt, (h * 0.95).toInt))
       case 1 => Right(new Point((w * 0.5 - 100).toInt, (h * 0.5 - 37.5).toInt))
       case 2 => Left(new Dimension(200, 75))
-      case 3 => Right(new Point((w * 0.125).toInt, (h * 0.125).toInt))
+      case 3 => Right(new Point((w * 0.010).toInt, (h * 0.005).toInt))
       case 4 => Left(new Dimension((w * 0.95 * 0.25 * 0.94).toInt, (h * 0.95 * 0.25 * 0.95 * 0.87).toInt))
       case 5 => Left(new Dimension((w * 0.95 * 0.25).toInt, (h * 0.95 * 0.94).toInt))
       case 6 => Left(new Dimension((w * 0.95 * 0.6 * 0.80).toInt, (h * 0.95 * 0.6 * 0.80).toInt))
@@ -873,6 +895,7 @@ class gui extends SimpleSwingApplication {
       case 8 => Left(new Dimension((w * 0.95 * 0.95 * 0.2).toInt, (h * 0.95 * 30).toInt))
       case 9 => Left(new Dimension((w * 0.95 * 0.25 * 0.94).toInt, (h * 0.95 * 0.10 * 0.95 * 0.87).toInt))
       case 10 => Left(new Dimension((w * 0.95 * 0.25 * 0.94).toInt, (h * 0.95 * 0.40 * 0.95 * 0.87).toInt))
+      case 11 => Left(new Dimension((w * 0.95 * 0.5).toInt, (h * 0.95 * 0.5).toInt))
     }
 
   }
@@ -880,7 +903,7 @@ class gui extends SimpleSwingApplication {
   def setImage(pat: String): ImagePanel = {
     var image: com.top12.utils.ImagePanel = new com.top12.utils.ImagePanel {
 
-      preferredSize = siz(6).left.get
+      preferredSize = siz(11).left.get
       var filename: String = pat
       val extension: String = filename.split("\\.")(1)
       val path: String = "/Results/" + filename.split("\\.")(0).split("/").dropRight(1).drop(1).mkString("/") + "/"
