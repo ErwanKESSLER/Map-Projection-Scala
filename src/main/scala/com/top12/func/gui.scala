@@ -24,9 +24,11 @@ class gui extends SimpleSwingApplication {
   val conformal = new com.top12.func.conformalProjections
   val equalArea = new com.top12.func.equalAreaProjections
   val airports: Array[(Int, String, String, String, Double, Double)] = loadAirport.loadAirport(filename = "airports.dat")
-  var airportsTemp: Array[(Int, String, String, String, Double, Double)] = airports
+  var airportsTemp: Array[(Int, String, String, String, Double, Double)] = airports.clone()
   var airports2: Array[Array[Any]] = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+  var airports22: Array[Array[Any]] = airports.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
   var distances: Array[Double] = distance.distancesArray(airports)
+  val distanceTemps: Array[Double]=distances.clone()
   val dmn: String = stats.distanceMin(distances).toString
   val dmx: String = stats.distanceMax(distances).toString
   val dmy: String = stats.distanceMoyenne(distances).toString
@@ -45,6 +47,7 @@ class gui extends SimpleSwingApplication {
   var selectedCountries: Set[String] = Set()
   var rowSelection: Int = _
   var fileName: String = "Sources/Conformal/guyou.jpg"
+  conformal.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))     
   var image: ImagePanel = setImage(fileName)
   var densiteArray: Array[Array[Any]] = _
   var Lontemp: String = _
@@ -385,7 +388,7 @@ class gui extends SimpleSwingApplication {
       }
       val criteriaSearch: ComboBox[String] = new ComboBox[String](List("Par ID", "Par Nom", "Par Ville", "Par Pays", "Par Latitude et Longitude"))
 
-      var table: Table = new Table(airports2, Seq("ID", "Name", "City", "Country", "Latitude", "Longitude")) {
+      var table: Table = new Table(airports22, Seq("ID", "Name", "City", "Country", "Latitude", "Longitude")) {
         background = new Color(204, 204, 204)
         autoResizeMode = Table.AutoResizeMode.SubsequentColumns
       }
@@ -493,7 +496,7 @@ class gui extends SimpleSwingApplication {
         lineWrap = true
         wordWrap = true
         editable = false
-        text = countries.mkString("\n")
+        text = util.showAllCountries(airports).mkString("\n")
       }
 
       var tableScrollable: ScrollPane = new ScrollPane(table) {
@@ -542,6 +545,7 @@ class gui extends SimpleSwingApplication {
     def excludeAndNotify(b: CheckBox, i: Int): Unit = {
       currentCheckBox.selected = false
       currentCheckBox = b
+	  currentCheckBox.selected = true
       i match {
         case 0 =>
           var line = util.airportsIdToNumbers(airports)(currentButton1)
@@ -549,11 +553,11 @@ class gui extends SimpleSwingApplication {
           airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
           division = 1
           distances= distance.distancesArray(airportsTemp)
-          dmnTemp = stats.distanceMin(distances).toString
-          dmxTemp = stats.distanceMax(distances).toString
-          dmyTemp = stats.distanceMoyenne(distances).toString
-          dmdTemp = stats.distanceMediane2(distances).toString
-          ectTemp = stats.ecartType(distances).toString
+          dmnTemp = 0.toString
+          dmxTemp = 0.toString
+          dmyTemp = 0.toString
+          dmdTemp = 0.toString
+          ectTemp = 0.toString
         case 1 =>
           var line = util.airportsIdToNumbers(airports)(currentButton1)
           var line2 = util.airportsIdToNumbers(airports)(currentButton2)
@@ -569,7 +573,7 @@ class gui extends SimpleSwingApplication {
         case 3 =>
           airportsTemp = airports.clone()
           airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
-          distances= distance.distancesArray(airportsTemp)
+          distances= distanceTemps
           dmnTemp = dmn
           dmxTemp = dmx
           dmyTemp = dmy
@@ -621,6 +625,8 @@ class gui extends SimpleSwingApplication {
           }
 
       }
+	  val sp4=step1to4.contents.last
+	  step1to4.contents-=sp4
 step1to4.contents-=step3
 step3 = new BoxPanel(Orientation.Vertical) {
         preferredSize = siz(4).left.get
@@ -645,8 +651,11 @@ step3 = new BoxPanel(Orientation.Vertical) {
         contents += distanceMoyenne
         contents += distanceMediane
         contents += ecartype
+		
 }
 step1to4.contents+=step3
+step1to4.contents+=sp4
+setImage(fileName)
 step1to4.revalidate()
 step1to4.repaint()
       globalWindows.revalidate()
@@ -789,17 +798,17 @@ step1to4.repaint()
     val w = screenSize.getWidth
     val h = screenSize.getHeight
     i match {
-      case 0 => Left(new Dimension((w * 0.75).toInt, (h * 0.75).toInt))
+      case 0 => Left(new Dimension((w * 0.95).toInt, (h * 0.95).toInt))
       case 1 => Right(new Point((w * 0.5 - 100).toInt, (h * 0.5 - 37.5).toInt))
       case 2 => Left(new Dimension(200, 75))
       case 3 => Right(new Point((w * 0.125).toInt, (h * 0.125).toInt))
-      case 4 => Left(new Dimension((w * 0.75 * 0.2 * 0.94).toInt, (h * 0.75 * 0.25 * 0.95 * 0.87).toInt))
-      case 5 => Left(new Dimension((w * 0.75 * 0.2).toInt, (h * 0.75 * 0.94).toInt))
-      case 6 => Left(new Dimension((w * 0.75 * 0.6 * 0.80).toInt, (h * 0.75 * 0.6 * 0.80).toInt))
-      case 7 => Left(new Dimension((w * 0.75 * 0.95).toInt, (h * 0.75 * 80).toInt))
-      case 8 => Left(new Dimension((w * 0.75 * 0.95 * 0.2).toInt, (h * 0.75 * 30).toInt))
-      case 9 => Left(new Dimension((w * 0.75 * 0.2 * 0.94).toInt, (h * 0.75 * 0.10 * 0.95 * 0.87).toInt))
-      case 10 => Left(new Dimension((w * 0.75 * 0.2 * 0.94).toInt, (h * 0.75 * 0.40 * 0.95 * 0.87).toInt))
+      case 4 => Left(new Dimension((w * 0.95 * 0.25 * 0.94).toInt, (h * 0.95 * 0.25 * 0.95 * 0.87).toInt))
+      case 5 => Left(new Dimension((w * 0.95 * 0.25).toInt, (h * 0.95 * 0.94).toInt))
+      case 6 => Left(new Dimension((w * 0.95 * 0.6 * 0.80).toInt, (h * 0.95 * 0.6 * 0.80).toInt))
+      case 7 => Left(new Dimension((w * 0.95 * 0.95).toInt, (h * 0.95 * 80).toInt))
+      case 8 => Left(new Dimension((w * 0.95 * 0.95 * 0.2).toInt, (h * 0.95 * 30).toInt))
+      case 9 => Left(new Dimension((w * 0.95 * 0.25 * 0.94).toInt, (h * 0.95 * 0.10 * 0.95 * 0.87).toInt))
+      case 10 => Left(new Dimension((w * 0.95 * 0.25 * 0.94).toInt, (h * 0.95 * 0.40 * 0.95 * 0.87).toInt))
     }
 
   }
@@ -818,7 +827,7 @@ step1to4.repaint()
       val file: File = new File(parent, nam + "_result." + extension)
       width = preferredSize.width
       height = preferredSize.height
-      imagePath = file.getPath
+      imagePath = file
     }
     image
   }

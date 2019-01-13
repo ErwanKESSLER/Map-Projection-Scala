@@ -8,12 +8,12 @@ import javax.imageio.ImageIO
 import scala.swing._
 
 class ImagePanel extends Panel {
-  private var _imagePath = ""
+  private var _imagePath:File = _
   private var bufferedImage: BufferedImage = _
   private var w = 100
   private var h = 100
 
-  def imagePath:String = _imagePath
+  def imagePath:File = _imagePath
 
   def width:Int = w
 
@@ -27,9 +27,9 @@ class ImagePanel extends Panel {
     h = he
   }
 
-  def imagePath_=(value: String): Unit = {
+  def imagePath_=(value: File): Unit = {
     _imagePath = value
-    bufferedImage = ImageIO.read(new File(_imagePath))
+    bufferedImage = ImageIO.read(_imagePath)
   }
 
 
