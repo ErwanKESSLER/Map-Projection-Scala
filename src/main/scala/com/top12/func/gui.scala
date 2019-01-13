@@ -28,7 +28,7 @@ class gui extends SimpleSwingApplication {
   var airports2: Array[Array[Any]] = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
   var airports22: Array[Array[Any]] = airports.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
   var distances: Array[Double] = distance.distancesArray(airports)
-  val distanceTemps: Array[Double]=distances.clone()
+  val distanceTemps: Array[Double] = distances.clone()
   val dmn: String = stats.distanceMin(distances).toString
   val dmx: String = stats.distanceMax(distances).toString
   val dmy: String = stats.distanceMoyenne(distances).toString
@@ -44,18 +44,19 @@ class gui extends SimpleSwingApplication {
   var saveCondition: String = ""
   var saveTypeCondition: String = "Par ID"
   var tempArray: Array[Array[Any]] = airports2
-  var selectedCountries: Set[String] = Set()
+  var selectedCountries: Set[String] = Set("France")
   var rowSelection: Int = _
   var fileName: String = "Sources/Conformal/guyou.jpg"
-  conformal.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))     
+  conformal.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
   var image: ImagePanel = setImage(fileName)
   var densiteArray: Array[Array[Any]] = _
   var Lontemp: String = _
   var Lattemp: String = _
   var pointr: String = _
   var rtemp: String = _
-  var step3:BoxPanel=_
+  var step3: BoxPanel = _
   var division: Int = 6
+  var step2: BoxPanel = _
 
   def top: MainFrame = new MainFrame {
     frame =>
@@ -100,7 +101,7 @@ class gui extends SimpleSwingApplication {
           airportsList.visible = true
         })
       }
-      var step2: BoxPanel = new BoxPanel(Orientation.Vertical) {
+      step2 = new BoxPanel(Orientation.Vertical) {
         preferredSize = siz(4).left.get
         val distanceA1: TextArea = new TextArea {
           rows = 1
@@ -137,7 +138,7 @@ class gui extends SimpleSwingApplication {
 
 
       }
-      step3= new BoxPanel(Orientation.Vertical) {
+      step3 = new BoxPanel(Orientation.Vertical) {
         preferredSize = siz(4).left.get
         border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 3: Statistiques")
         val distanceMin: Label = new Label {
@@ -335,6 +336,7 @@ class gui extends SimpleSwingApplication {
       })
       //ici on triche mais disons que ce n'est pas raisonable d'occuper autant de ressource et de memoir pour quelque chose
       //que l'on n'utilisera pas...
+      println(airportsTemp.mkString(" ; "))
       val distancesArray: Array[Array[Any]] = Array.ofDim[Any](airportsTemp.length / division * (airportsTemp.length / division - 1) / 2, 3)
       var index: Int = 0
       for (i <- Range(0, airportsTemp.length / division)) {
@@ -438,18 +440,18 @@ class gui extends SimpleSwingApplication {
       }
 
       def partOfDB(f: Array[Any] => String, rx: Regex): Array[Array[Any]] = {
-        airports2.filter(x => rx.findFirstIn(f(x)).isDefined)
+        airports22.filter(x => rx.findFirstIn(f(x)).isDefined)
       }
 
       def partOfDB2(f: Array[Any] => (Double, Double), rx: String): Array[Array[Any]] = {
         try {
           val r = rx.split(",")
           val (lmn, lmx, lamn, lamx) = (r(0).toDouble, r(1).toDouble, r(2).toDouble, r(3).toDouble)
-          airports2.filter(x => f(x)._1 >= lamn && f(x)._1 <= lamx && f(x)._2 >= lmn && f(x)._2 <= lmx)
+          airports22.filter(x => f(x)._1 >= lamn && f(x)._1 <= lamx && f(x)._2 >= lmn && f(x)._2 <= lmx)
         }
         catch {
           case _: Throwable => println("error the format is latmin,latmax,lonmin,lonmax")
-            airports2
+            airports22
         }
 
       }
@@ -545,14 +547,14 @@ class gui extends SimpleSwingApplication {
     def excludeAndNotify(b: CheckBox, i: Int): Unit = {
       currentCheckBox.selected = false
       currentCheckBox = b
-	  currentCheckBox.selected = true
+      currentCheckBox.selected = true
       i match {
         case 0 =>
           var line = util.airportsIdToNumbers(airports)(currentButton1)
           airportsTemp = Array(airports(line))
           airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
           division = 1
-          distances= distance.distancesArray(airportsTemp)
+          distances = distance.distancesArray(airportsTemp)
           dmnTemp = 0.toString
           dmxTemp = 0.toString
           dmyTemp = 0.toString
@@ -563,7 +565,7 @@ class gui extends SimpleSwingApplication {
           var line2 = util.airportsIdToNumbers(airports)(currentButton2)
           airportsTemp = Array(airports(line), airports(line2))
           airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
-          distances= distance.distancesArray(airportsTemp)
+          distances = distance.distancesArray(airportsTemp)
           division = 1
           dmnTemp = stats.distanceMin(distances).toString
           dmxTemp = stats.distanceMax(distances).toString
@@ -573,7 +575,7 @@ class gui extends SimpleSwingApplication {
         case 3 =>
           airportsTemp = airports.clone()
           airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
-          distances= distanceTemps
+          distances = distanceTemps
           dmnTemp = dmn
           dmxTemp = dmx
           dmyTemp = dmy
@@ -584,7 +586,7 @@ class gui extends SimpleSwingApplication {
           airportsTemp = restriction.byCountry(airports, selectedCountries)
           airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
           division = 1
-           distances = distance.distancesArray(airportsTemp)
+          distances = distance.distancesArray(airportsTemp)
           dmnTemp = stats.distanceMin(distances).toString
           dmxTemp = stats.distanceMax(distances).toString
           dmyTemp = stats.distanceMoyenne(distances).toString
@@ -597,7 +599,7 @@ class gui extends SimpleSwingApplication {
             airportsTemp = restriction.byArea(airports, (lon(0).toDouble, lon(1).toDouble), (lat(0).toDouble, lat(1).toDouble))
             airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
             division = 1
-            distances= distance.distancesArray(airportsTemp)
+            distances = distance.distancesArray(airportsTemp)
             dmnTemp = stats.distanceMin(distances).toString
             dmxTemp = stats.distanceMax(distances).toString
             dmyTemp = stats.distanceMoyenne(distances).toString
@@ -613,7 +615,7 @@ class gui extends SimpleSwingApplication {
             airportsTemp = restriction.byRadius(airports, (point(0).toDouble, point(1).toDouble), rtemp.toDouble)
             airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
             division = 1
-            distances= distance.distancesArray(airportsTemp)
+            distances = distance.distancesArray(airportsTemp)
             dmnTemp = stats.distanceMin(distances).toString
             dmxTemp = stats.distanceMax(distances).toString
             dmyTemp = stats.distanceMoyenne(distances).toString
@@ -625,10 +627,10 @@ class gui extends SimpleSwingApplication {
           }
 
       }
-	  val sp4=step1to4.contents.last
-	  step1to4.contents-=sp4
-step1to4.contents-=step3
-step3 = new BoxPanel(Orientation.Vertical) {
+      val sp4 = step1to4.contents.last
+      step1to4.contents -= sp4
+      step1to4.contents -= step3
+      step3 = new BoxPanel(Orientation.Vertical) {
         preferredSize = siz(4).left.get
         border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 3: Statistiques")
         val distanceMin: Label = new Label {
@@ -651,13 +653,75 @@ step3 = new BoxPanel(Orientation.Vertical) {
         contents += distanceMoyenne
         contents += distanceMediane
         contents += ecartype
-		
-}
-step1to4.contents+=step3
-step1to4.contents+=sp4
-setImage(fileName)
-step1to4.revalidate()
-step1to4.repaint()
+
+      }
+      step1to4.contents -= step2
+      step2 = new BoxPanel(Orientation.Vertical) {
+        preferredSize = siz(4).left.get
+        val distanceA1: TextArea = new TextArea {
+          rows = 1
+          lineWrap = true
+          wordWrap = true
+          editable = false
+          text = "Aéroport 1: " + (if (airportsTemp.length > 0) airportsTemp(0)._2 else "NaN")
+          caret.position = 0
+        }
+        val distanceA2: TextArea = new TextArea {
+          rows = 1
+          lineWrap = true
+          wordWrap = true
+          editable = false
+          text = "Aéroport 2: " + (if (airportsTemp.length > 1) airportsTemp(1)._2 else if (airportsTemp.length > 0) airportsTemp(0)._2 else "NaN")
+          caret.position = 0
+        }
+        val distanceA1A2: TextArea = new TextArea {
+          rows = 1
+          lineWrap = true
+          wordWrap = true
+          editable = false
+          text = "Distance (en km) entre aéroport 1 et aéroport 2: " + (if (airportsTemp.length > 0)
+            distance.distanceHaversine(airportsTemp(0)._5, if (airportsTemp.length > 1) airportsTemp(1)._5 else
+              airportsTemp(0)._5, airportsTemp(0)._6, if (airportsTemp.length > 1) airportsTemp(1)._6 else
+              airportsTemp(0)._6).toString else "NaN")
+          caret.position = 0
+        }
+        border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 2: Calculer les distances")
+        contents += new Button(Action("Afficher les distances") {
+          airportsDistance.visible = true
+        })
+        contents += distanceA1
+        contents += distanceA2
+        contents += distanceA1A2
+
+
+      }
+
+      step1to4.contents += step2
+
+      step1to4.contents += step3
+      step1to4.contents += sp4
+      if (fileName == "Sources/Equidistant/equirectangular.png"){
+        equidistant.modifyImage(fileName, airportsTemp)
+    }
+      else if (fileName.split("/")(1)=="Conformal"){
+        val exceptions = Set("eckert1", "eckert3", "eckert5", "balthasart", "toblersWIS")
+        val exception = Set("adamshemisphere2", "adamsWIS1", "adamsWIS2")
+        conformal.whichProjection("all", fileName.split("/")(2), if (exception(fileName.split("/")(2).split("\\.")(0)))
+          "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airportsTemp))
+      }
+      else if (fileName.split("/")(1)=="EqualArea") {
+        val exceptions = Set("eckert1", "eckert3", "eckert5", "balthasart", "toblersWIS")
+
+        equalArea.whichProjection("all", fileName.split("/")(2), if (exceptions(fileName.split("/")(2).split("\\.")(0)))
+          "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airportsTemp))
+      }
+      imagePart.contents -= image
+      image = setImage(fileName)
+      imagePart.contents += image
+      imagePart.revalidate()
+      imagePart.repaint()
+      step1to4.revalidate()
+      step1to4.repaint()
       globalWindows.revalidate()
       globalWindows.repaint()
     }

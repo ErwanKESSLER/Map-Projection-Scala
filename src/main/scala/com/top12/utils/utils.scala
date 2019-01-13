@@ -133,7 +133,7 @@ class utils {
   }
 
   def readImage(filename: String): BufferedImage = {
-    println("Reading " + filename + " from " + getClass.getResourceAsStream("/" + filename))
+    println("Reading " + filename + " from " + getClass.getResource("/" + filename))
     ImageIO.read(getClass.getResource("/" + filename))
   }
 
