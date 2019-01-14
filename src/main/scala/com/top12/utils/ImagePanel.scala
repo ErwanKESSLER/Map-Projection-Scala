@@ -1,5 +1,5 @@
 package com.top12.utils
-import scala.math.max
+import scala.math.{max,min}
 import java.awt.image.BufferedImage
 import java.io.File
 
@@ -34,9 +34,14 @@ class ImagePanel extends Panel {
 
 
   override def paintComponent(g: Graphics2D):Unit = {
-    val m=max(bufferedImage.getWidth(),bufferedImage.getHeight())
-
-    if (null != bufferedImage) g.drawImage(bufferedImage, 0, 0, w*bufferedImage.getWidth()/m, w*bufferedImage.getHeight()/m, null)
+    val x=bufferedImage.getWidth()
+    val y=bufferedImage.getHeight()
+    if (y*w.toDouble/x>h ){
+      if (null != bufferedImage) g.drawImage(bufferedImage, 0, 0, (h.toDouble/y*x).toInt, h, null)
+    }
+    else  {
+      if (null != bufferedImage) g.drawImage(bufferedImage, 0, 0, w, (w.toDouble/x*y).toInt, null)
+    }
   }
 }
 
