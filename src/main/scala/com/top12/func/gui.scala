@@ -46,8 +46,8 @@ class gui extends SimpleSwingApplication {
   var rowSelection: Int = _
   var fileName: String = "Sources/Conformal/guyou.jpg"
   conformal.whichProjection("all", "guyou.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))
-  var image: ImagePanel = setImage(fileName,siz(11).left.get)
-  var densiteArray: Array[Array[Any]] = _
+  var image: ImagePanel = setImage(fileName, siz(11).left.get)
+  var densiteArray: Array[Array[Any]] = density.Densite(airportsTemp, "surfaces.csv").map(el => Array(el._1.asInstanceOf[Any], new DecimalFormat("#.###################").format(el._2.toDouble))).toArray
   var Lontemp: String = _
   var Lattemp: String = _
   var pointr: String = _
@@ -55,6 +55,9 @@ class gui extends SimpleSwingApplication {
   var step3: BoxPanel = _
   var division: Int = 6
   var step2: BoxPanel = _
+  var densite: Frame=_
+  var airportsDistance:Frame=_
+  var airportsList:Frame=_
 
   def top: MainFrame = new MainFrame {
     frame =>
@@ -293,7 +296,7 @@ class gui extends SimpleSwingApplication {
     }
 
     //-------------------------------------------Etape 1----------------------------------------//
-    lazy val airportsList: Frame = new Frame {
+     airportsList = new Frame {
       airportFrame =>
       title = "Liste des aéroports"
       preferredSize = siz(0).left.get
@@ -324,7 +327,7 @@ class gui extends SimpleSwingApplication {
 
     }
     //--------------------------------Etape 2---------------------------
-    lazy val airportsDistance: Frame = new Frame {
+    airportsDistance = new Frame {
       distanceFrame =>
       title = "Distance entre les aéroports"
       preferredSize = siz(0).left.get
@@ -654,6 +657,47 @@ class gui extends SimpleSwingApplication {
 
       }
       step1to4.contents -= step2
+      airportsDistance = new Frame {
+        distanceFrame =>
+        title = "Distance entre les aéroports"
+        preferredSize = siz(0).left.get
+        location = siz(3).right.get
+        visible = false
+        val exited = new Button(Action("Exit") {
+          distanceFrame.visible = false
+        })
+        //ici on triche mais disons que ce n'est pas raisonable d'occuper autant de ressource et de memoir pour quelque chose
+        //que l'on n'utilisera pas...
+        val distancesArray: Array[Array[Any]] = Array.ofDim[Any](airportsTemp.length / division * (airportsTemp.length / division - 1) / 2, 3)
+        var index: Int = 0
+        for (i <- Range(0, airportsTemp.length / division)) {
+          for (j <- 0 until i) {
+            distancesArray(index)(0) = airportsTemp(i)._2
+            distancesArray(index)(1) = airportsTemp(j)._2
+            distancesArray(index)(2) = distance.distanceHaversine(airportsTemp(i)._5, airportsTemp(j)._5, airportsTemp(i)._6, airportsTemp(j)._6).toString.asInstanceOf[Any]
+            index += 1
+          }
+        }
+        val table: Table = new Table(distancesArray, Seq("Aéroport 1", "Aéroport 2", "Distance en kilomètres")) {
+          background = new Color(204, 204, 204)
+          autoResizeMode = Table.AutoResizeMode.SubsequentColumns
+        }
+
+        val centerRenderer = new DefaultTableCellRenderer()
+        centerRenderer.setHorizontalAlignment(0)
+        table.peer.setDefaultRenderer(classOf[String], centerRenderer)
+        contents = new BoxPanel(Orientation.Vertical) {
+          contents += new BorderPanel {
+            add(exited, BorderPanel.Position.Center)
+          }
+          contents += Swing.VStrut(10)
+          contents += new ScrollPane(table) {
+            preferredSize = siz(7).left.get
+          }
+          border = Swing.EmptyBorder(10, 10, 10, 10)
+        }
+
+      }
       step2 = new BoxPanel(Orientation.Vertical) {
         preferredSize = siz(4).left.get
         val distanceA1: TextArea = new TextArea {
@@ -713,22 +757,39 @@ class gui extends SimpleSwingApplication {
         equalArea.whichProjection("all", fileName.split("/")(2), if (exceptions(fileName.split("/")(2).split("\\.")(0)))
           "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airportsTemp))
       }
-      imagePart.contents -= image
-      image = setImage(fileName,siz(11).left.get)
-      imagePart.contents += image
-      imagePart.revalidate()
-      imagePart.repaint()
-      step1to4.revalidate()
-      step1to4.repaint()
-      globalWindows.revalidate()
-      globalWindows.repaint()
-    }
+      airportsList = new Frame {
+        airportFrame =>
+        title = "Liste des aéroports"
+        preferredSize = siz(0).left.get
+        location = siz(3).right.get
+        visible = false
+        val exited = new Button(Action("Exit") {
+          airportFrame.visible = false
+        })
 
-    //-----------------------------------------------------------------------------------------------------------
-    val step5to8: FlowPanel = new FlowPanel {
-      preferredSize = siz(5).left.get
-      border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 5 à 8")
-      lazy val densite: Frame = new Frame {
+        val table: Table = new Table(airports2, Seq("ID", "Name", "City", "Country", "Latitude", "Longitude")) {
+          background = new Color(204, 204, 204)
+          autoResizeMode = Table.AutoResizeMode.SubsequentColumns
+        }
+
+        val centerRenderer = new DefaultTableCellRenderer()
+        centerRenderer.setHorizontalAlignment(0)
+        table.peer.setDefaultRenderer(classOf[String], centerRenderer)
+        contents = new BoxPanel(Orientation.Vertical) {
+          contents += new BorderPanel {
+            add(exited, BorderPanel.Position.Center)
+          }
+          contents += Swing.VStrut(10)
+          contents += new ScrollPane(table) {
+            preferredSize = siz(7).left.get
+          }
+          border = Swing.EmptyBorder(10, 10, 10, 10)
+        }
+
+      }
+      densiteArray= density.Densite(airportsTemp, "surfaces.csv").map(el => Array(el._1.asInstanceOf[Any], new DecimalFormat("#.###################").format(el._2.toDouble))).toArray
+
+      densite = new Frame {
         densiteFrame =>
         title = "Densite par rapport a une metrique"
         preferredSize = siz(0).left.get
@@ -758,6 +819,23 @@ class gui extends SimpleSwingApplication {
         }
 
       }
+      imagePart.contents -= image
+      image = setImage(fileName, siz(11).left.get)
+      imagePart.contents += image
+      imagePart.revalidate()
+      imagePart.repaint()
+      step1to4.revalidate()
+      step1to4.repaint()
+      globalWindows.revalidate()
+      globalWindows.repaint()
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    val step5to8: FlowPanel = new FlowPanel {
+      preferredSize = siz(5).left.get
+      border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 5 à 8")
+
       val step5: BoxPanel = new BoxPanel(Orientation.Vertical) {
         preferredSize = siz(13).left.get
         border = Swing.TitledBorder(Swing.EtchedBorder(Swing.Lowered), "Etape 5: Densité")
@@ -765,9 +843,69 @@ class gui extends SimpleSwingApplication {
         contents += new Button(Action("Afficher les données") {
           val formatter = new DecimalFormat("#.###################")
           densiteArray = density.Densite(airportsTemp, typeDensite.selection.item + ".csv").map(el => Array(el._1.asInstanceOf[Any], formatter.format(el._2.toDouble))).toArray
+          densite = new Frame {
+            densiteFrame =>
+            title = "Densite par rapport a une metrique"
+            preferredSize = siz(0).left.get
+            location = siz(3).right.get
+            visible = false
+            val exited = new Button(Action("Exit") {
+              densiteFrame.visible = false
+            })
+
+            val table: Table = new Table(densiteArray, Seq("Pays", "Densite")) {
+              background = new Color(204, 204, 204)
+              autoResizeMode = Table.AutoResizeMode.SubsequentColumns
+            }
+
+            val centerRenderer = new DefaultTableCellRenderer()
+            centerRenderer.setHorizontalAlignment(0)
+            table.peer.setDefaultRenderer(classOf[String], centerRenderer)
+            contents = new BoxPanel(Orientation.Vertical) {
+              contents += new BorderPanel {
+                add(exited, BorderPanel.Position.Center)
+              }
+              contents += Swing.VStrut(10)
+              contents += new ScrollPane(table) {
+                preferredSize = siz(7).left.get
+              }
+              border = Swing.EmptyBorder(10, 10, 10, 10)
+            }
+
+          }
           densite.visible = true
         })
         contents += typeDensite
+      }
+      densite = new Frame {
+        densiteFrame =>
+        title = "Densite par rapport a une metrique"
+        preferredSize = siz(0).left.get
+        location = siz(3).right.get
+        visible = false
+        val exited = new Button(Action("Exit") {
+          densiteFrame.visible = false
+        })
+
+        val table: Table = new Table(densiteArray, Seq("Pays", "Densite")) {
+          background = new Color(204, 204, 204)
+          autoResizeMode = Table.AutoResizeMode.SubsequentColumns
+        }
+
+        val centerRenderer = new DefaultTableCellRenderer()
+        centerRenderer.setHorizontalAlignment(0)
+        table.peer.setDefaultRenderer(classOf[String], centerRenderer)
+        contents = new BoxPanel(Orientation.Vertical) {
+          contents += new BorderPanel {
+            add(exited, BorderPanel.Position.Center)
+          }
+          contents += Swing.VStrut(10)
+          contents += new ScrollPane(table) {
+            preferredSize = siz(7).left.get
+          }
+          border = Swing.EmptyBorder(10, 10, 10, 10)
+        }
+
       }
       val step6: BoxPanel = new BoxPanel(Orientation.Vertical) {
         preferredSize = siz(9).left.get
@@ -778,7 +916,7 @@ class gui extends SimpleSwingApplication {
           fileName = "Sources/Equidistant/equirectangular.png"
           equidistant.modifyImage(fileName, airportsTemp)
           imagePart.contents -= image
-          image = setImage(fileName,siz(11).left.get)
+          image = setImage(fileName, siz(11).left.get)
           imagePart.contents += image
           imagePart.revalidate()
           imagePart.repaint()
@@ -802,7 +940,7 @@ class gui extends SimpleSwingApplication {
 
             equalArea.whichProjection("all", equivalentList.selection.item + ".jpg", if (exceptions(equivalentList.selection.item)) "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airportsTemp))
             imagePart.contents -= image
-            image = setImage(fileName,siz(11).left.get)
+            image = setImage(fileName, siz(11).left.get)
             imagePart.contents += image
             imagePart.revalidate()
             imagePart.repaint()
@@ -819,7 +957,7 @@ class gui extends SimpleSwingApplication {
             val exception = Set("adamshemisphere2", "adamsWIS1", "adamsWIS2")
             conformal.whichProjection("all", conformList.selection.item + ".jpg", if (exception(conformList.selection.item)) "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airportsTemp))
             imagePart.contents -= image
-            image = setImage(fileName,siz(11).left.get)
+            image = setImage(fileName, siz(11).left.get)
             imagePart.contents += image
             imagePart.revalidate()
             imagePart.repaint()
@@ -842,10 +980,8 @@ class gui extends SimpleSwingApplication {
         imageFrame.visible = false
       })
       contents = new BorderPanel {
-
         add(exited, BorderPanel.Position.North)
-
-        add(setImage(fileName,siz(12).left.get), BorderPanel.Position.Center)
+        add(setImage(fileName, siz(12).left.get), BorderPanel.Position.Center)
       }
     }
 
@@ -858,17 +994,12 @@ class gui extends SimpleSwingApplication {
             modalImage.visible = false
           })
           modalImage.contents = new BorderPanel {
-
-              add(exited, BorderPanel.Position.North)
-
-            add(setImage(fileName,siz(12).left.get), BorderPanel.Position.Center)
+            add(exited, BorderPanel.Position.North)
+            add(setImage(fileName, siz(12).left.get), BorderPanel.Position.Center)
           }
           modalImage.visible = true
-
       }
-
     }
-
 
     var globalWindows: BorderPanel = new BorderPanel {
       add(step1to4, BorderPanel.Position.West)
@@ -884,7 +1015,7 @@ class gui extends SimpleSwingApplication {
     contents = globalWindows
 
     def pressMe() {
-      Dialog.showMessage(contents.head, "UI by Erwan KESSLER, code by Victor COUR, Camille Coue and Erwan KESSLER", title = "Authors")
+      Dialog.showMessage(contents.head, "UI by Erwan KESSLER, code by Camille COUE, Victor COUR and Erwan KESSLER", title = "Authors")
     }
   }
 
@@ -900,7 +1031,7 @@ class gui extends SimpleSwingApplication {
       case 3 => Right(new Point((w * 0.03).toInt, (h * 0.005).toInt))
       case 4 => Left(new Dimension((w * 0.95 * 0.25 * 0.94).toInt, (h * 0.95 * 0.25 * 0.95 * 0.87).toInt))
       case 5 => Left(new Dimension((w * 0.95 * 0.25).toInt, (h * 0.95 * 0.94).toInt))
-      case 6 => Left(new Dimension((w * 0.95 * 0.6 ).toInt, (h * 0.95 * 0.6 ).toInt))
+      case 6 => Left(new Dimension((w * 0.95 * 0.6).toInt, (h * 0.95 * 0.6).toInt))
       case 7 => Left(new Dimension((w * 0.95 * 0.95).toInt, (h * 0.95 * 80).toInt))
       case 8 => Left(new Dimension((w * 0.95 * 0.95 * 0.2).toInt, (h * 0.95 * 30).toInt))
       case 9 => Left(new Dimension((w * 0.95 * 0.25 * 0.94).toInt, (h * 0.95 * 0.10 * 0.95 * 0.87).toInt))
@@ -912,7 +1043,7 @@ class gui extends SimpleSwingApplication {
 
   }
 
-  def setImage(pat: String,si:Dimension): ImagePanel = {
+  def setImage(pat: String, si: Dimension): ImagePanel = {
     var image: com.top12.utils.ImagePanel = new com.top12.utils.ImagePanel {
 
       preferredSize = si
