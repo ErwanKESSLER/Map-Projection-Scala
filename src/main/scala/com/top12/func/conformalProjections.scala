@@ -640,7 +640,7 @@ class conformalProjections {
       addSquare(source, x, y, 5, color)
     }
     else {
-      addCircle(source, x, y, 2, color)
+      addCircle(source, x, y, 3, color)
     }
   }
 

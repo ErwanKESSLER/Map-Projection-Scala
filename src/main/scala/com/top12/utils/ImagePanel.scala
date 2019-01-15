@@ -1,5 +1,5 @@
 package com.top12.utils
-import scala.math.max
+import scala.math.{max,min}
 import java.awt.image.BufferedImage
 import java.io.File
 
@@ -8,12 +8,12 @@ import javax.imageio.ImageIO
 import scala.swing._
 
 class ImagePanel extends Panel {
-  private var _imagePath = ""
+  private var _imagePath:File = _
   private var bufferedImage: BufferedImage = _
   private var w = 100
   private var h = 100
 
-  def imagePath:String = _imagePath
+  def imagePath:File = _imagePath
 
   def width:Int = w
 
@@ -27,16 +27,21 @@ class ImagePanel extends Panel {
     h = he
   }
 
-  def imagePath_=(value: String): Unit = {
+  def imagePath_=(value: File): Unit = {
     _imagePath = value
-    bufferedImage = ImageIO.read(new File(_imagePath))
+    bufferedImage = ImageIO.read(_imagePath)
   }
 
 
   override def paintComponent(g: Graphics2D):Unit = {
-    val m=max(bufferedImage.getWidth(),bufferedImage.getHeight())
-
-    if (null != bufferedImage) g.drawImage(bufferedImage, 0, 0, w*bufferedImage.getWidth()/m, w*bufferedImage.getHeight()/m, null)
+    val x=bufferedImage.getWidth()
+    val y=bufferedImage.getHeight()
+    if (y*w.toDouble/x>h ){
+      if (null != bufferedImage) g.drawImage(bufferedImage, 0, 0, (h.toDouble/y*x).toInt, h, null)
+    }
+    else  {
+      if (null != bufferedImage) g.drawImage(bufferedImage, 0, 0, w, (w.toDouble/x*y).toInt, null)
+    }
   }
 }
 

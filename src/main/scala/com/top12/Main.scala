@@ -2,8 +2,9 @@ package com.top12
 
 object Main {
   def main(args: Array[String]) = {
-
-    val loadAirport = new func.loadAirports
+    val gui = new func.gui
+    gui.top.visible = true
+    /*val loadAirport = new func.loadAirports
     val distance = new func.distanceAirports
     val stats = new func.statsAirports
     val util = new com.top12.utils.utils
@@ -11,14 +12,15 @@ object Main {
     val density = new func.densityAirports
     val equidistant = new func.equirectangularProjection
     val conformal = new func.conformalProjections
-    val equalArea = new func.equalAreaProjections
+    val equalArea = new func.equalAreaProjections*/
+
     //Example of use of step 1 code
-    val airports = loadAirport.loadAirport(filename = "airports.dat")
+    //val airports = loadAirport.loadAirport(filename = "airports.dat")
+
     /*density.loadCSV("populations.csv")
     println(util.showAllCountries(airports).mkString("\n"))
     println(util.countriesCodeTable())*/
-      val gui = new func.gui
-    gui.top.visible=true
+
     /*
 
         conformal.whichProjection("all", "mercator.jpg", "circle", util.RGBtoHexa(255, 0, 0), Left(airports))

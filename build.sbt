@@ -1,11 +1,9 @@
-lazy val commonSettings = Seq(
-  version := "0.1-SNAPSHOT",
-  organization := "com.top12",
-  scalaVersion := "2.12.8",
-  test in assembly := {},
-  mainClass in assembly := Some("com.top12.Main"),
-  assemblyJarName in assembly := "mapProjection.jar",
-)
+version := "1.0-STABLE"
+organization := "com.top12"
+scalaVersion := "2.12.8"
+mainClass in assembly := Some("com.top12.Main")
+
+  
 libraryDependencies += "org.scala-lang.modules" %% "scala-swing" % "2.1.0"
 assemblyMergeStrategy in assembly := {
   case PathList("javax", "servlet", xs @ _*)         => MergeStrategy.first
