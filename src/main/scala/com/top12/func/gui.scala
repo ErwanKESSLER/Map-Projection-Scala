@@ -55,9 +55,9 @@ class gui extends SimpleSwingApplication {
   var step3: BoxPanel = _
   var division: Int = 6
   var step2: BoxPanel = _
-  var densite: Frame=_
-  var airportsDistance:Frame=_
-  var airportsList:Frame=_
+  var densite: Frame = _
+  var airportsDistance: Frame = _
+  var airportsList: Frame = _
 
   def top: MainFrame = new MainFrame {
     frame =>
@@ -296,7 +296,7 @@ class gui extends SimpleSwingApplication {
     }
 
     //-------------------------------------------Etape 1----------------------------------------//
-     airportsList = new Frame {
+    airportsList = new Frame {
       airportFrame =>
       title = "Liste des aéroports"
       preferredSize = siz(0).left.get
@@ -584,15 +584,20 @@ class gui extends SimpleSwingApplication {
           ectTemp = ect
           division = 6
         case 2 =>
-          airportsTemp = restriction.byCountry(airports, selectedCountries)
-          airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
-          division = 1
-          distances = distance.distancesArray(airportsTemp)
-          dmnTemp = stats.distanceMin(distances).toString
-          dmxTemp = stats.distanceMax(distances).toString
-          dmyTemp = stats.distanceMoyenne(distances).toString
-          dmdTemp = stats.distanceMediane2(distances).toString
-          ectTemp = stats.ecartType(distances).toString
+          try {
+            airportsTemp = restriction.byCountry(airports, selectedCountries)
+            airports2 = airportsTemp.map(el => el.productIterator.map(el => el.toString.asInstanceOf[Any]).toArray)
+            division = 1
+            distances = distance.distancesArray(airportsTemp)
+            dmnTemp = stats.distanceMin(distances).toString
+            dmxTemp = stats.distanceMax(distances).toString
+            dmyTemp = stats.distanceMoyenne(distances).toString
+            dmdTemp = stats.distanceMediane2(distances).toString
+            ectTemp = stats.ecartType(distances).toString
+          }
+          catch {
+            case _: Throwable => println("error you need to input at least a country...")
+          }
         case 4 =>
           try {
             val lon = Lontemp.split(",")
@@ -746,14 +751,12 @@ class gui extends SimpleSwingApplication {
         equidistant.modifyImage(fileName, airportsTemp)
       }
       else if (fileName.split("/")(1) == "Conformal") {
-        val exceptions = Set("eckert1", "eckert3", "eckert5", "balthasart", "toblersWIS")
         val exception = Set("adamshemisphere2", "adamsWIS1", "adamsWIS2")
         conformal.whichProjection("all", fileName.split("/")(2), if (exception(fileName.split("/")(2).split("\\.")(0)))
           "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airportsTemp))
       }
       else if (fileName.split("/")(1) == "EqualArea") {
         val exceptions = Set("eckert1", "eckert3", "eckert5", "balthasart", "toblersWIS")
-
         equalArea.whichProjection("all", fileName.split("/")(2), if (exceptions(fileName.split("/")(2).split("\\.")(0)))
           "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airportsTemp))
       }
@@ -787,7 +790,7 @@ class gui extends SimpleSwingApplication {
         }
 
       }
-      densiteArray= density.Densite(airportsTemp, "surfaces.csv").map(el => Array(el._1.asInstanceOf[Any], new DecimalFormat("#.###################").format(el._2.toDouble))).toArray
+      densiteArray = density.Densite(airportsTemp, "surfaces.csv").map(el => Array(el._1.asInstanceOf[Any], new DecimalFormat("#.###################").format(el._2.toDouble))).toArray
 
       densite = new Frame {
         densiteFrame =>
@@ -937,7 +940,6 @@ class gui extends SimpleSwingApplication {
           contents += new Button(Action("Afficher \n Equivalente") {
             fileName = "Sources/EqualArea/" + equivalentList.selection.item + ".jpg"
             val exceptions = Set("eckert1", "eckert3", "eckert5", "balthasart", "toblersWIS")
-
             equalArea.whichProjection("all", equivalentList.selection.item + ".jpg", if (exceptions(equivalentList.selection.item)) "dot" else "circle", util.RGBtoHexa(255, 0, 0), Left(airportsTemp))
             imagePart.contents -= image
             image = setImage(fileName, siz(11).left.get)
