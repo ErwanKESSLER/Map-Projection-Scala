@@ -74,7 +74,7 @@ fabric.properties
 dist/*
 target/scala-2.12/*
 target/streams/
-!target/scala-2.12/projet_top_12-assembly-1.0-STABLE.jar
+!target/scala-2.12/map-projection-scala-assembly-1.0-STABLE.jar
 lib_managed/
 src_managed/
 project/boot/

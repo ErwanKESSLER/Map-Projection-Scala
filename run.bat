@@ -1,1 +1,1 @@
-java -jar ./target/scala-2.12/projet_top_12-assembly-1.0-STABLE.jar
+java -jar ./target/scala-2.12/map-projection-scala-assembly-1.0-STABLE.jar
